@@ -1,0 +1,7 @@
+*.key
+*.conf
+*.crt
+*.xml
+.vscode
+secrets.yaml
+known_devices.yaml

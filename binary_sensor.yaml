@@ -1,0 +1,99 @@
+#################################################################
+## Binary Sensor
+#################################################################
+
+  # Ping WAN (www.google.com)
+  - platform: ping
+    name: Internet Status
+    host: google.com
+    scan_interval: 30
+
+  
+  # # Ping Gateway (Router)
+  # - platform: ping
+  #   name: Gateway
+  #   host: !secret router_host_name
+  #   scan_interval: 60
+
+    
+  # # Ping Ubiquiti Switch
+  # - platform: ping
+  #   name: Ubiquiti Switch
+  #   host: !secret ubiquiti_switch_host_name
+  #   scan_interval: 60
+
+
+  # # Ping Basement (Wireless Access Point)
+  # - platform: ping
+  #   name: Ubiquiti Basement AP
+  #   host: !secret ubiquiti_basement_ap_host_name
+  #   scan_interval: 60
+
+
+  # # Ping Living Room (Wireless Access Point)
+  # - platform: ping
+  #   name: Ubiquiti Living Room AP
+  #   host: !secret ubiquiti_living_room_ap_host_name
+  #   scan_interval: 60
+
+
+  # # Ping Second Floor (Wireless Access Point)
+  # - platform: ping
+  #   name: Ubiquiti Second Floor AP
+  #   host: !secret ubiquiti_second_floor_ap_host_name
+  #   scan_interval: 60
+
+
+  # # Ping Lutron Smart Bridge
+  # - platform: ping
+  #   name: Lutron Smart Bridge
+  #   host: !secret lutron_smart_bridge_host_name
+  #   scan_interval: 30
+
+
+  # # Ping RedLINK Gateway
+  # - platform: ping
+  #   name: REDLink Gateway
+  #   host: !secret redlink_gateway_host_name
+  #   scan_interval: 30
+
+
+  - platform: template
+    sensors:
+
+      # Thermostat - Fan Status
+      hvac_fan_status:
+        value_template: "{{ is_state_attr('climate.thermostat', 'fan_action', 'running') }}"
+
+
+      # # Smoke Detector Status
+      # smoke_detected:
+      #   value_template: "{{ is_state('sensor.ecolink_firefighter_smoke', '2') }}"
+      #   device_class: smoke
+
+
+      # # Carbon Monoxide Detector Status
+      # carbon_monoxide_detected:
+      #   value_template: "{{ is_state('sensor.ecolink_firefighter_carbon_monoxide', '2') }}"
+      #   device_class: gas
+        
+      
+      # Version Available for Home Assistant
+      upgrade_available:
+        value_template: "{{ states('sensor.installed_version') != states('sensor.latest_release') }}"
+
+
+      # # Parity Check for OMMIE-NAS
+      # nas_parity_check:
+      #   value_template: "{{ state_attr('switch.ommie_nas_array', 'parityCheckRunning') }}"
+        
+
+      # alarm_clock_active:
+      #   value_template: "{{ as_timestamp(states('sensor.romel_sm_g960u1_next_alarm')) | timestamp_custom('%-I:%M %p') == as_timestamp(now()) | timestamp_custom('%-I:%M %p') }}"
+        
+
+      # washing_machine_status:
+      #   friendly_name: "Washing Machine Status"
+      #   delay_off:
+      #     minutes: 5
+      #   value_template: "{{ states('sensor.washing_machine_switch_wattage')| float > 0 }}"

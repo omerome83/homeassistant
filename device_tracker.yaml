@@ -1,0 +1,16 @@
+#################################################################
+## Device Tracker
+#################################################################
+
+  # Unifi Controller
+  # - platform: unifi
+  #   host: !secret nas_host_name
+  #   username: !secret unifi_username
+  #   password: !secret unifi_password
+  #   verify_ssl: false
+  #   ssid_filter:
+  #     - 'DEMD'
+  #   interval_seconds: 60
+  #   consider_home: 180
+  #   new_device_defaults:
+  #     track_new_devices: no

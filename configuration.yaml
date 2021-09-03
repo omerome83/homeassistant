@@ -1,0 +1,324 @@
+homeassistant:
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+
+
+  allowlist_external_dirs:
+    - /config
+
+  media_dirs:
+    media: /media
+
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret home_elevation
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/New_York
+
+
+  auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks:
+        - 192.168.1.0/24  #=> Local network
+        - 10.0.8.0/24     #=> VPN network
+
+  customize: !include customize.yaml
+
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - harmony
+    - homekit
+
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+
+# Enables the frontend
+frontend:
+  themes: !include_dir_merge_named themes/
+
+
+# Text to speech
+tts:
+  - platform: google_translate
+  
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+
+# Logger
+# https://home-assistant.io/components/logger/
+logger:
+  default: error
+
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_client_secret
+  # "Project ID" in the Device Access Console
+  project_id: !secret nest_project_id
+  # Provide the full path exactly as shown under "Subscription name" in Google Cloud Console
+  subscriber_id: !secret nest_subscriber_id
+  
+
+# Component for storing details in database
+recorder:
+  db_url: !secret mariadb_url
+  purge_keep_days: 3
+  exclude:
+    domains:
+      - calendar
+      - automation
+      - updater
+      - ping
+      - remote
+      - automation
+      - sun
+      - weather
+      - media_player
+    entities:
+      - sensor.time
+      - sensor.moon
+      - sensor.next_sunrise
+      - sensor.next_sunset
+      - sensor.last_boot
+      - sensor.hdhr3_cc_signal_quality
+      - sensor.hdhr3_cc_signal_strength
+      - sensor.automation_count
+      - sensor.binary_sensor_count
+      - sensor.sensor_count
+      - sensor.scene_count
+      - sensor.script_count
+      - sensor.switch_count
+      - sensor.lights_count
+      - sensor.zwave_count
+      - sensor.upcoming_holiday_date
+      - sensor.upcoming_holiday
+      - sensor.trash_pickup_date
+      - sensor.trash_pickup_day
+      - sensor.curbside_recycling_date
+      - sensor.curbside_recycling_day
+      - sensor.knicks_game_countdown
+      - sensor.giants_game_countdown
+      - sensor.yankees_game_countdown
+      - sensor.wow_raid_countdown
+
+
+# # InfluxDB
+# # https://github.com/hassio-addons/addon-influxdb/blob/main/influxdb/DOCS.md
+# influxdb:
+#   host: a0d7b954-influxdb
+#   port: 8086
+#   database: homeassistant
+#   username: homeassistant
+#   password: !secret influxdb_password
+#   max_retries: 3
+#   default_measurement: state
+
+
+# lovelace:
+#   mode: storage
+
+#   resources:
+#     # https://github.com/thomasloven/lovelace-card-tools
+#     - url: /local/card-tools.js
+#       type: js
+      
+#     # https://github.com/custom-cards/secondaryinfo-entity-row
+#     - url: /local/secondaryinfo-entity-row.js
+#       type: module
+
+#     # https://github.com/custom-cards/upcoming-media-card
+#     - url: /local/custom-lovelace/upcoming-media-card/upcoming-media-card.js?v=0.1.1
+#       type: js
+
+
+media_player:
+  # Emby
+  # https://www.home-assistant.io/integrations/emby/
+  # - platform: emby
+  #   host: !secret nas_host_name
+  #   api_key: !secret emby_api_key
+
+
+  # # Yamaha AV Receiver
+  # # https://www.home-assistant.io/components/yamaha/
+  # - platform: yamaha
+  #   host: !secret av_receiver_host_name
+
+
+  # Android TV
+  # https://www.home-assistant.io/integrations/androidtv#adb-setup
+  - platform: androidtv
+    name: Basement Shield
+    host: !secret basement_nvidia_shield_host_name
+    apps:
+      com.silicondust.view: HDHomeRun
+      tv.emby.embyatv: Emby
+      pandora.android.atv: Pandora
+      com.plexapp.android: Plex
+      com.amazon.amazonvideo.livingroom: Prime Video
+      com.netflix.ninja: Netflix
+
+
+# # Notify
+# notify:
+#   # Pushover
+#   # https://www.home-assistant.io/components/pushbullet/#notifications
+#   - name: pushover
+#     platform: pushover
+#     api_key: !secret pushover_api_key
+#     user_key: !secret pushover_user_key
+
+
+# Aeotec Z-Stick Gen5
+# https://www.home-assistant.io/docs/z-wave/device-specific/#aeotec-z-stick
+# zwave:
+#   # Persistant USB path name: 'ls -l /dev/serial/by-id' command
+#   usb_path: /dev/serial/by-id/usb-0658_0200-if00
+#   network_key: "0xBB, 0x52, 0x25, 0x6C, 0xCC, 0x67, 0xC4, 0x7B, 0x01, 0xDE, 0xB5, 0x7B, 0xC1, 0x49, 0x3A, 0x66"
+
+
+# Lutron Smart Bridge
+# https://www.home-assistant.io/components/lutron_caseta/
+lutron_caseta:
+  host: !secret lutron_smart_bridge_host_name
+  keyfile: caseta.key
+  certfile: caseta.crt
+  ca_certs: caseta-bridge.crt
+
+
+# Honeywell Thermostat
+# https://www.home-assistant.io/components/honeywell/
+# climate:
+#   - platform: honeywell
+#     username: !secret honeywell_username
+#     password: !secret honeywell_password
+#     scan_interval: 600
+
+
+# Xiaomi Roborock Vacuum E25
+# https://www.home-assistant.io/components/vacuum.xiaomi_miio/
+# vacuum:
+#   - platform: xiaomi_miio
+#     host: !secret robot_vacuum_rose_host_name
+#     token: !secret robot_vacuum_rose_token
+#     name: Rose
+
+
+# TP-Link
+# https://www.home-assistant.io/components/tplink/
+tplink:
+  discovery: false
+  switch:
+    #- host: !secret mini_christmas_tree_host_name
+    #- host: !secret christmas_tree_host_name
+    - host: !secret plant_grow_lights_host_name
+    - host: !secret cable_modem_switch_host_name
+    - host: !secret server_closet_fan_host_name
+
+
+# Yeelight
+# yeelight:
+#   devices:
+#     192.168.30.14:
+#       name: Basement Floor Lamp 1
+#     192.168.30.15:
+#       name: Basement Floor Lamp 2
+    # 192.168.30.16:
+    #   name: Basement TV Stand
+
+
+# UPS
+# https://www.home-assistant.io/components/apcupsd/
+apcupsd:
+  host: !secret nas_host_name
+
+
+# Google Calendar
+# https://www.home-assistant.io/components/calendar.google/
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+  track_new_calendar: true
+
+
+# Coinbase
+# https://www.home-assistant.io/integrations/coinbase/
+# coinbase:
+#   api_key: !secret coinbase_api_key
+#   api_secret: !secret coinbase_api_secret
+
+
+# Logitech Harmony
+# https://www.home-assistant.io/components/harmony/
+# remote:
+#   - platform: harmony
+#     host: !secret basement_remote_host_name
+#     name: Basement
+
+#   - platform: harmony
+#     host: !secret master_bedroom_remote_host_name
+#     name: Master Bedroom
+ 
+
+# SpeedTest
+# https://www.home-assistant.io/components/speedtestdotnet/
+speedtestdotnet:
+
+
+# Panel iFrame
+# https://www.home-assistant.io/integrations/panel_iframe/
+# panel_iframe:
+#   deconz:
+#     title: deCONZ
+#     icon: mdi:usb-port
+#     url: !secret deconz_url
+  # foldingathome:
+  #   title: Folding@home
+  #   icon: mdi:bacteria-outline
+  #   url: !secret folding_at_home_url
+
+
+# Z-Wave Graph
+# https://www.home-assistant.io/components/panel_custom/
+# https://github.com/AdamNaj/ZWaveGraphHA
+# panel_custom:
+#   - name: zwave-graph-panel
+#     url_path: zwave-graph
+#     sidebar_title: Z-Wave Graph
+#     sidebar_icon: mdi:z-wave
+#     module_url: /local/zwavegraph3.js
+#     config:
+#       # ranker - pick one: network-simplex, tight-tree, longest-path
+#       ranker: network-simplex
+#       # edge_visibility - pick one: relevant, all
+#       edge_visibility: relevant
+#       # grouping - pick one: z-wave, ungrouped
+#       grouping: z-wave
+
+
+# Includes
+group: !include groups.yaml
+automation: !include automations.yaml
+light: !include light_group.yaml
+script: !include scripts.yaml
+zone: !include zones.yaml
+input_select: !include input_select.yaml
+sensor: !include sensors.yaml
+binary_sensor: !include binary_sensor.yaml
+input_boolean: !include input_boolean.yaml
+scene: !include scene.yaml
+switch: !include switch.yaml

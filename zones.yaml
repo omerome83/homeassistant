@@ -1,0 +1,56 @@
+#################################################################
+## Zones
+#################################################################
+
+  # Home
+  # - name: Home
+  #   latitude: 39.396779
+  #   longitude: -76.752924
+  #   radius: 150
+  #   icon: mdi:home
+
+  # # Work
+  # - name: Work
+  #   latitude: 39.308702
+  #   longitude: -76.722660
+  #   radius: 150
+  #   icon: mdi:briefcase
+
+
+  # # Dentist
+  # - name: Dentist
+  #   latitude: 39.411388
+  #   longitude: -76.613792
+  #   radius: 150
+  #   icon: mdi:tooth
+
+  
+  # # Doctor
+  # - name: Doctor
+  #   latitude: 39.401190
+  #   longitude: -76.782620
+  #   radius: 150  
+  #   icon: mdi:medical-bag
+
+
+  # # Co-Ed Sports League
+  # - name: Park
+  #   latitude: 39.278190
+  #   longitude: -76.570070
+  #   radius: 90
+  #   icon: mdi:football
+    
+    
+  # # Giant Food
+  # - name: Supermarket
+  #   latitude: 39.404700
+  #   longitude: -76.790990
+  #   radius: 150
+  #   icon: mdi:cart
+
+  # Family
+#  - name: Family
+#    latitude: 39.604959
+#    longitude: -75.723495
+#    radius: 50
+#    icon: mdi:account-multiple

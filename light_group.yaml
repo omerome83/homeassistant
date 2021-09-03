@@ -1,0 +1,118 @@
+#################################################################
+## Light Group
+#################################################################
+
+
+# Basement Floor Lamps for Ambiance
+  - platform: group
+    name: Basement Floor Lamps
+    entities:
+      - light.basement_floor_lamp_1
+      - light.basement_floor_lamp_2
+
+
+  - platform: group
+    name: Master Bedroom Nightstand Lamps
+    entities:
+      - light.master_bedroom_nightstand_lamp_1
+      # - light.master_bedroom_nightstand_lamp_2
+
+
+  # Light "switches" that are converted into lights
+  - platform: switch
+    name: Living Room Table Lamp 1
+    entity_id: switch.living_room_table_lamp_1
+
+
+  - platform: switch
+    name: Living Room Table Lamp 2
+    entity_id: switch.living_room_table_lamp_2
+
+
+  - platform: switch
+    name: Kitchen Ceiling Lights
+    entity_id: switch.kitchen_ceiling_lights
+
+
+  - platform: switch
+    name: Front Door Entry Light
+    entity_id: switch.front_door_entry_light 
+
+  
+  # Converts the two lamp switches to a light group
+  - platform: group
+    name: Living Room Table Lamps
+    entities:
+      - light.living_room_table_lamp_1
+      - light.living_room_table_lamp_2
+
+  
+  ## ROOM GROUPS ##
+
+
+  # Basement Lights
+  - platform: group
+    name: Basement Lights
+    entities:
+      - light.basement_floor_lamps
+      - light.basement_cabinet
+      - light.basement_ceiling_lights
+      - light.basement_table_lamp
+      - light.basement_tv_stand
+
+
+  # Living Room Lights
+  - platform: group
+    name: Living Room Lights
+    entities:
+      - light.living_room_step_light
+      - light.living_room_table_lamps
+
+
+  # Master Bedroom Lights
+  - platform: group
+    name: Master Bedroom Lights
+    entities:
+      - light.master_bedroom_ceiling_fan
+      - light.master_bedroom_nightstand_lamps
+
+  
+  # Master Bedroom Ceiling Fan Lights
+  - platform: group
+    name: Master Bedroom Ceiling Fan
+    entities:
+      - light.master_bedroom_ceiling_fan_up_light
+      - light.master_bedroom_ceiling_fan_down_light
+
+
+  # Kitchen Lights
+  - platform: group
+    name: Kitchen Lights
+    entities:
+      - light.kitchen_ceiling_lights
+
+
+  # Outdoor Lights
+  - platform: group
+    name: Outdoor Lights
+    entities:
+      - light.front_door_entry_light
+
+
+  # - platform: switch
+  #   name: Mini Christmas Tree
+  #   entity_id:
+  #     - switch.mini_christmas_tree
+
+  # - platform: switch
+  #   name: Christmas Tree
+  #   entity_id:
+  #     - switch.christmas_tree
+
+  # # Convert the two Christmas tree switches to a light group
+  # - platform: group
+  #   name: Christmas Trees
+  #   entities:
+  #     - light.mini_christmas_tree  
+  #     - light.christmas_tree  
+

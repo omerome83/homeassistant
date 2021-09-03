@@ -1,0 +1,54 @@
+
+- cal_id: romel.williams@gmail.com
+  entities:
+  - device_id: next_event
+    ignore_availability: true
+    name: Next Event
+    track: true
+  - device_id: trash_pickup
+    name: Trash Pickup
+    search: Trash Pickup
+    track: true
+  - device_id: curbside_recycling
+    name: Curbside Recycling
+    search: Curbside Recycling
+    track: true
+  - device_id: wow_raid
+    name: World of Warcraft Raid
+    search: World of Warcraft Raid
+    track: true    
+
+- cal_id: en.usa#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_united_states
+    ignore_availability: true
+    name: Holidays in United States
+    track: true
+
+- cal_id: addressbook#contacts@group.v.calendar.google.com
+  entities:
+  - device_id: birthdays
+    ignore_availability: true
+    name: Birthdays
+    track: true
+
+- cal_id: nba_18_%4eew+%59ork+%4bnicks#sports@group.v.calendar.google.com
+  entities:
+  - device_id: new_york_knicks
+    ignore_availability: true
+    name: New York Knicks
+    track: true
+
+- cal_id: nfl_19_%4eew+%59ork+%47iants#sports@group.v.calendar.google.com
+  entities:
+  - device_id: new_york_giants
+    ignore_availability: true
+    name: New York Giants
+    track: true
+
+- cal_id: mlb_10_%4eew+%59ork+%59ankees#sports@group.v.calendar.google.com
+  entities:
+  - device_id: new_york_yankees
+    ignore_availability: true
+    name: New York Yankees
+    track: true

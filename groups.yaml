@@ -1,0 +1,21 @@
+#################################################################
+## Groups
+#################################################################
+
+
+    # Wireless Speakers
+    Google Nest Speakers:
+      - media_player.basement_display
+      - media_player.master_bedroom_display
+      - media_player.kitchen_display
+      - media_player.living_room_speaker
+      - media_player.office_speaker
+
+    # Chromecast Audio Devices
+    Chromecast Speakers:
+      - media_player.dining_room_chromecast
+      - media_player.living_room_chromecast
+
+    # Household
+    Household:
+      - person.romel

@@ -1,0 +1,237 @@
+#################################################################
+## Scripts
+#################################################################
+
+
+  # normal_mode:
+  #   alias: "Normal Mode"
+  #   sequence:
+  #     - service: light.turn_on
+  #       data:
+  #         entity_id: light.basement_ceiling_lights
+  #         transition: 5
+  #         brightness_pct: 25
+  #     - service: light.turn_off
+  #       data:
+  #         entity_id: light.basement_tv_stand
+  #         transition: 5
+  #     - service: light.turn_off
+  #       data:
+  #         entity_id: light.basement_cabinetbasement_floor_lamps
+  #         transition: 5
+  #     - service: light.turn_off
+  #       data:
+  #         entity_id: light.basement_floor_lamps
+  #         transition: 5
+
+
+  # movie_mode:
+  #   alias: "Movie Mode"
+  #   sequence:
+  #     - service: light.turn_off
+  #       data:
+  #         entity_id: light.basement_ceiling_lights
+  #         transition: 5
+  #     - service: light.turn_on
+  #       data:
+  #         entity_id: light.basement_tv_stand
+  #         transition: 5
+  #         brightness_pct: 25
+  #         rgb_color: [108, 145, 255]
+  #     - service: light.turn_on
+  #       data:
+  #         entity_id: light.basement_cabinet
+  #         transition: 5
+  #         brightness_pct: 25
+  #         rgb_color: [194, 159, 255]
+
+
+  restart_cable_modem:
+    alias: "Restart Cable Modem"
+    sequence:
+      - service: homeassistant.turn_off
+        data:
+          entity_id: switch.cable_modem
+      - delay: '00:01:00'
+      - service: homeassistant.turn_on
+        data:
+          entity_id: switch.cable_modem
+      - service: persistent_notification.create
+        data:
+          title: "Cable Modem Notification"
+          message: "The cable modem has been restarted at {{ as_timestamp(now()) | timestamp_custom('%-I:%M %p') }}."          
+
+
+  play_nintendo_sound:
+    alias: "Plays Nintendo Sound"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.basement_display
+          # Selects a random sound
+          media_content_id: >-
+            {{ ['http://192.168.1.31:8123/local/audio/nintendo/nintendo_coin.mp3',
+                'http://192.168.1.31:8123/local/audio/nintendo/super_mario_bros_1up.mp3',
+                'http://192.168.1.31:8123/local/audio/nintendo/luigi_here_we_go.mp3',
+                'http://192.168.1.31:8123/local/audio/nintendo/duck_hunt.mp3'] | random }}
+          media_content_type: 'music'
+
+
+  play_playstation_sound:
+    alias: "Plays PlayStation Sound"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.basement_display
+          # Selects a random sound
+          media_content_id: >-
+            {{ ['http://192.168.1.31:8123/local/audio/playstation/playstation_chime.mp3',
+                'http://192.168.1.31:8123/local/audio/playstation/playstation_2.mp3',
+                'http://192.168.1.31:8123/local/audio/playstation/playstation_3_startup_sound.mp3',
+                'http://192.168.1.31:8123/local/audio/playstation/chocobo.mp3'] | random }}
+          media_content_type: 'music'
+          
+
+  launch_basement_chromecast_activity:
+    alias: "Launch Basement Chromecast Activity"
+    sequence:
+      - service: remote.turn_on
+        entity_id: remote.basement
+        data:
+          activity: 'Google Chromecast'
+
+
+  # launch_basement_shield_google_cast:
+  #   alias: "Launch Basement Shield Google Cast via Basement Display"
+  #   sequence:
+  #     - service: remote.turn_on
+  #       entity_id: remote.basement
+  #       data:
+  #         activity: 'Shield TV'
+
+
+  turn_off_basement_tv:
+    alias: "Turns off Basement TV"
+    sequence:
+      - service: remote.turn_off
+        entity_id: remote.basement
+
+
+  turn_off_basement_ambient_lights:
+    alias: "Turn off Basement Ambient Lights"
+    sequence:
+      - service: homeassistant.turn_off
+        entity_id: 
+          - light.basement_tv_stand
+          - light.basement_table_lamp
+          - light.basement_floor_lamps
+          - light.basement_cabinet
+          
+  
+  # turn_on_server_closet_fan:
+  #   alias: "Turns on Server Closet Fan"
+  #   sequence: 
+  #     - service: homeassistant.turn_on
+  #       entity: switch.server_closet_fan
+
+
+  # turn_off_server_closet_fan:
+  #   alias: "Turns off Server Closet Fan"
+  #   sequence: 
+  #     - service: homeassistant.turn_off
+  #       entity: switch.server_closet_fan
+        
+
+  # stop_android_app_main_menu:
+  #   alias: "Stops Android App and Return to Main Menu"
+  #   sequence:
+  #     # Stops App
+  #     - service: androidtv.adb_command
+  #       data:
+  #         entity_id: media_player.basement_shield
+  #         command: 'input keyevent 86'
+  #     # Main Menu
+  #     - service: androidtv.adb_command
+  #       data:
+  #         entity_id: media_player.basement_shield
+  #         command: 'HOME'
+
+
+  run_speedtest:
+    alias: Run Speedtest
+    sequence:
+      - service: speedtestdotnet.speedtest
+
+
+  basement_chromecast_activity_notification:
+    alias: "Basement Chromecast Activity Notification"
+    sequence:
+      - service: tts.google_translate_say
+        entity_id: media_player.basement_display
+        data:
+          message: "Please select the 'Google Chromecast' activity on the remote control."
+
+
+  activate_house_alarm:
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: group.google_nest_speakers
+          media_content_id: http://192.168.1.31:8123/local/audio/alarm_house.mp3
+          media_content_type: 'music'
+      # - service: scene.turn_on
+      #   entity_id: scene.alarm
+
+
+  deactivate_house_alarm:
+    sequence:
+      - service: media_player.turn_off
+        data:
+          entity_id: group.google_nest_speakers
+      # - service: scene.turn_on
+      #   entity_id: scene.stop
+
+
+  # master_bedroom_ceiling_fan_off:
+  #   sequence:
+  #     - service: fan.set_percentage
+  #       target:
+  #         entity_id: fan.master_bedroom_ceiling
+  #       data:
+  #         percentage: 0
+
+
+  master_bedroom_ceiling_fan_low:
+    sequence:
+      - service: fan.set_percentage
+        target:
+          entity_id: fan.master_bedroom_ceiling_fan
+        data:
+          percentage: 33
+
+
+  master_bedroom_ceiling_fan_medium:
+    sequence:
+      - service: fan.set_percentage
+        target:
+          entity_id: fan.master_bedroom_ceiling_fan
+        data:  
+          percentage: 66
+
+
+  master_bedroom_ceiling_fan_high:
+    sequence:
+      - service: fan.set_percentage
+        target:
+          entity_id: fan.master_bedroom_ceiling_fan
+        data:
+          percentage: 100          
+
+
+  # reset_basement_display:
+  #   alias: "Resets Basement Nest Hub's Display"
+  #   sequence:
+  #     # Resets the display to 'default mode'
+  #     - delay: '00:00:10'            
+  #     - service: media_player.turn_off
+  #       entity_id: media_player.basement_display

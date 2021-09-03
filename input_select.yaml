@@ -1,0 +1,91 @@
+#################################################################
+## Input Select
+#################################################################
+
+  # # Basement Harmony Remote
+  # basement_harmony:
+  #   name: Harmony Remote
+  #   options:
+  #     - Select an Activity
+  #     - PowerOff
+  #     - Launch Nvidia Shield TV
+  #     - Play Nintendo Switch
+  #     - Play PlayStation 4
+
+  # # Master Bedroom Harmony Remote
+  # master_bedroom_harmony:
+  #   name: Harmony Remote
+  #   options:
+  #     - Select an Activity
+  #     - PowerOff
+  #     - Watch TV
+  #     - Watch Roku    
+
+  # Washing Machine Cycle Status
+  washing_machine_cycle_status:
+    name: Washing Machine Cycle Status
+    options:
+      - Idle
+      - Running
+      - Complete
+    initial: Idle
+
+  # # Dryer Cycle Status
+  # dryer_cycle_status:
+  #   name: Dryer Cycle Status
+  #   options:
+  #     - Idle
+  #     - Running
+  #   initial: Idle
+
+  # Radio Station
+  radio_station:
+    name: Radio Station
+    options:
+      - R&B Hits
+      - Hip hop
+      - Smooth Jazz
+      - Salsa
+      - Holiday Hits
+      - None
+    icon: mdi:radio
+
+  # Audio Source
+  audio_source:
+    name: Audio Source
+    options:
+      - Living Room
+      - Dining Room
+      - Everywhere
+      - None
+    icon: mdi:speaker-wireless
+
+  # Light Scenes
+  light_scenes:
+    name: Scene
+    options:
+      - Default
+      - Romantic
+      - Spring
+      - Patriotic
+      - Autumn
+      - Christmas
+    icon: mdi:star
+
+  # NYI - Holiday Lighting
+  holiday_lighting:
+    name: Holiday Lighting
+    options:
+      - None
+      - Valentine's Day
+      - St. Patrick's Day
+      - Easter
+      - Memorial Day
+      - Independence Day
+      - Labor Day
+      - Halloween
+      - Veterans Day
+      - Thanksgiving
+      - Christmas
+      - New Year's Eve
+    icon: mdi:gift    

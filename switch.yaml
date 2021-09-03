@@ -1,0 +1,165 @@
+#################################################################
+## Switches
+#################################################################
+
+  - platform: template
+    switches:
+
+      # Launch Fireplace Video from YouTube in Basement
+      basement_fireplace:
+        value_template: "{{ is_state_attr('media_player.basement_shield_cast', 'media_title', 'Fireplace 10 hours full HD') }}"
+        turn_on:
+          - service: switch.turn_on
+            entity_id: switch.basement_shield
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am start -a android.intent.action.VIEW https://www.youtube.com/watch?v=L_LUpnjgPso'      
+        turn_off:         
+          - service: remote.turn_off
+            entity_id: remote.basement
+
+
+      # Launch Emby App from Master Bedroom Roku
+      master_bedroom_roku_emby:
+        value_template: "{{ is_state_attr('media_player.master_bedroom_roku', 'app_id', '44191') }}"
+        turn_on:
+          - service: media_player.select_source
+            data:
+              entity_id: media_player.master_bedroom_roku
+              # Emby (http://ROKU_IP:8060/query/apps)
+              source: 44191
+        turn_off:
+          # Main Menu
+          - service: remote.send_command
+            data:
+              entity_id: remote.master_bedroom
+              command:
+                - home
+              device: 'Roku Streaming Stick+'
+
+
+      # Launch Netflix App from Master Bedroom Roku
+      master_bedroom_roku_netflix:
+        value_template: "{{ is_state_attr('media_player.master_bedroom_roku', 'app_id', '12') }}"
+        turn_on:
+          - service: media_player.select_source
+            data:
+              entity_id: media_player.master_bedroom_roku
+              # Plex (http://ROKU_IP:8060/query/apps)
+              source: 12
+        turn_off:
+          # Main Menu
+          - service: remote.send_command
+            data:
+              entity_id: remote.master_bedroom
+              command:
+                - home
+              device: 'Roku Streaming Stick+'
+
+
+      # Launch Prime Video App from Master Bedroom Roku
+      master_bedroom_roku_prime_video:
+        value_template: "{{ is_state_attr('media_player.master_bedroom_roku', 'app_id', '13') }}"
+        turn_on:
+          - service: media_player.select_source
+            data:
+              entity_id: media_player.master_bedroom_roku
+              # Prime Video (http://ROKU_IP:8060/query/apps)
+              source: 13
+        turn_off:
+          # Main Menu
+          - service: remote.send_command
+            data:
+              entity_id: remote.master_bedroom
+              command:
+                - home
+              device: 'Roku Streaming Stick+'
+
+
+
+      # Launch Emby App from Basement Nvidia Shield
+      basement_shield_emby:
+        value_template: "{{ is_state_attr('media_player.basement_shield', 'app_id', 'tv.emby.embyatv') }}"
+        turn_on:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am start -a android.intent.action.VIEW -d -n tv.emby.embyatv/.startup.StartupActivity'
+        turn_off:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am force-stop tv.emby.embyatv'
+
+
+      # Launch HDHomeRun App from Basement Nvidia Shield
+      basement_shield_watch_tv:
+        value_template: "{{ is_state_attr('media_player.basement_shield', 'app_id', 'com.silicondust.view') }}"
+        turn_on:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am start -a android.intent.action.VIEW -d -n com.silicondust.view/.App'
+        turn_off:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am force-stop com.silicondust.view'
+
+
+      # Launch Pandora App from Basement Nvidia Shield
+      basement_shield_pandora:
+        value_template: "{{ is_state_attr('media_player.basement_shield', 'app_id', 'com.pandora.android.atv') }}"
+        turn_on:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am start -a android.intent.action.VIEW -d -n com.pandora.android.atv/com.pandora.android.MainActivity'
+        turn_off:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am force-stop com.pandora.android.atv'        
+
+
+      # Launch Netflix App from Basement Nvidia Shield
+      basement_shield_netflix:
+        value_template: "{{ is_state_attr('media_player.basement_shield', 'app_id', 'com.netflix.ninja') }}"
+        turn_on:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am start -a android.intent.action.VIEW -d -n com.netflix.ninja/.MainActivity'
+        turn_off:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am force-stop com.netflix.ninja'               
+
+
+      # Launch Prime Video from Basement Nvidia Shield
+      basement_shield_prime_video:
+        value_template: "{{ is_state_attr('media_player.basement_shield', 'app_id', 'com.amazon.amazonvideo.livingroom') }}"
+        turn_on:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am start -a android.intent.action.VIEW -d -n com.amazon.amazonvideo.livingroom/com.amazon.ignition.IgnitionActivity'
+        turn_off:
+          - service: androidtv.adb_command
+            data:
+              entity_id: media_player.basement_shield
+              # Android TV Intent
+              command: 'am force-stop com.amazon.amazonvideo.livingroom'            
+

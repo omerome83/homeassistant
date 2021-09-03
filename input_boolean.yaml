@@ -1,0 +1,150 @@
+#################################################################
+## Input Boolean
+#################################################################
+
+
+  # Miscellaneous
+  disable_good_morning_routine:
+    name: Disable Good Morning Routine
+    icon: mdi:alarm-check
+  disable_sync_google_chromecast_activity:
+    name: Disable Sync Google Chromecast Activity
+    icon: mdi:autorenew
+  # disable_home_assistant_new_version_notification:
+  #   name: Disable Home Assistant New Version Notification
+  #   icon: mdi:home-assistant
+  disable_motion_detected_when_no_one_is_home:
+    name: Disable Motion Detected When No One is Home
+    icon: mdi:motion-sensor
+
+
+  # Sports
+  disable_sports_game_reminder:
+    name: Disable Sports Game Reminder
+    icon: mdi:basketball-hoop
+  # disable_new_york_knicks_game_reminder:
+  #   name: Disable New York Knicks Game Reminder
+  #   icon: mdi:basketball
+  # disable_new_york_giants_game_reminder:
+  #   name: Disable New York Giants Game Reminder
+  #   icon: mdi:football
+  # disable_new_york_yankees_game_reminder:
+  #   name: Disable New York Yankees Game Reminder
+  #   icon: mdi:baseball
+
+
+  # Gaming
+  disable_wow_raid_reminder:
+    name: Disable World of Warcraft Raid Reminder
+    icon: mdi:sword-cross
+
+
+  # Weather
+  # disable_national_weather_service_alert:
+  #   name: Disable National Weather Service Alert
+  #   icon: mdi:weather-cloudy-alert
+
+
+  # Devices
+  disable_aquarium_co2_regulator:
+    name: Disable Aquarium CO2 Regulator
+    icon: mdi:molecule-co2
+  disable_robot_vacuum:
+    name: Disable Robot Vacuum
+    icon: mdi:robot-vacuum
+  disable_restart_cable_modem:
+    name: Disable Restart Cable Modem
+    icon: mdi:ethernet
+  disable_smoke_co_alarm:
+    name: Disable Smoke/Carbon Monoxide Alarm
+    icon: mdi:smoke-detector
+  disable_washing_machine_reminder:
+    name: Disable Washing Machine Reminder
+    icon: mdi:washing-machine
+
+
+  # HVAC
+  disable_hvac_wake_up_mode:
+    name: Disable HVAC Wake Up Mode
+    icon: mdi:white-balance-sunny  
+  disable_hvac_bedtime_mode:
+    name: Disable HVAC Bedtime Mode
+    icon: mdi:bed-empty
+  disable_home_mode:
+    name: Disable Home Mode
+    icon: mdi:home-thermometer
+  disable_vacation_mode:
+    name: Disable Vacation Mode
+    icon: mdi:island
+
+
+  # Lights
+  disable_exterior_lights_on_sunset:
+    name: Disable Exterior Lights On at Sunset
+    icon: mdi:weather-sunset-down
+  disable_exterior_lights_off_sunrise:
+    name: Disable Exterior Lights Off at Sunrise
+    icon: mdi:weather-sunset-up
+  disable_living_room_table_lamps_on_sunset:
+    name: Disable Living Room Table Lamps On at Sunset
+    icon: mdi:brightness-5  
+  disable_living_room_table_lamps_off_midnight:
+    name: Disable Living Room Table Lamps Off at Midnight
+    icon: mdi:weather-night
+  disable_plant_grow_lights_on_sunrise:
+    name: Disable Plant Grow Lights On at Sunrise
+    icon: mdi:weather-sunset-up
+  disable_plant_grow_lights_off_sunset:
+    name: Disable Plant Grow Lights Off at Sunset
+    icon: mdi:weather-sunset-down
+  disable_living_room_step_light_motion:
+    name: Disable Living Room Step Light with Motion
+    icon: mdi:motion-sensor
+  disable_kitchen_ceiling_lights_motion:
+    name: Disable Kitchen Ceiling Lights with Motion
+    icon: mdi:motion-sensor
+  disable_basement_ceiling_lights_motion:
+    name: Disable Basement Ceiling Lights With Motion
+    icon: mdi:motion-sensor
+  disable_basement_ambient_lights:
+    name: Disable Basement Ambient Lights
+    icon: mdi:lightbulb-off
+
+
+  # Maintenance Reminders
+  disable_trash_day_reminder:
+    name: Disable Trash Day Reminder
+    icon: mdi:trash-can
+  disable_recycling_day_reminder:
+    name: Disable Recycling Day Reminder
+    icon: mdi:recycle
+  disable_hvac_furnace_filter_reminder:
+    name: Disable HVAC Furnace Filter Reminder
+    icon: mdi:air-conditioner
+  disable_refrigerator_filter_reminder:
+    name: Disable Refrigerator Filter Reminder
+    icon: mdi:fridge
+  # disable_printer_low_ink_reminder:
+  #   name: Disable Printer Low Ink Reminder
+  #   icon: mdi:printer
+  disable_aquarium_maintenance_reminder:
+    name: Disable Aquarium Maintenance Reminder
+    icon: mdi:fishbowl
+  disable_dehumidifier_checkup_reminder:
+    name: Disable Dehumidifier Checkup Reminder
+    icon: mdi:air-purifier
+  disable_flush_water_heater_reminder:
+    name: Disable Flush Water Heater Reminder
+    icon: mdi:water-boiler
+  disable_winterize_outdoor_spigot_reminder:
+    name: Disable Winterize Outdoor Spigot Reminder
+    icon: mdi:water-pump
+  disable_dishwasher_weekly_reminder:
+    name: Disable Dishwasher Weekly Reminder
+    icon: mdi:dishwasher
+    
+
+  # Automobile
+  disable_automobile_battery_warning:
+    name: Disable Automobile Battery Warning
+    icon: mdi:car-battery
