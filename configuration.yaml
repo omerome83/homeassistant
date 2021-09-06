@@ -34,6 +34,11 @@ homeassistant:
   customize: !include customize.yaml
 
 
+# https://www.home-assistant.io/integrations/api
+# RESTful API
+api:
+
+
 # Discover some devices automatically
 discovery:
   ignore:
