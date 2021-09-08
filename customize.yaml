@@ -1,0 +1,687 @@
+#################################################################
+## Customize
+#################################################################
+
+    # Device Tracker
+    device_tracker.romel_sm_g960u1:
+      friendly_name: Romel
+    sensor.phone_battery_level_user_1:
+      friendly_name: Battery Level
+
+
+    # Media Players
+    media_player.master_bedroom_roku:
+      friendly_name: Master Bedroom Roku
+    media_player.basement_shield:
+      friendly_name: Basement Shield
+    # Cast for Bsement Shield (Android TV)
+    media_player.basement_shield_cast:
+      friendly_name: Cast for Basement Shield
+
+
+    # Lights/Switches
+    # Basement Floor Lamp 1 and Lamp 2
+    light.basement_floor_lamps:
+      friendly_name: Basement Floor Lamps
+      icon: mdi:floor-lamp
+    light.basement_table_lamp:
+      friendly_name: Basement Table Lamp
+      icon: mdi:lamp
+    light.master_bedroom_ceiling_fan:
+      friendly_name: Master Bedroom Ceiling Fan Lights
+      icon: mdi:lightbulb-multiple
+    light.master_bedroom_nightstand_lamp_1:
+      friendly_name: Master Bedroom Night Stand Lamp 1
+    light.master_bedroom_nightstand_lamps:
+      icon: mdi:lamp
+    light.living_room_step_light:
+      friendly_name: Living Room Step Light
+      icon: mdi:stairs
+    light.living_room_table_lamps:
+      friendly_name: Living Room Table Lamps
+      icon: mdi:lamp
+    light.basement_tv_stand:
+      friendly_name: Basement TV Stand
+      icon: mdi:table-furniture
+    light.basement_cabinet:
+      friendly_name: Basement Cabinet
+      icon: mdi:file-cabinet
+    light.basement_ceiling_lights:
+      friendly_name: Basement Ceiling Lights
+      icon: mdi:ceiling-light
+
+
+    light.basement_lights:
+      icon: mdi:stairs
+    light.kitchen_lights:
+      icon: mdi:stove    
+    light.living_room_lights:
+      icon: mdi:sofa
+    light.master_bedroom_lights:
+      icon: mdi:bed
+    light.outdoor_lights:
+      icon: mdi:flower  
+
+
+    switch.plant_grow_lights:
+      friendly_name: Plant Grow Lights
+      icon: mdi:sprout
+    switch.front_door_entry_light:
+      friendly_name: Front Door Entry Light
+      icon: mdi:coach-lamp
+    switch.kitchen_ceiling_lights:
+      friendly_name: Kitchen Ceiling Lights
+      icon: mdi:wall-sconce-flat
+
+      
+    switch.cable_modem:
+      friendly_name: Cable Modem
+      icon: mdi:web
+
+    fan.master_bedroom_ceiling_fan:
+      friendly_name: Master Bedroom Ceiling Fan
+      icon: mdi:fan
+
+    
+    script.master_bedroom_ceiling_fan_low:
+      friendly_name: Low
+      icon: mdi:fan-speed-1
+    script.master_bedroom_ceiling_fan_medium:
+      friendly_name: Medium
+      icon: mdi:fan-speed-2
+    script.master_bedroom_ceiling_fan_high:
+      friendly_name: High      
+      icon: mdi:fan-speed-3
+
+
+    # Counts
+    sensor.automation_count:
+      friendly_name: Automations
+      icon: mdi:home-automation
+    sensor.binary_sensor_count:
+      friendly_name: Binary Sensors    
+      icon: mdi:gauge
+    sensor.input_boolean_count:
+      friendly_name: Input Booleans    
+      icon: mdi:check             
+    sensor.lights_count:
+      friendly_name: Lights    
+      icon: mdi:lightbulb    
+    sensor.sensor_count:
+      friendly_name: Sensors    
+      icon: mdi:gauge
+    sensor.scene_count:
+      friendly_name: Scenes   
+      icon: mdi:star      
+    sensor.script_count:
+      friendly_name: Scripts
+      icon: mdi:code-braces
+    sensor.switch_count:
+      friendly_name: Switches
+      icon: mdi:toggle-switch   
+    sensor.zwave_count:
+      friendly_name: Z-Wave Devices    
+      icon: mdi:z-wave
+
+
+    # Network
+    sensor.speedtest_download:
+      friendly_name: Download
+      icon: mdi:cloud-download
+    sensor.speedtest_upload:
+      friendly_name: Upload
+      icon: mdi:cloud-upload
+    sensor.speedtest_ping:
+      friendly_name: Ping
+      icon: mdi:gauge
+    binary_sensor.internet_status:
+      icon: mdi:wan
+    # binary_sensor.gateway:
+    #   icon: mdi:security-network
+    # binary_sensor.ubiquiti_switch:
+    #   icon: mdi:network-router         
+    # binary_sensor.lutron_smart_bridge:
+    #   icon: mdi:ethernet
+    # binary_sensor.redlink_gateway:
+    #   icon: mdi:ethernet
+    # binary_sensor.hdhomerun_prime:
+    #   icon: mdi:ethernet
+    # binary_sensor.ubiquiti_basement_ap:
+    #   friendly_name: Basement
+    #   icon: mdi:access-point-network
+    # binary_sensor.ubiquiti_living_room_ap:
+    #   friendly_name: Living Room
+    #   icon: mdi:access-point-network
+    # binary_sensor.ubiquiti_second_floor_ap:
+    #   friendly_name: Second Floor
+    #   icon: mdi:access-point-network
+    script.restart_cable_modem:
+      friendly_name: Restart Cable Modem
+      icon: mdi:restart
+    script.run_speedtest:
+      friendly_name: Run Speedtest
+      icon: mdi:speedometer
+    # sensor.office_printer:
+    #   friendly_name: Office Printer
+    #   icon: mdi:printer
+
+    # DNS/AdGuard Home
+    # sensor.adguard_dns_queries:
+    #   friendly_name: DNS Queries
+    # sensor.adguard_dns_queries_blocked_ratio:
+    #   friendly_name: DNS Queries Blocked Ratio
+
+
+    # HDHomeRun Prime (TV Tuner)
+    sensor.hdhr3_cc_firmware_status:
+      friendly_name: Firmware Status
+      icon: mdi:chip
+    sensor.hdhr3_cc_signal_quality:
+      friendly_name: Signal Quality
+      icon: mdi:signal
+    sensor.hdhr3_cc_signal_strength:
+      friendly_name: Signal Strength
+      icon: mdi:signal-cellular-outline
+    sensor.hdhr3_cc_tuner_0_channel:
+      friendly_name: Tuner 1 Channel
+      icon: mdi:television
+    sensor.hdhr3_cc_tuner_1_channel:
+      friendly_name: Tuner 2 Channel
+      icon: mdi:television
+    sensor.hdhr3_cc_tuner_2_channel:
+      friendly_name: Tuner 3 Channel
+      icon: mdi:television      
+
+    # Printer
+    sensor.mfc_j995dw_status:
+      friendly_name: Brother MFC-J995DW
+      icon: mdi:printer
+    sensor.mfc_j995dw_black_ink_remaining:
+      friendly_name: Black
+      icon: mdi:water
+    sensor.mfc_j995dw_magenta_ink_remaining:
+      friendly_name: Magenta
+      icon: mdi:water
+    sensor.mfc_j995dw_cyan_ink_remaining:
+      friendly_name: Cyan
+      icon: mdi:water
+    sensor.mfc_j995dw_yellow_ink_remaining:
+      friendly_name: Yellow
+      icon: mdi:water
+
+    # Home Assistant Version/File Info
+    sensor.installed_version:
+      friendly_name: Installed Version
+      icon: mdi:folder-download
+    sensor.latest_release:
+      friendly_name: Latest Release
+      icon: mdi:folder-star
+    # sensor.home_assistant_v2_db:
+    #   friendly_name: Database
+    #   icon: mdi:database
+    sensor.home_assistant_db_size:
+      friendly_name: Database
+      icon: mdi:database      
+    sensor.home_assistant_log:
+      friendly_name: Log File   
+      icon: mdi:file-document-outline
+    sensor.snapshot_backup:
+      icon: mdi:camera
+
+
+    weather.openweathermap:
+      friendly_name: Home
+
+    sensor.openweathermap_humidity:
+      friendly_name: Humidity
+      icon: mdi:water-percent
+    sensor.openweathermap_cloud_coverage:
+      friendly_name: Cloud Cover
+      icon: mdi:weather-cloudy
+    sensor.openweathermap_pressure:
+      friendly_name: Pressure
+      icon: mdi:arrow-down-bold-box
+    sensor.openweathermap_wind_bearing:
+      friendly_name: Wind Bearing
+      icon: mdi:directions
+    sensor.openweathermap_wind_speed:
+      friendly_name: Wind Speed
+      icon: mdi:weather-windy
+
+
+    sensor.next_sunrise:
+      friendly_name: Next Sunrise
+      icon: mdi:weather-sunset-up 
+    sensor.next_sunset:
+      friendly_name: Next Sunset
+      icon: mdi:weather-sunset-down
+
+
+    # Torque (Nissan Sentra)
+    sensor.sentra_mpg:
+      friendly_name: Fuel Efficiency
+      icon: mdi:gas-station
+
+    sensor.sentra_fuel_level:
+      friendly_name: Fuel Level
+      icon: mdi:gauge
+
+    sensor.sentra_fuel_used_trip:
+      friendly_name: Fuel Used (Trip)
+      icon: mdi:fuel
+
+    # sensor.sentra_distance_to_empty:
+    #   friendly_name: Distance to Empty (DTE)
+    #   icon: mdi:alpha-e-box-outline
+
+    sensor.sentra_percentage_city_driving:
+      friendly_name: City Driving
+      icon: mdi:city
+
+    sensor.sentra_percentage_highway_driving:
+      friendly_name: Highway Driving
+      icon: mdi:highway
+
+    sensor.sentra_percentage_idle_driving:
+      friendly_name: Idle Driving
+      icon: mdi:pause
+
+    sensor.sentra_percentage_trip_distance:
+      friendly_name: Trip Distance
+      icon: mdi:map-marker-distance
+
+    sensor.sentra_run_time_since_engine_start:
+      friendly_name: Run Time Since Engine Start
+      icon: mdi:timer
+
+    sensor.sentra_distance_traveled_since_codes_cleared:
+      friendly_name: Distance Traveled Since Codes Cleared
+      icon: mdi:eraser
+
+    sensor.sentra_distance_traveled_with_cel_lit:
+      friendly_name: Distance Traveled With Check Engine Light
+      icon: mdi:engine
+    
+    sensor.sentra_battery_voltage:
+      friendly_name: Battery Voltage
+      icon: mdi:car-battery
+      
+    sensor.sentra_catalyst_temperature:
+      friendly_name: Catalytic Converter
+      icon: mdi:thermometer
+
+    sensor.sentra_engine_coolant_temperature:
+      friendly_name: Engine Coolant
+      icon: mdi:thermometer
+
+    sensor.sentra_intake_air_temperature:
+      friendly_name: Intake Air
+      icon: mdi:thermometer
+
+    # sensor.sentra_transmission_temperature:
+    #   friendly_name: Transmission
+    #   icon: mdi:thermometer
+
+    sensor.sentra_air_fuel_ratio:
+      friendly_name: Air/Fuel Ratio
+      icon: mdi:alpha-a-box-outline
+
+    sensor.sentra_engine_load:
+      friendly_name: Engine Load
+      icon: mdi:engine
+
+    sensor.sentra_engine_rpm:
+      friendly_name: Engine RPM
+      icon: mdi:speedometer    
+
+    sensor.sentra_o2_sensor_equivalence_ratio:
+      friendly_name: O2 Sensor Equivalence Ratio
+      icon: mdi:alpha-o-box-outline
+
+    sensor.sentra_o2_sensor_voltage:
+      friendly_name: O2 Sensor Voltage
+      icon: mdi:flash
+
+    sensor.sentra_mass_air_flow_rate:
+      friendly_name: Mass Air Flow Rate
+      icon: mdi:arrow-expand-all
+
+    sensor.sentra_volumetric_efficiency:
+      friendly_name: Volumetric Efficiency
+      icon: mdi:alpha-v-box-outline
+
+
+    # UPS
+    sensor.ups_operating_status:
+      friendly_name: Status
+      icon: mdi:power
+    sensor.ups_input_voltage:
+      friendly_name: Input Voltage
+    sensor.ups_time_left:
+      friendly_name: Battery Runtime
+      icon: mdi:timer
+
+
+    # House Alarm
+    script.activate_house_alarm:
+      friendly_name: Activate House Alarm
+      icon: mdi:bell
+    script.deactivate_house_alarm:
+      friendly_name: Deactivate House Alarm
+      icon: mdi:bell-off
+
+
+    # Server Components  
+    sensor.hd_temperature_dev_sdc:
+      friendly_name: Parity (/dev/sdc)
+      icon: mdi:harddisk
+    sensor.hd_temperature_dev_sdd:
+      friendly_name: Drive 1 (/dev/sdd)
+      icon: mdi:harddisk
+    sensor.hd_temperature_dev_sde:
+      friendly_name: Drive 2 (/dev/sde)
+      icon: mdi:harddisk
+    sensor.hd_temperature_dev_sdf:
+      friendly_name: Drive 3 (/dev/sdf)
+      icon: mdi:harddisk
+    sensor.hd_temperature_dev_sdg:
+      friendly_name: Drive 4 (/dev/sdg)
+      icon: mdi:harddisk
+    sensor.hd_temperature_dev_sdh:
+      friendly_name: Drive 5 (/dev/sdh)  
+      icon: mdi:harddisk
+
+      
+    # HVAC
+    climate.thermostat:
+      friendly_name: Thermostat
+      icon: mdi:thermostat-box
+
+    sensor.hvac_fan_mode:
+      friendly_name: Fan Mode
+      icon: mdi:fan
+    # binary_sensor.hvac_aux_heat:
+    #   friendly_name: Aux Heat
+    #   icon: mdi:fire
+    binary_sensor.hvac_fan_status:
+      friendly_name: Fan Status
+      icon: mdi:fan
+
+    # sensor.cooling_hours_for_today:
+    #   icon: mdi:history
+    # sensor.cooling_hours_for_yesterday:
+    #   icon: mdi:history
+    # sensor.heating_hours_for_today:
+    #   icon: mdi:history
+    # sensor.heating_hours_for_yesterday:
+    #   icon: mdi:history
+
+    # Temperature/Humidity
+    sensor.second_floor_humidity:
+      friendly_name: Second Floor
+    sensor.dining_room_humidity:
+      friendly_name: Dining Room
+    sensor.basement_humidity:
+      friendly_name: Basement
+    sensor.server_closet_humidity:
+      friendly_name: Server Closet
+    sensor.office_humidity:
+      friendly_name: Office
+
+
+    sensor.second_floor_temperature:
+      friendly_name: Second Floor
+    sensor.dining_room_temperature:
+      friendly_name: Dining Room
+    sensor.basement_temperature:
+      friendly_name: Basement
+    sensor.server_closet_temperature:
+      friendly_name: Server Closet
+    sensor.office_temperature:
+      friendly_name: Office
+
+
+    # Appliances/Devices
+    sensor.washing_machine_switch_wattage:
+      friendly_name: Power Usage
+    sensor.washing_machine_cycle_status:
+      friendly_name: Cycle Status
+      icon: mdi:washing-machine
+    switch.washing_machine:
+      friendly_name: Washing Machine
+      icon: mdi:washing-machine
+    switch.aquarium_co2_regulator:
+      friendly_name: Aquarium CO2 Regulator
+      icon: mdi:molecule-co2
+    switch.sump_pump:
+      friendly_name: Sump Pump
+      icon: mdi:pipe
+    switch.dehumidifier:
+      friendly_name: Dehumidifier
+      icon: mdi:air-humidifier
+    switch.server_closet_fan:
+      friendly_name: Server Closet Fan
+      icon: mdi:fan
+
+
+    sensor.ecolink_firefighter_battery_level:
+      friendly_name: Ecolink Firefighter
+    binary_sensor.ecolink_firefighter_smoke_detected:
+      friendly_name: Smoke
+      icon: mdi:smoke-detector
+    binary_sensor.ecolink_firefighter_carbon_monoxide_detected:
+      friendly_name: Carbon Monoxide
+      icon: mdi:smoke-detector
+
+    switch.office_desk_lamp:
+      friendly_name: Office Desk Lamp
+      icon: mdi:desk-lamp
+
+    
+    # Batteries
+    sensor.kitchen_motion_sensor_battery:
+      friendly_name: Kitchen Motion Sensor
+    sensor.living_room_motion_sensor_battery:
+      friendly_name: Living Room Motion Sensor
+    sensor.basement_motion_sensor_battery:
+      friendly_name: Basement Motion Sensor
+    sensor.server_closet_multi_sensor_battery:
+      friendly_name: Server Closet Multi Sensor
+    sensor.second_floor_multi_sensor_battery:
+      friendly_name: Second Floor Multi Sensor  
+    sensor.basement_multi_sensor_battery:
+      friendly_name: Basement Multi Sensor
+    sensor.office_multi_sensor_battery:
+      friendly_name: Office Multi Sensor  
+
+
+    sensor.kitchen_sink_leak_sensor_battery_level:
+      friendly_name: Kitchen Sink Leak Sensor
+    sensor.refrigerator_leak_sensor_battery_level:
+      friendly_name: Refrigerator Leak Sensor      
+    sensor.washing_machine_leak_sensor_battery_level:
+      friendly_name: Washing Machine Leak Sensor
+    sensor.basement_bathroom_sink_leak_sensor_battery_level:
+      friendly_name: Basement Bathroom Sink Leak Sensor  
+    sensor.water_heater_leak_sensor_battery_level:
+      friendly_name: Water Heater Leak Sensor
+    sensor.washing_machine_door_sensor_battery_level:
+      friendly_name: Washing Machine Door Sensor
+    sensor.basement_table_lamp_battery_level:
+      friendly_name: Basement Table Lamp Switch
+    sensor.living_room_table_lamp_battery_level:
+      friendly_name: Living Room Table Lamp Switch
+    sensor.master_bedroom_nightstand_lamp_battery_level:
+      friendly_name: Master Bedroom Nightstand Lamp Switch
+      
+
+    # Motion Sensors
+    binary_sensor.kitchen_motion_sensor:
+      friendly_name: Kitchen
+      device_class: motion
+    binary_sensor.basement_motion_sensor:
+      friendly_name: Basement
+      device_class: motion 
+    binary_sensor.living_room_motion_sensor:
+      friendly_name: Living Room
+      device_class: motion
+    binary_sensor.kitchen_sink_leak_sensor:
+      friendly_name: Kitchen Sink
+      device_class: moisture
+    binary_sensor.refrigerator_leak_sensor:
+      friendly_name: Refrigerator
+      device_class: moisture      
+    binary_sensor.water_heater_leak_sensor:
+      friendly_name: Water Heater
+      device_class: moisture
+    binary_sensor.washing_machine_leak_sensor:
+      friendly_name: Washing Machine
+      device_class: moisture
+    binary_sensor.basement_bathroom_sink_leak_sensor:
+      friendly_name: Basement Bathroom Sink
+      device_class: moisture      
+    # binary_sensor.washing_machine_power_status:
+    #   friendly_name: Power Status
+    #   icon: mdi:power-plug
+    binary_sensor.washing_machine_door_sensor:
+      device_class: door
+
+
+    # Z-Wave Devices
+    # zwave.aeon_labs_zw090_z_stick_gen5_us:
+    #   friendly_name: Aeotec Z-Stick Gen5
+    # zwave.dome_kitchen_sink_leak_sensor:
+    #   friendly_name: Kitchen Sink Leak Sensor
+    # zwave.dome_refrigerator_leak_sensor:
+    #   friendly_name: Refrigerator Leak Sensor  
+    # zwave.dome_water_heater_leak_sensor:
+    #   friendly_name: Water Heater Leak Sensor
+    # zwave.dome_washing_machine_leak_sensor:
+    #   friendly_name: Washing Machine Leak Sensor
+    # zwave.dome_basement_bathroom_sink_leak_sensor:
+    #   friendly_name: Basement Bathroom Sink Leak Sensor           
+    # zwave.aeotec_washing_machine_smart_switch:
+    #   friendly_name: Washing Machine Smart Switch
+    # zwave.aeotec_aquarium_co2_regulator_smart_switch:
+    #   friendly_name: Aquarium CO2 Regulator Smart Switch
+    # zwave.zooz_sump_pump_power_switch:
+    #   friendly_name: Sump Pump Power Switch
+    # zwave.ecolink_firefighter:
+    #   friendly_name: Ecolink Firefighter
+
+
+    # Calendar
+    sensor.upcoming_holiday_date:
+      friendly_name: Upcoming Holiday
+      icon: mdi:calendar-star
+    # sensor.upcoming_event_date:
+    #   friendly_name: Upcoming Event
+    #   icon: mdi:calendar
+    sensor.trash_pickup_date:
+      friendly_name: Trash Pickup
+      icon: mdi:trash-can  
+    sensor.curbside_recycling_date:
+      friendly_name: Curbside Recycling
+      icon: mdi:recycle
+    sensor.next_new_york_knicks_game:
+      friendly_name: Next Game
+      #icon: mdi:basketball
+      entity_picture: /local/images/logos/ny_knicks.png
+    sensor.next_new_york_giants_game:
+      friendly_name: Next Game
+      #icon: mdi:football
+      entity_picture: /local/images/logos/ny_giants.png
+    sensor.next_new_york_yankees_game:
+      friendly_name: Next Game
+      #icon: mdi:baseball
+      entity_picture: /local/images/logos/ny_yankees.png
+
+    sensor.new_york_knicks:
+      friendly_name: New York Knicks
+      # icon: mdi:basketball
+      entity_picture: /local/images/logos/ny_knicks.png
+    sensor.new_york_giants:
+      friendly_name: New York Giants
+      # icon: mdi:football
+      entity_picture: /local/images/logos/ny_giants.png
+    sensor.new_york_yankees:
+      friendly_name: New York Yankees
+      # icon: mdi:baseball
+      entity_picture: /local/images/logos/ny_yankees.png      
+
+
+    # Commute
+    # sensor.home_commute_duration:
+    #   friendly_name: Home Commute
+    #   icon: mdi:home
+    # sensor.work_commute_duration:
+    #   friendly_name: Work Commute
+    #   icon: mdi:briefcase
+    # sensor.work_commute_traffic_density:
+    #   friendly_name: Work Traffic Density
+    #   icon: mdi:scale
+    # sensor.home_commute_traffic_density:
+    #   friendly_name: Home Traffic Density
+    #   icon: mdi:scale
+
+    # Misc
+    # light.christmas_trees:
+    #   friendly_name: Christmas Trees
+    #   icon: mdi:pine-tree
+
+
+    # Switches
+    # switch.master_bedroom_tv:
+    #   friendly_name: TV (OTA)
+    #   icon: mdi:television
+    switch.master_bedroom_roku:
+      friendly_name: Roku
+      icon: mdi:remote-tv
+    switch.basement_shield_tv:
+      friendly_name: Shield TV
+      icon: mdi:set-top-box
+    switch.basement_nintendo_switch:
+      friendly_name: Nintendo Switch
+      icon: mdi:nintendo-switch
+    switch.basement_playstation_4:
+      friendly_name: PlayStation 4
+      icon: mdi:sony-playstation
+    # switch.listen_to_music:
+    #   friendly_name: Listen to Music
+    #   icon: mdi:music
+    switch.basement_google_chromecast:
+      friendly_name: Google Chromecast
+      icon: mdi:cast
+    switch.basement_nintendo_gamecube:
+      friendly_name: Nintendo Gamecube
+      icon: mdi:gamepad
+    # switch.basement_shield_youtube:
+    #   friendly_name: YouTube
+    #   icon: mdi:youtube
+    switch.basement_shield_emby:
+      friendly_name: Emby
+      icon: mdi:emby
+    switch.basement_shield_watch_tv:
+      friendly_name: Watch TV
+      icon: mdi:television
+    switch.basement_shield_pandora:
+      friendly_name: Pandora
+      icon: mdi:pandora
+    switch.basement_shield_netflix:
+      friendly_name: Netflix
+      icon: mdi:netflix
+    switch.basement_shield_prime_video:
+      friendly_name: Prime Video
+      icon: mdi:amazon
+    switch.basement_fireplace:
+        friendly_name: Basement Fireplace
+        icon: mdi:fireplace
+    switch.master_bedroom_roku_emby:
+      friendly_name: Emby
+      icon: mdi:emby
+    switch.master_bedroom_roku_netflix:
+      friendly_name: Netflix
+      icon: mdi:netflix
+    switch.master_bedroom_roku_prime_video:
+      friendly_name: Prime Video
+      icon: mdi:amazon

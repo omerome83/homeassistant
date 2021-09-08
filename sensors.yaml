@@ -2,7 +2,6 @@
 ## Sensors
 #################################################################
 
-
   # Moon
   # https://www.home-assistant.io/components/moon/
   - platform: moon
@@ -250,12 +249,6 @@
   #   name: Recycling Next Collection
   #   select: ".table-fixed tr:nth-of-type(2) td:nth-of-type(3)"
 
-  # - platform: scrape
-  #   resource: !secret md_covid_19_phase_url
-  #   name: MD COVID-19 Phase
-  #   select: ".wpb_wrapper p strong"
-  #   value_template: "{{ value.split('WE ARE IN PHASE ')[1] }}"
-
 
   - platform: scrape
     resource: !secret hdhr3_cc_home_url
@@ -455,11 +448,6 @@
       automation_count:
         value_template: "{{ states.automation | count }}"
 
-
-      # # Binary Sensor Count
-      # binary_sensor_count:
-      #   value_template: "{{ states.binary_sensor | count }}"
-
           
       # Sensor Count
       sensor_count:
@@ -476,15 +464,9 @@
         value_template: "{{ states.script | count }}"
 
 
-      # # Switch Count
-      # switch_count:
-      #   value_template: "{{ states.switch | count }}"
-
-
       # Lights Count
       lights_count:
         value_template: "{{ states.light | count }}"
-
 
 
       # Robot Vacuum
@@ -707,6 +689,18 @@
             {% endif %}
 
 
+      # New York Knicks Game Countdown
+      new_york_knicks_game_countdown:
+        friendly_name: New York Knicks Game Countdown
+        unit_of_measurement: minutes
+        value_template: >-
+          {% if state_attr('calendar.new_york_knicks', 'start_time') %}
+            {{ ((as_timestamp(state_attr('calendar.new_york_knicks', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
+          {%- else -%}
+            0
+          {%- endif %}
+
+
       # New York Giants
       new_york_giants:
         value_template: >- 
@@ -733,7 +727,19 @@
               {{ (as_timestamp(state_attr('calendar.new_york_giants', 'end_time')) - as_timestamp(state_attr('calendar.new_york_giants', 'start_time'))) | int / 3600 }} hours
             {% else %}
               -
-            {% endif %} 
+            {% endif %}
+
+
+      # New York Giants  Game Countdown
+      new_york_giants_game_countdown:
+        friendly_name: New York Giants Game Countdown
+        unit_of_measurement: minutes
+        value_template: >-
+          {% if state_attr('calendar.new_york_giants', 'start_time') %}
+            {{ ((as_timestamp(state_attr('calendar.new_york_giants', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
+          {%- else -%}
+            0
+          {%- endif %}
 
 
       # New York Yankees
@@ -764,32 +770,8 @@
               -
             {% endif %}                 
 
-      
-      # New York Knicks
-      new_york_knicks_game_countdown:
-        friendly_name: New York Knicks Game Countdown
-        unit_of_measurement: minutes
-        value_template: >-
-          {% if state_attr('calendar.new_york_knicks', 'start_time') %}
-            {{ ((as_timestamp(state_attr('calendar.new_york_knicks', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
-          {%- else -%}
-            0
-          {%- endif %}
 
-
-      # New York Giants
-      new_york_giants_game_countdown:
-        friendly_name: New York Giants Game Countdown
-        unit_of_measurement: minutes
-        value_template: >-
-          {% if state_attr('calendar.new_york_giants', 'start_time') %}
-            {{ ((as_timestamp(state_attr('calendar.new_york_giants', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
-          {%- else -%}
-            0
-          {%- endif %}
-
-
-      # New York Yankees
+      # New York Yankees Game Countdown
       new_york_yankees_game_countdown:
         friendly_name: New York Yankees Game Countdown
         unit_of_measurement: minutes
@@ -801,17 +783,17 @@
           {%- endif %}
 
 
-      # Gaming
-      # World of Warcraft Raid
-      wow_raid_countdown:
-        friendly_name: World of Warcraft Raid Countdown
-        unit_of_measurement: minutes
-        value_template: >-
-          {% if state_attr('calendar.wow_raid', 'start_time') %}
-            {{ ((as_timestamp(state_attr('calendar.wow_raid', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
-          {%- else -%}
-            0
-          {%- endif %}
+      # # Gaming
+      # # World of Warcraft Raid
+      # wow_raid_countdown:
+      #   friendly_name: World of Warcraft Raid Countdown
+      #   unit_of_measurement: minutes
+      #   value_template: >-
+      #     {% if state_attr('calendar.wow_raid', 'start_time') %}
+      #       {{ ((as_timestamp(state_attr('calendar.wow_raid', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
+      #     {%- else -%}
+      #       0
+      #     {%- endif %}
 
 
       # # Commute Distance to Home
