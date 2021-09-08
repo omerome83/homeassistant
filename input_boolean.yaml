@@ -124,9 +124,6 @@
   disable_refrigerator_filter_reminder:
     name: Disable Refrigerator Filter Reminder
     icon: mdi:fridge
-  # disable_printer_low_ink_reminder:
-  #   name: Disable Printer Low Ink Reminder
-  #   icon: mdi:printer
   disable_aquarium_maintenance_reminder:
     name: Disable Aquarium Maintenance Reminder
     icon: mdi:fishbowl
@@ -144,7 +141,7 @@
     icon: mdi:dishwasher
     
 
-  # Automobile
-  disable_automobile_battery_warning:
-    name: Disable Automobile Battery Warning
-    icon: mdi:car-battery
+  # # Automobile
+  # disable_automobile_battery_warning:
+  #   name: Disable Automobile Battery Warning
+  #   icon: mdi:car-battery

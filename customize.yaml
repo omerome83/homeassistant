@@ -318,10 +318,6 @@
       friendly_name: Intake Air
       icon: mdi:thermometer
 
-    # sensor.sentra_transmission_temperature:
-    #   friendly_name: Transmission
-    #   icon: mdi:thermometer
-
     sensor.sentra_air_fuel_ratio:
       friendly_name: Air/Fuel Ratio
       icon: mdi:alpha-a-box-outline
@@ -407,15 +403,7 @@
       friendly_name: Fan Status
       icon: mdi:fan
 
-    # sensor.cooling_hours_for_today:
-    #   icon: mdi:history
-    # sensor.cooling_hours_for_yesterday:
-    #   icon: mdi:history
-    # sensor.heating_hours_for_today:
-    #   icon: mdi:history
-    # sensor.heating_hours_for_yesterday:
-    #   icon: mdi:history
-
+ 
     # Temperature/Humidity
     sensor.second_floor_humidity:
       friendly_name: Second Floor

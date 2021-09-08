@@ -1711,22 +1711,22 @@
   #         message: "A guild raid for World of Warcraft starts in one hour!"
 
 
-  - alias: "Automobile Battery Warning"
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: sensor.sentra_battery_voltage
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_automobile_battery_warning
-        state: 'off'
-      - condition: template
-        value_template: "{{ trigger.to_state.state | float > 12.0 and trigger.to_state.state | float < 12.4 }}"        
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Automobile Battery Warning"
-          message: "The {{ trigger.to_state.name | lower }} of the Nissan Sentra is at {{ trigger.to_state.state }}V. Replace soon."
+  # - alias: "Automobile Battery Warning"
+  #   initial_state: false
+  #   trigger:
+  #     platform: state
+  #     entity_id: sensor.sentra_battery_voltage
+  #   condition:
+  #     - condition: state
+  #       entity_id: input_boolean.disable_automobile_battery_warning
+  #       state: 'off'
+  #     - condition: template
+  #       value_template: "{{ trigger.to_state.state | float > 12.0 and trigger.to_state.state | float < 12.4 }}"        
+  #   action:
+  #     - service: notify.mobile_app_sm_g960u1
+  #       data:
+  #         title: "Automobile Battery Warning"
+  #         message: "The {{ trigger.to_state.name | lower }} of the Nissan Sentra is at {{ trigger.to_state.state }}V. Replace soon."
 
 
   - alias: "Play Streaming Radio"
@@ -1786,9 +1786,4 @@
             media_player.chromecast_audio                            
           {% else %}
             none
-          {% endif %}  
-
-# TODOS
-# Add automation for UPS battery when it goes until 50
-# Add 10 month reminder for CO2 refill (last purchased on 4/9/21) - DONE
-# Add turn on/off dehumidifer depending on Basement TV's state (remote.on/off) - DONE
+          {% endif %}
