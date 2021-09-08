@@ -2,8 +2,6 @@
 ## Sensors
 #################################################################
 
-  # Mobile Device Name
-  # SM-G960U1 - Romel
 
   # Moon
   # https://www.home-assistant.io/components/moon/
@@ -133,22 +131,7 @@
       - linev   
       - timeleft
       - loadpct
-
-
-  # HERE Travel Time
-  # https://www.home-assistant.io/integrations/here_travel_time/
-  # - platform: here_travel_time
-  #   api_key: !secret here_travel_time_api_key
-  #   name: Home Commute
-  #   origin_entity_id: person.romel
-  #   destination_entity_id: zone.home
-
-  # - platform: here_travel_time
-  #   api_key: !secret here_travel_time_api_key
-  #   name: Work Commute
-  #   origin_entity_id: person.romel
-  #   destination_entity_id: zone.work
-      
+   
 
   # HDDTemp
   # https://www.home-assistant.io/components/hddtemp/
@@ -426,14 +409,6 @@
       sentra_volumetric_efficiency:
         value_template: "{{ state_attr('sensor.sentra_torque', 'Volumetric Efficiency (Calculated)(%)') | round(1) }}"      
         unit_of_measurement: '%'
-
-
-      # Next Alarm on User 1's Phone
-      # next_alarm_user_1:
-      #   value_template: "{{ as_timestamp(states('sensor.sm_g960u1_next_alarm')) | timestamp_custom('%A at %-I:%M %p') }}"
-
-
-     #   # value_template: "{{ as_timestamp(state_attr('device_tracker.romel', 'at_loc_since')) | timestamp_custom('%D %-I:%M %p') }}"
 
 
       # Trash Pickup Date
@@ -837,18 +812,6 @@
           {%- else -%}
             0
           {%- endif %}
-
-
-      # Phone Alarm Clock
-      # next_phone_alarm:
-      #   friendly_name: Next Phone Alarm
-      #   unit_of_measurement: minutes
-      #   value_template: >-
-      #     {% if states('sensor.sm_g960u1_next_alarm') %}
-      #       {{ ((as_timestamp(states('sensor.sm_g960u1_next_alarm')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0)}}
-      #     {%- else -%}
-      #       0
-      #     {%- endif %}
 
 
       # # Commute Distance to Home

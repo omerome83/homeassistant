@@ -34,8 +34,8 @@ homeassistant:
   customize: !include customize.yaml
 
 
-# https://www.home-assistant.io/integrations/api
 # RESTful API
+# https://www.home-assistant.io/integrations/api
 api:
 
 
@@ -178,24 +178,6 @@ media_player:
       com.netflix.ninja: Netflix
 
 
-# # Notify
-# notify:
-#   # Pushover
-#   # https://www.home-assistant.io/components/pushbullet/#notifications
-#   - name: pushover
-#     platform: pushover
-#     api_key: !secret pushover_api_key
-#     user_key: !secret pushover_user_key
-
-
-# Aeotec Z-Stick Gen5
-# https://www.home-assistant.io/docs/z-wave/device-specific/#aeotec-z-stick
-# zwave:
-#   # Persistant USB path name: 'ls -l /dev/serial/by-id' command
-#   usb_path: /dev/serial/by-id/usb-0658_0200-if00
-#   network_key: "0xBB, 0x52, 0x25, 0x6C, 0xCC, 0x67, 0xC4, 0x7B, 0x01, 0xDE, 0xB5, 0x7B, 0xC1, 0x49, 0x3A, 0x66"
-
-
 # Lutron Smart Bridge
 # https://www.home-assistant.io/components/lutron_caseta/
 lutron_caseta:
@@ -203,24 +185,6 @@ lutron_caseta:
   keyfile: caseta.key
   certfile: caseta.crt
   ca_certs: caseta-bridge.crt
-
-
-# Honeywell Thermostat
-# https://www.home-assistant.io/components/honeywell/
-# climate:
-#   - platform: honeywell
-#     username: !secret honeywell_username
-#     password: !secret honeywell_password
-#     scan_interval: 600
-
-
-# Xiaomi Roborock Vacuum E25
-# https://www.home-assistant.io/components/vacuum.xiaomi_miio/
-# vacuum:
-#   - platform: xiaomi_miio
-#     host: !secret robot_vacuum_rose_host_name
-#     token: !secret robot_vacuum_rose_token
-#     name: Rose
 
 
 # TP-Link
@@ -233,17 +197,6 @@ tplink:
     - host: !secret plant_grow_lights_host_name
     - host: !secret cable_modem_switch_host_name
     - host: !secret server_closet_fan_host_name
-
-
-# Yeelight
-# yeelight:
-#   devices:
-#     192.168.30.14:
-#       name: Basement Floor Lamp 1
-#     192.168.30.15:
-#       name: Basement Floor Lamp 2
-    # 192.168.30.16:
-    #   name: Basement TV Stand
 
 
 # UPS
@@ -260,41 +213,9 @@ google:
   track_new_calendar: true
 
 
-# Coinbase
-# https://www.home-assistant.io/integrations/coinbase/
-# coinbase:
-#   api_key: !secret coinbase_api_key
-#   api_secret: !secret coinbase_api_secret
-
-
-# Logitech Harmony
-# https://www.home-assistant.io/components/harmony/
-# remote:
-#   - platform: harmony
-#     host: !secret basement_remote_host_name
-#     name: Basement
-
-#   - platform: harmony
-#     host: !secret master_bedroom_remote_host_name
-#     name: Master Bedroom
- 
-
 # SpeedTest
 # https://www.home-assistant.io/components/speedtestdotnet/
 speedtestdotnet:
-
-
-# Panel iFrame
-# https://www.home-assistant.io/integrations/panel_iframe/
-# panel_iframe:
-#   deconz:
-#     title: deCONZ
-#     icon: mdi:usb-port
-#     url: !secret deconz_url
-  # foldingathome:
-  #   title: Folding@home
-  #   icon: mdi:bacteria-outline
-  #   url: !secret folding_at_home_url
 
 
 # Z-Wave Graph
