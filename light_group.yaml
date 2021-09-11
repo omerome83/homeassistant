@@ -28,6 +28,11 @@
     name: Living Room Table Lamp 2
     entity_id: switch.living_room_table_lamp_2
 
+  
+  - platform: switch
+    name: Office Ambient Table Lamp
+    entity_id: switch.office_ambient_table_lamp
+
 
   - platform: switch
     name: Kitchen Ceiling Lights

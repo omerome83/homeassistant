@@ -49,6 +49,9 @@
     light.basement_ceiling_lights:
       friendly_name: Basement Ceiling Lights
       icon: mdi:ceiling-light
+    light.office_ambient_table_lamp:
+      friendly_name: Office Ambient Table Lamp
+      icon: mdi:lamp
 
 
     light.basement_lights:
@@ -464,6 +467,8 @@
     switch.office_desk_lamp:
       friendly_name: Office Desk Lamp
       icon: mdi:desk-lamp
+
+    
 
     
     # Batteries
