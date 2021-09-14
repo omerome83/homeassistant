@@ -1468,6 +1468,24 @@
           message: "The sump pump is currently running. It is using {{ states('sensor.sump_pump_power_switch_power') }} watts."
 
 
+  - alias: "Low Fuel Notification"
+    initial_state: true
+    trigger:
+      platform: sun
+      event: sunrise
+    condition:
+      - condition: template
+        entity_id: sensor.sentra_fuel_level | int < 30
+      - condition: state
+        entity_id: input_boolean.disable_low_fuel_notification
+        state: 'off'
+    action:
+      - service: notify.mobile_app_sm_g960u1
+        data:
+          title: "Low Fuel Notification"
+          message: "The Nissan Sentra's fuel level is currently at {{ states('sensor.sentra_fuel_level') | int }}%."
+
+
   # When power is detected, set the washing machine status as running
   - alias: "Set Washing Machine as Running"
     initial_state: true    
