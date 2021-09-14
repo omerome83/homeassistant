@@ -1475,7 +1475,7 @@
       event: sunrise
     condition:
       - condition: template
-        entity_id: sensor.sentra_fuel_level | int < 30
+        value_template: "{{ states('sensor.sentra_fuel_level') | int < 25 }}"
       - condition: state
         entity_id: input_boolean.disable_low_fuel_notification
         state: 'off'
@@ -1483,7 +1483,7 @@
       - service: notify.mobile_app_sm_g960u1
         data:
           title: "Low Fuel Notification"
-          message: "The Nissan Sentra's fuel level is currently at {{ states('sensor.sentra_fuel_level') | int }}%."
+          message: "The Nissan Sentra's fuel level is currently at {{ states('sensor.sentra_fuel_level') | int }}%."          
 
 
   # When power is detected, set the washing machine status as running
