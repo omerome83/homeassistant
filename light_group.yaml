@@ -30,8 +30,8 @@
 
   
   - platform: switch
-    name: Office Ambient Table Lamp
-    entity_id: switch.office_ambient_table_lamp
+    name: Office Shelf Lamp
+    entity_id: switch.office_shelf_lamp
 
 
   - platform: switch

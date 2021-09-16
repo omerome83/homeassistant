@@ -49,9 +49,12 @@
     light.basement_ceiling_lights:
       friendly_name: Basement Ceiling Lights
       icon: mdi:ceiling-light
-    light.office_ambient_table_lamp:
-      friendly_name: Office Ambient Table Lamp
+    light.office_shelf_lamp:
+      friendly_name: Office Shelf Lamp
       icon: mdi:lamp
+    light.office_desk_ambient_light:
+      friendly_name: Office Desk Ambient Light
+      icon: mdi:desk      
 
 
     light.basement_lights:

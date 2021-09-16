@@ -259,17 +259,17 @@
       entity_id: light.living_room_table_lamps
 
 
-  - alias: Toggle Office Ambient Table Lamp with Aqara Switch - Single Press
+  - alias: Toggle Office Shelf Lamp with Aqara Switch - Single Press
     initial_state: true
     trigger:
       platform: event
       event_type: deconz_event      
       event_data:
-        id: office_ambient_table_lamp
+        id: office_shelf_lamp
         event: 1002
     action:
       service: light.toggle
-      entity_id: light.office_ambient_table_lamp
+      entity_id: light.office_shelf_lamp
 
 
   - alias: "Turn on Plant Grow Lights at Sunrise"
