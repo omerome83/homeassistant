@@ -374,23 +374,23 @@
 
 
     # Server Components  
+    sensor.hd_temperature_dev_sdb:
+      friendly_name: Parity (/dev/sdb)
+      icon: mdi:harddisk
     sensor.hd_temperature_dev_sdc:
-      friendly_name: Parity (/dev/sdc)
+      friendly_name: Drive 1 (/dev/sdc)
       icon: mdi:harddisk
     sensor.hd_temperature_dev_sdd:
-      friendly_name: Drive 1 (/dev/sdd)
+      friendly_name: Drive 2 (/dev/sdd)
       icon: mdi:harddisk
     sensor.hd_temperature_dev_sde:
-      friendly_name: Drive 2 (/dev/sde)
+      friendly_name: Drive 3 (/dev/sde)
       icon: mdi:harddisk
     sensor.hd_temperature_dev_sdf:
-      friendly_name: Drive 3 (/dev/sdf)
+      friendly_name: Drive 4 (/dev/sdf)
       icon: mdi:harddisk
     sensor.hd_temperature_dev_sdg:
-      friendly_name: Drive 4 (/dev/sdg)
-      icon: mdi:harddisk
-    sensor.hd_temperature_dev_sdh:
-      friendly_name: Drive 5 (/dev/sdh)  
+      friendly_name: Drive 5 (/dev/sdg)  
       icon: mdi:harddisk
 
       
@@ -488,7 +488,9 @@
     sensor.basement_multi_sensor_battery:
       friendly_name: Basement Multi Sensor
     sensor.office_multi_sensor_battery:
-      friendly_name: Office Multi Sensor  
+      friendly_name: Office Multi Sensor
+    sensor.office_shelf_lamp_battery_level:
+      friendly: Office Shelf Lamp Switch
 
 
     sensor.kitchen_sink_leak_sensor_battery_level:

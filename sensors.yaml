@@ -137,12 +137,12 @@
   - platform: hddtemp
     host: !secret nas_host_name
     disks:
+      - /dev/sdb    
       - /dev/sdc
       - /dev/sdd      
       - /dev/sde
       - /dev/sdf
       - /dev/sdg
-      - /dev/sdh
 
 
   # Uptime
