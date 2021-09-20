@@ -97,6 +97,14 @@
       - light.kitchen_ceiling_lights
 
 
+  # Office Lights
+  - platform: group
+    name: Office Lights
+    entities:
+      - light.office_desk_ambient_light
+      - light.office_shelf_lamp
+
+
   # Outdoor Lights
   - platform: group
     name: Outdoor Lights

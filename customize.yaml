@@ -32,11 +32,17 @@
       icon: mdi:lightbulb-multiple
     light.master_bedroom_nightstand_lamp_1:
       friendly_name: Master Bedroom Night Stand Lamp 1
+    # light.master_bedroom_nightstand_lamp_2:
+    #   friendly_name: Master Bedroom Night Stand Lamp 2      
     light.master_bedroom_nightstand_lamps:
       icon: mdi:lamp
     light.living_room_step_light:
       friendly_name: Living Room Step Light
       icon: mdi:stairs
+    light.living_room_table_lamp_1_lamp:
+      friendly_name: Living Room Table Lamp 1
+    # light.living_room_table_lamp_2_lamp:
+    #   friendly_name: Living Room Table Lamp 2      
     light.living_room_table_lamps:
       friendly_name: Living Room Table Lamps
       icon: mdi:lamp
@@ -490,7 +496,7 @@
     sensor.office_multi_sensor_battery:
       friendly_name: Office Multi Sensor
     sensor.office_shelf_lamp_battery_level:
-      friendly: Office Shelf Lamp Switch
+      friendly_name: Office Shelf Lamp Switch
 
 
     sensor.kitchen_sink_leak_sensor_battery_level:
@@ -507,10 +513,10 @@
       friendly_name: Washing Machine Door Sensor
     sensor.basement_table_lamp_battery_level:
       friendly_name: Basement Table Lamp Switch
-    sensor.living_room_table_lamp_battery_level:
-      friendly_name: Living Room Table Lamp Switch
-    sensor.master_bedroom_nightstand_lamp_battery_level:
-      friendly_name: Master Bedroom Nightstand Lamp Switch
+    sensor.living_room_table_lamp_1_battery_level:
+      friendly_name: Living Room Table Lamp 1 Switch
+    sensor.master_bedroom_nightstand_lamp_1_battery_level:
+      friendly_name: Master Bedroom Nightstand Lamp 1 Switch
       
 
     # Motion Sensors

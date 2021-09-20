@@ -220,17 +220,30 @@
   # End Temporary Holiday Automation
 
 
-  - alias: Toggle Master Bedroom Nightstand Lamps with Aqara Switch - Single Press
+  - alias: Toggle Master Bedroom Nightstand Lamp 1 with Aqara Switch - Single Press
     initial_state: true
     trigger:
       platform: event
       event_type: deconz_event
       event_data:
-        id: master_bedroom_nightstand_lamps
+        id: master_bedroom_nightstand_lamp_1
         event: 1002
     action:
       - service: light.toggle
-        entity_id: light.master_bedroom_nightstand_lamps
+        entity_id: light.master_bedroom_nightstand_lamp_1
+
+
+  # - alias: Toggle Master Bedroom Nightstand Lamp 2 with Aqara Switch - Single Press
+  #   initial_state: true
+  #   trigger:
+  #     platform: event
+  #     event_type: deconz_event
+  #     event_data:
+  #       id: master_bedroom_nightstand_lamp_2
+  #       event: 1002
+  #   action:
+  #     - service: light.toggle
+  #       entity_id: light.master_bedroom_nightstand_lamp_2
 
 
   - alias: Toggle Basement Table Lamp with Aqara Switch - Single Press
@@ -246,17 +259,30 @@
         entity_id: light.basement_table_lamp
 
 
-  - alias: Toggle Living Room Table Lamps with Aqara Switch - Single Press
+  - alias: Toggle Living Room Table Lamp 1 with Aqara Switch - Single Press
     initial_state: true
     trigger:
       platform: event
       event_type: deconz_event      
       event_data:
-        id: living_room_table_lamps
+        id: living_room_table_lamp_1
         event: 1002
     action:
       service: light.toggle
-      entity_id: light.living_room_table_lamps
+      entity_id: light.living_room_table_lamp_1
+
+
+  # - alias: Toggle Living Room Table Lamp 2 with Aqara Switch - Single Press
+  #   initial_state: true
+  #   trigger:
+  #     platform: event
+  #     event_type: deconz_event      
+  #     event_data:
+  #       id: living_room_table_lamp_2
+  #       event: 1002
+  #   action:
+  #     service: light.toggle
+  #     entity_id: light.living_room_table_lamp_2      
 
 
   - alias: Toggle Office Shelf Lamp with Aqara Switch - Single Press
