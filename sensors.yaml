@@ -2,831 +2,725 @@
 ## Sensors
 #################################################################
 
-  # Moon
-  # https://www.home-assistant.io/components/moon/
-  - platform: moon
-
- 
-  # MQTT
-  # https://www.home-assistant.io/integrations/mqtt/
-  - platform: mqtt
-    name: Sentra Torque
-    state_topic: "devices/sentra/torque"
-    value_template: "{{ state_attr('sensor.sentra_torque', 'GPS Time') }}"
-    json_attributes_topic: "devices/sentra/torque"
-
-
-  # Weather Alert Count
-  # https://www.weather.gov/documentation/services-web-api
-  - platform: rest
-    resource: "https://api.weather.gov/alerts/active/count"
-    name: NWS Alert Count
-    value_template: >-
-      {% if value_json.zones.MDC005 is defined %}
-        {{ value_json.zones.MDC005 }}
-      {% else %}
-        0
-      {% endif %}
-    headers:
-      User-Agent: Homeassistant
-      Accept: application/ld+json
-    scan_interval: 900
-    verify_ssl: false
-        
-
-  # Weather Alert Headline
-  # https://www.weather.gov/documentation/services-web-api 
-  - platform: rest
-    resource: "https://api.weather.gov/alerts/active?zone=MDC005"
-    name: NWS Alert Headline
-    value_template: >-
-      {% if value_json.features[0] is defined %}
-        {{ value_json['features'][0]['properties']['headline'] }}
-      {% else %}
-        None
-      {% endif %}
-    json_attributes:
-      - features
-    headers:
-      User-Agent: Homeassistant
-      Accept: application/geo+json
-    scan_interval: 900
-    verify_ssl: false
-
-
-  # HDHomeRun Prime Firmware Status
-  - platform: rest
-    resource: !secret hdhr3_cc_discover_url
-    name: HDHR3-CC Firmware Status
-    json_attributes:
-      - ModelNumber
-      - FirmwareVersion
-      - UpgradeAvailable
-    value_template: >-
-      {% if value_json.UpgradeAvailable is defined %}
-        Upgrade available
-      {% else %}
-        Up to date
-      {% endif %}
-
-
-  # Tuner 0
-  - platform: rest
-    resource: !secret hdhr3_cc_status_url
-    name: HDHR3-CC Tuner 0 Channel
-    json_attributes_path: "$..[?(@.Resource=='tuner0')]"
-    json_attributes:
-      - Resource
-      - VctNumber
-      - VctName
-    value_template: >-
-      {% if value_json[0].VctName is defined %}
-        {{ value_json[0].VctName }}
-      {% else %}
-        Not in use
-      {% endif %}
-
-
-  # Tuner 1
-  - platform: rest
-    resource: !secret hdhr3_cc_status_url
-    name: HDHR3-CC Tuner 1 Channel
-    json_attributes_path: "$..[?(@.Resource=='tuner1')]"
-    json_attributes:
-      - Resource
-      - VctNumber
-      - VctName
-    value_template: >-
-      {% if value_json[1].VctName is defined %}
-        {{ value_json[1].VctName }}
-      {% else %}
-        Not in use
-      {% endif %}
-
-
-  # Tuner 2
-  - platform: rest
-    resource: !secret hdhr3_cc_status_url
-    name: HDHR3-CC Tuner 2 Channel
-    json_attributes_path: "$..[?(@.Resource=='tuner2')]"
-    json_attributes:
-      - Resource
-      - VctNumber
-      - VctName
-    value_template: >-
-      {% if value_json[2].VctName is defined %}
-        {{ value_json[2].VctName }}
-      {% else %}
-        Not in use
-      {% endif %}
-
-
-  # UPS
-  # https://www.home-assistant.io/components/apcupsd/
-  - platform: apcupsd
-    resources:
-      - bcharge
-      - status
-      - linev   
-      - timeleft
-      - loadpct
-   
-
-  # HDDTemp
-  # https://www.home-assistant.io/components/hddtemp/
-  - platform: hddtemp
-    host: !secret nas_host_name
-    disks:
-      - /dev/sdb    
-      - /dev/sdc
-      - /dev/sdd      
-      - /dev/sde
-      - /dev/sdf
-      - /dev/sdg
-
-
-  # Uptime
-  # https://www.home-assistant.io/components/uptime/
-  - platform: uptime
-
-
-  # Sonarr
-  # https://www.home-assistant.io/components/sonarr/
-  - platform: sonarr_upcoming_media
-    api_key: !secret sonarr_api_key
-    host: !secret nas_host_name
-    days: 10
-    max: 3
-
-
-  # Filesizes (DB and Log)
-  # https://www.home-assistant.io/components/filesize/
-  # - platform: filesize
-  #   file_paths:
-  #     #- /config/home-assistant_v2.db
-  #     - /config/home-assistant.log
-
-
-  # MariaDB Database Size
-  # https://www.home-assistant.io/integrations/sql
-  - platform: sql
-    db_url: !secret mariadb_url
-    queries:
-      - name: Home Assistant DB Size
-        query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1048576, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
-        column: 'value'
-        unit_of_measurement: MB
-
-
-  # Latest Release of Home Assistant
-  # https://www.home-assistant.io/components/sensor.rest/
-  - platform: rest
-    name: Latest Release
-    resource: https://www.home-assistant.io/version.json
-    json_attributes:
-      - release_notes
-      - release_description
-    value_template: "{{ value_json.current_version }}"
-    scan_interval: 3600
-
-
-  # Installed Version of Home Assistant
-  # https://www.home-assistant.io/components/version/
-  - platform: command_line
-    name: Installed Version
-    command: "cat /config/.HA_VERSION"
-    
-
-  # CPU Speed
-  # https://www.home-assistant.io/components/cpuspeed/
-  - platform: cpuspeed
-
-
-  # CPU Temperature
-  # https://www.home-assistant.io/components/sensor.command_line/
-  # - platform: command_line
-  #   name: CPU Temperature
-  #   command: "cat /sys/class/thermal/thermal_zone2/temp"
-  #   unit_of_measurement: "°C"
-  #   value_template: '{{ value | multiply(0.001) | round(1) }}'
-
-
-  # System Monitor
-  # https://www.home-assistant.io/components/systemmonitor/
-  - platform: systemmonitor
-    resources:
-      - type: disk_use_percent
-        arg: /
-      - type: memory_use_percent
-      - type: processor_use
-      - type: last_boot
-
-
-  # Scrape
-  # https://www.home-assistant.io/integrations/scrape/
-
-
-  # - platform: scrape
-  #   resource: !secret waste_collection_url
-  #   name: Trash Collection Occurs
-  #   select: ".table-fixed tr:nth-of-type(1) td:nth-of-type(2)"  
-
-
-  # - platform: scrape
-  #   resource: !secret waste_collection_url
-  #   name: Recycling Collection Occurs
-  #   select: ".table-fixed tr:nth-of-type(2) td:nth-of-type(2)"
-
-
-  # - platform: scrape
-  #   resource: !secret waste_collection_url
-  #   name: Trash Next Collection
-  #   select: ".table-fixed tr:nth-of-type(1) td:nth-of-type(3)"    
-
-
-  # - platform: scrape
-  #   resource: !secret waste_collection_url
-  #   name: Recycling Next Collection
-  #   select: ".table-fixed tr:nth-of-type(2) td:nth-of-type(3)"
-
-
-  - platform: scrape
-    resource: !secret hdhr3_cc_home_url
-    name: HDHR3-CC Signal Strength
-    select: "tr:nth-of-type(8) td:nth-of-type(2)"
-
-
-  - platform: scrape
-    resource: !secret hdhr3_cc_home_url
-    name: HDHR3-CC Signal Quality
-    select: "tr:nth-of-type(9) td:nth-of-type(2)"
-
-
-  # Time and Date
-  # https://www.home-assistant.io/components/time_date/
-  - platform: time_date
-    display_options:
-      - 'time'
-      - 'date'
-      - 'date_time'
-
-  
-  # https://www.home-assistant.io/docs/configuration/templating/ 
-  - platform: template
-    sensors:
-
-      # Battery Status on User 1's Phone (Charged/Charging/Unplugged)
-      phone_battery_state_user_1:
-        value_template: "{{ states('sensor.sm_g960u1_battery_state') | title }}"
-          
-
-      # Battery Level on User 1's Phone
-      phone_battery_level_user_1:
-        value_template: "{{ states('sensor.sm_g960u1_battery_level') }}"
-        icon_template: "{{ state_attr('sensor.sm_g960u1_battery_level', 'icon') }}"
-        unit_of_measurement: '%'
-
-
-      # User 1's Phone Location
-      phone_location_user_1:
-        friendly_name: Location
-        value_template: "{{ state_attr('sensor.sm_g960u1_geocoded_location', 'Locality') }}"
-
-
-      # Torque
-      # Nissan Sentra
-      sentra_mpg:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Miles Per Gallon(Long Term Average)(mpg)') | round(1) }}"
-        unit_of_measurement: 'mpg'
-
-
-      sentra_fuel_level:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Fuel Level (From Engine ECU)(%)') | round(2) }}"
-        unit_of_measurement: '%'
-        
-      
-      sentra_fuel_used_trip:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Fuel used (trip)(gal)') | round(2) }}"
-        unit_of_measurement: 'gal'
-
-      
-      # sentra_distance_to_empty:
-      #   value_template: "{{ state_attr('sensor.sentra_torque', 'Distance to empty (Estimated)(miles)') | round(1) }}"
-      #   unit_of_measurement: 'mi'
-
-      
-      sentra_battery_voltage:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Voltage (Control Module)(V)') | round(2) }}"
-        unit_of_measurement: 'V'
-
-
-      sentra_percentage_city_driving:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of City driving(%)') | int }}"
-        unit_of_measurement: '%'
-
-
-      sentra_percentage_highway_driving:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of Highway driving(%)') | int }}"
-        unit_of_measurement: '%'
-
-
-      sentra_percentage_idle_driving:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of Idle driving(%)') | int }}"
-        unit_of_measurement: '%'  
-
-
-      sentra_percentage_trip_distance:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Trip Distance(miles)') | round(1) }}"
-        unit_of_measurement: 'mi'
-
-
-      sentra_run_time_since_engine_start:
-        value_template: "{{ (state_attr('sensor.sentra_torque', 'Run time since engine start(s)') | int / 60) | round }}"
-        unit_of_measurement: 'min'
-   
-
-      sentra_distance_traveled_since_codes_cleared:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Distance travelled since codes cleared(miles)') | round(1) }}"
-        unit_of_measurement: 'mi'
-
-      
-      sentra_distance_traveled_with_cel_lit:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Distance travelled with MIL/CEL lit(miles)') | round(1) }}"
-        unit_of_measurement: 'mi'
-
-
-      sentra_catalyst_temperature:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Catalyst Temperature (Bank 1 Sensor 1)(°F)') | round(1) }}"
-        unit_of_measurement: '°F'   
-
-
-      sentra_engine_coolant_temperature:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Engine Coolant Temperature(°F)') | round(1) }}"
-        unit_of_measurement: '°F'   
-
-
-      sentra_intake_air_temperature:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Intake Air Temperature(°F)') | round(1) }}"
-        unit_of_measurement: '°F'
-
-
-      sentra_air_fuel_ratio:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Air Fuel Ratio(Measured)(:1)') | round(1) }}"
-        unit_of_measurement: ':1'
-
-
-      sentra_engine_load:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Engine Load(%)') | round(0) }}"
-        unit_of_measurement: '%'
-
-
-      sentra_engine_rpm:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Engine RPM(rpm)') | round(0) }}"
-        unit_of_measurement: 'rpm'      
-
-
-      sentra_o2_sensor_equivalence_ratio:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'O2 Sensor1 Equivalence Ratio') | round(1) }}"
-
-      
-      sentra_o2_sensor_voltage:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'O2 Volts Bank 1 sensor 2(V)') | round(1) }}"
-        unit_of_measurement: 'V'
-
-
-      sentra_mass_air_flow_rate:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Mass Air Flow Rate(g/s)') | round(1) }}"      
-        unit_of_measurement: 'g/s'
-
-      
-      sentra_volumetric_efficiency:
-        value_template: "{{ state_attr('sensor.sentra_torque', 'Volumetric Efficiency (Calculated)(%)') | round(1) }}"      
-        unit_of_measurement: '%'
-
-
-      # Trash Pickup Date
-      trash_pickup_date:
-        value_template: "{{ as_timestamp(state_attr('calendar.trash_pickup', 'start_time')) | timestamp_custom('%B %-d') }}"
-
-
-      # Trash Pickup Day
-      trash_pickup_day:
-        value_template: "{{ as_timestamp(state_attr('calendar.trash_pickup', 'start_time')) | timestamp_custom('%A') }}"
-
-
-      # Curbside Recycling Date
-      curbside_recycling_date:
-        value_template: "{{ as_timestamp(state_attr('calendar.curbside_recycling', 'start_time')) | timestamp_custom('%B %-d') }}"
-
-
-      # Curbside Recycling Day
-      curbside_recycling_day:
-        value_template: "{{ as_timestamp(state_attr('calendar.curbside_recycling', 'start_time')) | timestamp_custom('%A') }}"
-
-  
-      # Show Upcoming Event Date Only If There is an Event
-      # upcoming_event_date:
-      #   value_template: >-
-      #     {% if not is_state('sensor.upcoming_event', '') %}
-      #       {{ as_timestamp(state_attr('calendar.next_event', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
-      #     {% else %}
-      #       No upcoming events
-      #     {% endif %}
-
-  
-      # Upcoming Holiday
-      upcoming_holiday:
-        value_template: "{{ state_attr('calendar.holidays_in_united_states', 'message') }}"
-
-
-      # Upcoming Holiday Date
-      upcoming_holiday_date:
-        value_template: "{{ as_timestamp(state_attr('calendar.holidays_in_united_states', 'start_time')) | timestamp_custom('%B %-d') }}"
-
-         
-      # Automation Count
-      automation_count:
-        value_template: "{{ states.automation | count }}"
-
-          
-      # Sensor Count
-      sensor_count:
-        value_template: "{{ states.sensor | count }}"
-     
-
-      # Scenes Count
-      scene_count:
-        value_template: "{{ states.scene | count }}"
-
-
-      # Script Count
-      script_count:
-        value_template: "{{ states.script | count }}"
-
-
-      # Lights Count
-      lights_count:
-        value_template: "{{ states.light | count }}"
-
-
-      # Robot Vacuum
-      vacuum_name:
-        value_template: "{{ state_attr('vacuum.rose', 'friendly_name') }}"
-
-
-      # vacuum_status:
-      #   value_template: "{{ state_attr('vacuum.rose', 'status') }}"
-
-      
-      # vacuum_cleaning_time:
-      #   value_template: "{{ state_attr('vacuum.rose', 'cleaning_time') }}"
-      #   unit_of_measurement: 'm'
-
-      
-      # vacuum_cleaned_area:
-      #   value_template: "{{ state_attr('vacuum.rose', 'cleaned_area') | round(0) }}"
-      #   unit_of_measurement: 'm²'
-
-      
-      # vacuum_battery_level:
-      #   value_template: "{{ state_attr('vacuum.rose', 'battery_level') }} %"
-      #   icon_template: "{{ state_attr('vacuum.rose', 'battery_icon') }}"
-
-
-      # Snapshot State
-      # snapshot_state:
-      #   value_template: "{{ states('sensor.snapshot_backup') | replace('_', ' ') | title }}"
-
-
-      # Sunset
-      next_sunrise:
-        value_template: "{{ as_timestamp(state_attr('sun.sun', 'next_rising')) | timestamp_custom('%-I:%M %p') }}"
-
-
-      # Sunrise
-      next_sunset:
-        value_template: "{{ as_timestamp(state_attr('sun.sun', 'next_setting')) | timestamp_custom('%-I:%M %p') }}"
-
-
-      # Temperature
-      dining_room_temperature:
-        value_template: "{{ state_attr('climate.thermostat', 'current_temperature') | round(0) }}"
-        device_class: temperature
-        unit_of_measurement: '°F'
-
-
-      basement_temperature:
-        value_template: "{{ states('sensor.basement_multi_sensor_temperature') | round(0) }}"
-        device_class: temperature
-        unit_of_measurement: '°F'
-
-
-      second_floor_temperature:
-        value_template: "{{ states('sensor.second_floor_multi_sensor_temperature') | round(0) }}"
-        device_class: temperature
-        unit_of_measurement: '°F'
-
-
-      server_closet_temperature:
-        value_template: "{{ states('sensor.server_closet_multi_sensor_temperature') | round(0) }}"
-        device_class: temperature
-        unit_of_measurement: '°F'
-
-
-      office_temperature:
-        value_template: "{{ states('sensor.office_multi_sensor_temperature') | round(0) }}"
-        device_class: temperature
-        unit_of_measurement: '°F'
-
-
-      # Humidity
-      dining_room_humidity:
-        value_template: "{{ state_attr('climate.thermostat', 'current_humidity') | round(0) }}"
-        device_class: humidity
-        unit_of_measurement: '%'
-
-      
-      second_floor_humidity:
-        value_template: "{{ states('sensor.second_floor_multi_sensor_humidity') | round(0) }}"
-        device_class: humidity
-        unit_of_measurement: '%'
-
-
-      basement_humidity:
-        value_template: "{{ states('sensor.basement_multi_sensor_humidity') | round(0) }}"
-        device_class: humidity
-        unit_of_measurement: '%'
-
- 
-      server_closet_humidity:
-        value_template: "{{ states('sensor.server_closet_multi_sensor_humidity') | round(0) }}"
-        device_class: humidity
-        unit_of_measurement: '%'
-
-
-      office_humidity:
-        value_template: "{{ states('sensor.office_multi_sensor_humidity') | round(0) }}"
-        device_class: humidity
-        unit_of_measurement: '%'
-
-
-      # HVAC
-      hvac_fan_mode:
-        value_template: >-
-          {% if is_state_attr('climate.thermostat', 'fan_mode', 'diffuse') %}
-            Circulate
-          {% elif is_state_attr('climate.thermostat', 'fan_mode', 'auto') %}
-            Auto
-          {% elif is_state_attr('climate.thermostat', 'fan_mode', 'on') %}
-            On
-          {% endif %}
-
-
-      # Fans
-      master_bedroom_ceiling_fan_speed:
-        value_template: >-
-          {% if is_state_attr('fan.master_bedroom_ceiling_fan', 'percentage', 33) %}
-            Low
-          {% elif is_state_attr('fan.master_bedroom_ceiling_fan', 'percentage', 66) %}
-            Medium
-          {% elif is_state_attr('fan.master_bedroom_ceiling_fan', 'percentage', 100) %}
-            High
-          {% else %}
-            Off
-          {% endif %}
-
-     
-      # Appliances
-      washing_machine_cycle_status:
-        value_template: "{{ states('input_select.washing_machine_cycle_status') }}"
-
-
-      washing_machine_switch_wattage:
-        value_template: "{{ states('sensor.washing_machine_smart_switch_power') }}"
-        device_class: power
-        unit_of_measurement: 'W'
-
-  
-      # washing_machine_door_status:
-      #   value_template: "{{ is_state('binary_sensor.washing_machine_door_sensor', 'on') }}"
-      #   device_class: door
-
-
-      # Temperature/Humidity/Switch Sensor Batteries
-      living_room_motion_sensor_battery:
-        value_template: "{{ states('sensor.living_room_motion_sensor_battery_level') | round(0) }}"
-        device_class: battery
-        unit_of_measurement: '%'
-
-
-      basement_motion_sensor_battery:
-        value_template: "{{ states('sensor.basement_motion_sensor_battery_level') | round(0) }}"
-        device_class: battery
-        unit_of_measurement: '%'
-
-
-      server_closet_multi_sensor_battery:
-        value_template: "{{ states('sensor.server_closet_multi_sensor_battery_level') | round(0) }}"
-        device_class: battery
-        unit_of_measurement: '%'
-
-
-      office_multi_sensor_battery:
-        value_template: "{{ states('sensor.office_multi_sensor_battery_level') | round(0) }}"
-        device_class: battery
-        unit_of_measurement: '%'
-
-
-      basement_multi_sensor_battery:
-        value_template: "{{ states('sensor.basement_multi_sensor_battery_level') | round(0) }}"
-        device_class: battery
-        unit_of_measurement: '%'
-
-
-      second_floor_multi_sensor_battery:
-        value_template: "{{ states('sensor.second_floor_multi_sensor_battery_level') | round(0) }}"
-        device_class: battery
-        unit_of_measurement: '%'
-
-
-      washing_machine_door_sensor_battery:
-        value_template: "{{ states('sensor.washing_machine_door_sensor_battery_level') | round (0) }}"
-        device_class: battery
-        unit_of_measurement: '%'
-
-
-      # UPS
-      ups_operating_status:
-        value_template: "{{ states('sensor.ups_status') | title }}"
-
-
-      # New York Knicks
-      new_york_knicks:
-        value_template: >- 
-          {% if is_state('calendar.new_york_knicks', 'on') %}
-            In progress
-          {% else %}
-            {% if state_attr('calendar.new_york_knicks', 'start_time') %}
-              {{ as_timestamp(state_attr('calendar.new_york_knicks', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
-            {% else %}
-              No game scheduled
-            {% endif %}
-          {% endif %}
-        attribute_templates:
-          matchup: >-
-            {% if state_attr('calendar.new_york_knicks', 'message') %}
-              {{ state_attr('calendar.new_york_knicks', 'message') }}
-            {% endif %}
-          location: >-
-            {% if state_attr('calendar.new_york_knicks', 'location') %}
-              {{ state_attr('calendar.new_york_knicks', 'location') }}
-            {% endif %}            
-          duration: >-
-            {% if state_attr('calendar.new_york_knicks', 'start_time')   %}
-              {{ (as_timestamp(state_attr('calendar.new_york_knicks', 'end_time')) - as_timestamp(state_attr('calendar.new_york_knicks', 'start_time'))) | int / 3600 }} hours
-            {% else %}
-              -
-            {% endif %}
-
-
-      # New York Knicks Game Countdown
-      new_york_knicks_game_countdown:
-        friendly_name: New York Knicks Game Countdown
-        unit_of_measurement: minutes
-        value_template: >-
+# Moon
+# https://www.home-assistant.io/components/moon/
+- platform: moon
+
+# MQTT
+# https://www.home-assistant.io/integrations/mqtt/
+- platform: mqtt
+  name: Sentra Torque
+  state_topic: "devices/sentra/torque"
+  value_template: "{{ state_attr('sensor.sentra_torque', 'GPS Time') }}"
+  json_attributes_topic: "devices/sentra/torque"
+
+# Weather Alert Count
+# https://www.weather.gov/documentation/services-web-api
+- platform: rest
+  resource: "https://api.weather.gov/alerts/active/count"
+  name: NWS Alert Count
+  value_template: >-
+    {% if value_json.zones.MDC005 is defined %}
+      {{ value_json.zones.MDC005 }}
+    {% else %}
+      0
+    {% endif %}
+  headers:
+    User-Agent: Homeassistant
+    Accept: application/ld+json
+  scan_interval: 900
+  verify_ssl: false
+
+# Weather Alert Headline
+# https://www.weather.gov/documentation/services-web-api
+- platform: rest
+  resource: "https://api.weather.gov/alerts/active?zone=MDC005"
+  name: NWS Alert Headline
+  value_template: >-
+    {% if value_json.features[0] is defined %}
+      {{ value_json['features'][0]['properties']['headline'] }}
+    {% else %}
+      None
+    {% endif %}
+  json_attributes:
+    - features
+  headers:
+    User-Agent: Homeassistant
+    Accept: application/geo+json
+  scan_interval: 900
+  verify_ssl: false
+
+# HDHomeRun Prime Firmware Status
+- platform: rest
+  resource: !secret hdhr3_cc_discover_url
+  name: HDHR3-CC Firmware Status
+  json_attributes:
+    - ModelNumber
+    - FirmwareVersion
+    - UpgradeAvailable
+  value_template: >-
+    {% if value_json.UpgradeAvailable is defined %}
+      Upgrade available
+    {% else %}
+      Up to date
+    {% endif %}
+
+# Tuner 0
+- platform: rest
+  resource: !secret hdhr3_cc_status_url
+  name: HDHR3-CC Tuner 0 Channel
+  json_attributes_path: "$..[?(@.Resource=='tuner0')]"
+  json_attributes:
+    - Resource
+    - VctNumber
+    - VctName
+  value_template: >-
+    {% if value_json[0].VctName is defined %}
+      {{ value_json[0].VctName }}
+    {% else %}
+      Not in use
+    {% endif %}
+
+# Tuner 1
+- platform: rest
+  resource: !secret hdhr3_cc_status_url
+  name: HDHR3-CC Tuner 1 Channel
+  json_attributes_path: "$..[?(@.Resource=='tuner1')]"
+  json_attributes:
+    - Resource
+    - VctNumber
+    - VctName
+  value_template: >-
+    {% if value_json[1].VctName is defined %}
+      {{ value_json[1].VctName }}
+    {% else %}
+      Not in use
+    {% endif %}
+
+# Tuner 2
+- platform: rest
+  resource: !secret hdhr3_cc_status_url
+  name: HDHR3-CC Tuner 2 Channel
+  json_attributes_path: "$..[?(@.Resource=='tuner2')]"
+  json_attributes:
+    - Resource
+    - VctNumber
+    - VctName
+  value_template: >-
+    {% if value_json[2].VctName is defined %}
+      {{ value_json[2].VctName }}
+    {% else %}
+      Not in use
+    {% endif %}
+
+# UPS
+# https://www.home-assistant.io/components/apcupsd/
+- platform: apcupsd
+  resources:
+    - bcharge
+    - status
+    - linev
+    - timeleft
+    - loadpct
+
+# HDDTemp
+# https://www.home-assistant.io/components/hddtemp/
+# - platform: hddtemp
+#   host: !secret nas_host_name
+#   disks:
+#     - /dev/sdb
+#     - /dev/sdc
+#     - /dev/sdd
+#     - /dev/sde
+#     - /dev/sdf
+#     - /dev/sdg
+
+# Uptime
+# https://www.home-assistant.io/components/uptime/
+- platform: uptime
+
+# Sonarr
+# https://www.home-assistant.io/components/sonarr/
+- platform: sonarr_upcoming_media
+  api_key: !secret sonarr_api_key
+  host: !secret nas_host_name
+  days: 10
+  max: 3
+
+# Filesizes (DB and Log)
+# https://www.home-assistant.io/components/filesize/
+# - platform: filesize
+#   file_paths:
+#     #- /config/home-assistant_v2.db
+#     - /config/home-assistant.log
+
+# MariaDB Database Size
+# https://www.home-assistant.io/integrations/sql
+- platform: sql
+  db_url: !secret mariadb_url
+  queries:
+    - name: Home Assistant DB Size
+      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1048576, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      column: "value"
+      unit_of_measurement: MB
+
+# Latest Release of Home Assistant
+# https://www.home-assistant.io/components/sensor.rest/
+- platform: rest
+  name: Latest Release
+  resource: https://www.home-assistant.io/version.json
+  json_attributes:
+    - release_notes
+    - release_description
+  value_template: "{{ value_json.current_version }}"
+  scan_interval: 3600
+
+# Installed Version of Home Assistant
+# https://www.home-assistant.io/components/version/
+- platform: command_line
+  name: Installed Version
+  command: "cat /config/.HA_VERSION"
+
+# CPU Speed
+# https://www.home-assistant.io/components/cpuspeed/
+- platform: cpuspeed
+
+# CPU Temperature
+# https://www.home-assistant.io/components/sensor.command_line/
+# - platform: command_line
+#   name: CPU Temperature
+#   command: "cat /sys/class/thermal/thermal_zone2/temp"
+#   unit_of_measurement: "°C"
+#   value_template: '{{ value | multiply(0.001) | round(1) }}'
+
+# System Monitor
+# https://www.home-assistant.io/components/systemmonitor/
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /
+    - type: memory_use_percent
+    - type: processor_use
+    - type: last_boot
+
+# Scrape
+# https://www.home-assistant.io/integrations/scrape/
+
+# - platform: scrape
+#   resource: !secret waste_collection_url
+#   name: Trash Collection Occurs
+#   select: ".table-fixed tr:nth-of-type(1) td:nth-of-type(2)"
+
+# - platform: scrape
+#   resource: !secret waste_collection_url
+#   name: Recycling Collection Occurs
+#   select: ".table-fixed tr:nth-of-type(2) td:nth-of-type(2)"
+
+# - platform: scrape
+#   resource: !secret waste_collection_url
+#   name: Trash Next Collection
+#   select: ".table-fixed tr:nth-of-type(1) td:nth-of-type(3)"
+
+# - platform: scrape
+#   resource: !secret waste_collection_url
+#   name: Recycling Next Collection
+#   select: ".table-fixed tr:nth-of-type(2) td:nth-of-type(3)"
+
+- platform: scrape
+  resource: !secret hdhr3_cc_home_url
+  name: HDHR3-CC Signal Strength
+  select: "tr:nth-of-type(8) td:nth-of-type(2)"
+
+- platform: scrape
+  resource: !secret hdhr3_cc_home_url
+  name: HDHR3-CC Signal Quality
+  select: "tr:nth-of-type(9) td:nth-of-type(2)"
+
+# Time and Date
+# https://www.home-assistant.io/components/time_date/
+- platform: time_date
+  display_options:
+    - "time"
+    - "date"
+    - "date_time"
+
+# https://www.home-assistant.io/docs/configuration/templating/
+- platform: template
+  sensors:
+    # Battery Status on User 1's Phone (Charged/Charging/Unplugged)
+    phone_battery_state_user_1:
+      value_template: "{{ states('sensor.sm_g960u1_battery_state') | title }}"
+
+    # Battery Level on User 1's Phone
+    phone_battery_level_user_1:
+      value_template: "{{ states('sensor.sm_g960u1_battery_level') }}"
+      icon_template: "{{ state_attr('sensor.sm_g960u1_battery_level', 'icon') }}"
+      unit_of_measurement: "%"
+
+    # User 1's Phone Location
+    phone_location_user_1:
+      friendly_name: Location
+      value_template: "{{ state_attr('sensor.sm_g960u1_geocoded_location', 'Locality') }}"
+
+    # Torque
+    # Nissan Sentra
+    sentra_mpg:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Miles Per Gallon(Long Term Average)(mpg)') | round(1) }}"
+      unit_of_measurement: "mpg"
+
+    sentra_fuel_level:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Fuel Level (From Engine ECU)(%)') | round(2) }}"
+      unit_of_measurement: "%"
+
+    sentra_fuel_used_trip:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Fuel used (trip)(gal)') | round(2) }}"
+      unit_of_measurement: "gal"
+
+    # sentra_distance_to_empty:
+    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Distance to empty (Estimated)(miles)') | round(1) }}"
+    #   unit_of_measurement: 'mi'
+
+    sentra_battery_voltage:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Voltage (Control Module)(V)') | round(2) }}"
+      unit_of_measurement: "V"
+
+    sentra_percentage_city_driving:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of City driving(%)') | int }}"
+      unit_of_measurement: "%"
+
+    sentra_percentage_highway_driving:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of Highway driving(%)') | int }}"
+      unit_of_measurement: "%"
+
+    sentra_percentage_idle_driving:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of Idle driving(%)') | int }}"
+      unit_of_measurement: "%"
+
+    sentra_percentage_trip_distance:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Trip Distance(miles)') | round(1) }}"
+      unit_of_measurement: "mi"
+
+    sentra_run_time_since_engine_start:
+      value_template: "{{ (state_attr('sensor.sentra_torque', 'Run time since engine start(s)') | int / 60) | round }}"
+      unit_of_measurement: "min"
+
+    sentra_distance_traveled_since_codes_cleared:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Distance travelled since codes cleared(miles)') | round(1) }}"
+      unit_of_measurement: "mi"
+
+    sentra_distance_traveled_with_cel_lit:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Distance travelled with MIL/CEL lit(miles)') | round(1) }}"
+      unit_of_measurement: "mi"
+
+    sentra_catalyst_temperature:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Catalyst Temperature (Bank 1 Sensor 1)(°F)') | round(1) }}"
+      unit_of_measurement: "°F"
+
+    sentra_engine_coolant_temperature:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Engine Coolant Temperature(°F)') | round(1) }}"
+      unit_of_measurement: "°F"
+
+    sentra_intake_air_temperature:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Intake Air Temperature(°F)') | round(1) }}"
+      unit_of_measurement: "°F"
+
+    sentra_air_fuel_ratio:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Air Fuel Ratio(Measured)(:1)') | round(1) }}"
+      unit_of_measurement: ":1"
+
+    sentra_engine_load:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Engine Load(%)') | round(0) }}"
+      unit_of_measurement: "%"
+
+    sentra_engine_rpm:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Engine RPM(rpm)') | round(0) }}"
+      unit_of_measurement: "rpm"
+
+    sentra_o2_sensor_equivalence_ratio:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'O2 Sensor1 Equivalence Ratio') | round(1) }}"
+
+    sentra_o2_sensor_voltage:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'O2 Volts Bank 1 sensor 2(V)') | round(1) }}"
+      unit_of_measurement: "V"
+
+    sentra_mass_air_flow_rate:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Mass Air Flow Rate(g/s)') | round(1) }}"
+      unit_of_measurement: "g/s"
+
+    sentra_volumetric_efficiency:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Volumetric Efficiency (Calculated)(%)') | round(1) }}"
+      unit_of_measurement: "%"
+
+    # Trash Pickup Date
+    trash_pickup_date:
+      value_template: "{{ as_timestamp(state_attr('calendar.trash_pickup', 'start_time')) | timestamp_custom('%B %-d') }}"
+
+    # Trash Pickup Day
+    trash_pickup_day:
+      value_template: "{{ as_timestamp(state_attr('calendar.trash_pickup', 'start_time')) | timestamp_custom('%A') }}"
+
+    # Curbside Recycling Date
+    curbside_recycling_date:
+      value_template: "{{ as_timestamp(state_attr('calendar.curbside_recycling', 'start_time')) | timestamp_custom('%B %-d') }}"
+
+    # Curbside Recycling Day
+    curbside_recycling_day:
+      value_template: "{{ as_timestamp(state_attr('calendar.curbside_recycling', 'start_time')) | timestamp_custom('%A') }}"
+
+    # Show Upcoming Event Date Only If There is an Event
+    # upcoming_event_date:
+    #   value_template: >-
+    #     {% if not is_state('sensor.upcoming_event', '') %}
+    #       {{ as_timestamp(state_attr('calendar.next_event', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
+    #     {% else %}
+    #       No upcoming events
+    #     {% endif %}
+
+    # Upcoming Holiday
+    upcoming_holiday:
+      value_template: "{{ state_attr('calendar.holidays_in_united_states', 'message') }}"
+
+    # Upcoming Holiday Date
+    upcoming_holiday_date:
+      value_template: "{{ as_timestamp(state_attr('calendar.holidays_in_united_states', 'start_time')) | timestamp_custom('%B %-d') }}"
+
+    # Automation Count
+    automation_count:
+      value_template: "{{ states.automation | count }}"
+
+    # Sensor Count
+    sensor_count:
+      value_template: "{{ states.sensor | count }}"
+
+    # Scenes Count
+    scene_count:
+      value_template: "{{ states.scene | count }}"
+
+    # Script Count
+    script_count:
+      value_template: "{{ states.script | count }}"
+
+    # Lights Count
+    lights_count:
+      value_template: "{{ states.light | count }}"
+
+    # Robot Vacuum
+    vacuum_name:
+      value_template: "{{ state_attr('vacuum.rose', 'friendly_name') }}"
+
+    # vacuum_status:
+    #   value_template: "{{ state_attr('vacuum.rose', 'status') }}"
+
+    # vacuum_cleaning_time:
+    #   value_template: "{{ state_attr('vacuum.rose', 'cleaning_time') }}"
+    #   unit_of_measurement: 'm'
+
+    # vacuum_cleaned_area:
+    #   value_template: "{{ state_attr('vacuum.rose', 'cleaned_area') | round(0) }}"
+    #   unit_of_measurement: 'm²'
+
+    # vacuum_battery_level:
+    #   value_template: "{{ state_attr('vacuum.rose', 'battery_level') }} %"
+    #   icon_template: "{{ state_attr('vacuum.rose', 'battery_icon') }}"
+
+    # Snapshot State
+    # snapshot_state:
+    #   value_template: "{{ states('sensor.snapshot_backup') | replace('_', ' ') | title }}"
+
+    # Sunset
+    next_sunrise:
+      value_template: "{{ as_timestamp(state_attr('sun.sun', 'next_rising')) | timestamp_custom('%-I:%M %p') }}"
+
+    # Sunrise
+    next_sunset:
+      value_template: "{{ as_timestamp(state_attr('sun.sun', 'next_setting')) | timestamp_custom('%-I:%M %p') }}"
+
+    # Temperature
+    dining_room_temperature:
+      value_template: "{{ state_attr('climate.thermostat', 'current_temperature') | round(0) }}"
+      device_class: temperature
+      unit_of_measurement: "°F"
+
+    basement_temperature:
+      value_template: "{{ states('sensor.basement_multi_sensor_temperature') | round(0) }}"
+      device_class: temperature
+      unit_of_measurement: "°F"
+
+    second_floor_temperature:
+      value_template: "{{ states('sensor.second_floor_multi_sensor_temperature') | round(0) }}"
+      device_class: temperature
+      unit_of_measurement: "°F"
+
+    server_closet_temperature:
+      value_template: "{{ states('sensor.server_closet_multi_sensor_temperature') | round(0) }}"
+      device_class: temperature
+      unit_of_measurement: "°F"
+
+    office_temperature:
+      value_template: "{{ states('sensor.office_multi_sensor_temperature') | round(0) }}"
+      device_class: temperature
+      unit_of_measurement: "°F"
+
+    # Humidity
+    dining_room_humidity:
+      value_template: "{{ state_attr('climate.thermostat', 'current_humidity') | round(0) }}"
+      device_class: humidity
+      unit_of_measurement: "%"
+
+    second_floor_humidity:
+      value_template: "{{ states('sensor.second_floor_multi_sensor_humidity') | round(0) }}"
+      device_class: humidity
+      unit_of_measurement: "%"
+
+    basement_humidity:
+      value_template: "{{ states('sensor.basement_multi_sensor_humidity') | round(0) }}"
+      device_class: humidity
+      unit_of_measurement: "%"
+
+    server_closet_humidity:
+      value_template: "{{ states('sensor.server_closet_multi_sensor_humidity') | round(0) }}"
+      device_class: humidity
+      unit_of_measurement: "%"
+
+    office_humidity:
+      value_template: "{{ states('sensor.office_multi_sensor_humidity') | round(0) }}"
+      device_class: humidity
+      unit_of_measurement: "%"
+
+    # HVAC
+    hvac_fan_mode:
+      value_template: >-
+        {% if is_state_attr('climate.thermostat', 'fan_mode', 'diffuse') %}
+          Circulate
+        {% elif is_state_attr('climate.thermostat', 'fan_mode', 'auto') %}
+          Auto
+        {% elif is_state_attr('climate.thermostat', 'fan_mode', 'on') %}
+          On
+        {% endif %}
+
+    # Fans
+    master_bedroom_ceiling_fan_speed:
+      value_template: >-
+        {% if is_state_attr('fan.master_bedroom_ceiling_fan', 'percentage', 33) %}
+          Low
+        {% elif is_state_attr('fan.master_bedroom_ceiling_fan', 'percentage', 66) %}
+          Medium
+        {% elif is_state_attr('fan.master_bedroom_ceiling_fan', 'percentage', 100) %}
+          High
+        {% else %}
+          Off
+        {% endif %}
+
+    # Appliances
+    washing_machine_cycle_status:
+      value_template: "{{ states('input_select.washing_machine_cycle_status') }}"
+
+    washing_machine_switch_wattage:
+      value_template: "{{ states('sensor.washing_machine_smart_switch_power') }}"
+      device_class: power
+      unit_of_measurement: "W"
+
+    # washing_machine_door_status:
+    #   value_template: "{{ is_state('binary_sensor.washing_machine_door_sensor', 'on') }}"
+    #   device_class: door
+
+    # Temperature/Humidity/Switch Sensor Batteries
+    living_room_motion_sensor_battery:
+      value_template: "{{ states('sensor.living_room_motion_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
+    basement_motion_sensor_battery:
+      value_template: "{{ states('sensor.basement_motion_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
+    server_closet_multi_sensor_battery:
+      value_template: "{{ states('sensor.server_closet_multi_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
+    office_multi_sensor_battery:
+      value_template: "{{ states('sensor.office_multi_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
+    basement_multi_sensor_battery:
+      value_template: "{{ states('sensor.basement_multi_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
+    second_floor_multi_sensor_battery:
+      value_template: "{{ states('sensor.second_floor_multi_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
+    washing_machine_door_sensor_battery:
+      value_template: "{{ states('sensor.washing_machine_door_sensor_battery_level') | round (0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
+    # UPS
+    ups_operating_status:
+      value_template: "{{ states('sensor.ups_status') | title }}"
+
+    # New York Knicks
+    new_york_knicks:
+      value_template: >-
+        {% if is_state('calendar.new_york_knicks', 'on') %}
+          In progress
+        {% else %}
           {% if state_attr('calendar.new_york_knicks', 'start_time') %}
-            {{ ((as_timestamp(state_attr('calendar.new_york_knicks', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
-          {%- else -%}
-            0
-          {%- endif %}
-
-
-      # New York Giants
-      new_york_giants:
-        value_template: >- 
-          {% if is_state('calendar.new_york_giants', 'on') %}
-            In progress
+            {{ as_timestamp(state_attr('calendar.new_york_knicks', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
           {% else %}
-            {% if state_attr('calendar.new_york_giants', 'start_time') %}
-              {{ as_timestamp(state_attr('calendar.new_york_giants', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
-            {% else %}
-              No game scheduled
-            {% endif %}
+            No game scheduled
           {% endif %}
-        attribute_templates:
-          matchup: >-
-            {% if state_attr('calendar.new_york_giants', 'message') %}
-              {{ state_attr('calendar.new_york_giants', 'message') }}
-            {% endif %}
-          location: >-
-            {% if state_attr('calendar.new_york_giants', 'location') %}
-              {{ state_attr('calendar.new_york_giants', 'location') }}
-            {% endif %}            
-          duration: >-
-            {% if state_attr('calendar.new_york_giants', 'start_time')   %}
-              {{ (as_timestamp(state_attr('calendar.new_york_giants', 'end_time')) - as_timestamp(state_attr('calendar.new_york_giants', 'start_time'))) | int / 3600 }} hours
-            {% else %}
-              -
-            {% endif %}
+        {% endif %}
+      attribute_templates:
+        matchup: >-
+          {% if state_attr('calendar.new_york_knicks', 'message') %}
+            {{ state_attr('calendar.new_york_knicks', 'message') }}
+          {% endif %}
+        location: >-
+          {% if state_attr('calendar.new_york_knicks', 'location') %}
+            {{ state_attr('calendar.new_york_knicks', 'location') }}
+          {% endif %}
+        duration: >-
+          {% if state_attr('calendar.new_york_knicks', 'start_time')   %}
+            {{ (as_timestamp(state_attr('calendar.new_york_knicks', 'end_time')) - as_timestamp(state_attr('calendar.new_york_knicks', 'start_time'))) | int / 3600 }} hours
+          {% else %}
+            -
+          {% endif %}
 
+    # New York Knicks Game Countdown
+    new_york_knicks_game_countdown:
+      friendly_name: New York Knicks Game Countdown
+      unit_of_measurement: minutes
+      value_template: >-
+        {% if state_attr('calendar.new_york_knicks', 'start_time') %}
+          {{ ((as_timestamp(state_attr('calendar.new_york_knicks', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
+        {%- else -%}
+          0
+        {%- endif %}
 
-      # New York Giants  Game Countdown
-      new_york_giants_game_countdown:
-        friendly_name: New York Giants Game Countdown
-        unit_of_measurement: minutes
-        value_template: >-
+    # New York Giants
+    new_york_giants:
+      value_template: >-
+        {% if is_state('calendar.new_york_giants', 'on') %}
+          In progress
+        {% else %}
           {% if state_attr('calendar.new_york_giants', 'start_time') %}
-            {{ ((as_timestamp(state_attr('calendar.new_york_giants', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
-          {%- else -%}
-            0
-          {%- endif %}
-
-
-      # New York Yankees
-      new_york_yankees:
-        value_template: >- 
-          {% if is_state('calendar.new_york_yankees', 'on') %}
-            In progress
+            {{ as_timestamp(state_attr('calendar.new_york_giants', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
           {% else %}
-            {% if state_attr('calendar.new_york_yankees', 'start_time') %}
-              {{ as_timestamp(state_attr('calendar.new_york_yankees', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
-            {% else %}
-              No game scheduled
-            {% endif %}
+            No game scheduled
           {% endif %}
-        attribute_templates:
-          matchup: >-
-            {% if state_attr('calendar.new_york_yankees', 'message') %}
-              {{ state_attr('calendar.new_york_yankees', 'message') }}
-            {% endif %}
-          location: >-            
-            {% if state_attr('calendar.new_york_yankees', 'location') %}
-              {{ state_attr('calendar.new_york_yankees', 'location') }}
-            {% endif %}            
-          duration: >-
-            {% if state_attr('calendar.new_york_yankees', 'start_time')   %}
-              {{ (as_timestamp(state_attr('calendar.new_york_yankees', 'end_time')) - as_timestamp(state_attr('calendar.new_york_yankees', 'start_time'))) | int / 3600 }} hours
-            {% else %}
-              -
-            {% endif %}                 
+        {% endif %}
+      attribute_templates:
+        matchup: >-
+          {% if state_attr('calendar.new_york_giants', 'message') %}
+            {{ state_attr('calendar.new_york_giants', 'message') }}
+          {% endif %}
+        location: >-
+          {% if state_attr('calendar.new_york_giants', 'location') %}
+            {{ state_attr('calendar.new_york_giants', 'location') }}
+          {% endif %}
+        duration: >-
+          {% if state_attr('calendar.new_york_giants', 'start_time')   %}
+            {{ (as_timestamp(state_attr('calendar.new_york_giants', 'end_time')) - as_timestamp(state_attr('calendar.new_york_giants', 'start_time'))) | int / 3600 }} hours
+          {% else %}
+            -
+          {% endif %}
 
+    # New York Giants  Game Countdown
+    new_york_giants_game_countdown:
+      friendly_name: New York Giants Game Countdown
+      unit_of_measurement: minutes
+      value_template: >-
+        {% if state_attr('calendar.new_york_giants', 'start_time') %}
+          {{ ((as_timestamp(state_attr('calendar.new_york_giants', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
+        {%- else -%}
+          0
+        {%- endif %}
 
-      # New York Yankees Game Countdown
-      new_york_yankees_game_countdown:
-        friendly_name: New York Yankees Game Countdown
-        unit_of_measurement: minutes
-        value_template: >-
+    # New York Yankees
+    new_york_yankees:
+      value_template: >-
+        {% if is_state('calendar.new_york_yankees', 'on') %}
+          In progress
+        {% else %}
           {% if state_attr('calendar.new_york_yankees', 'start_time') %}
-            {{ ((as_timestamp(state_attr('calendar.new_york_yankees', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
-          {%- else -%}
-            0
-          {%- endif %}
+            {{ as_timestamp(state_attr('calendar.new_york_yankees', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
+          {% else %}
+            No game scheduled
+          {% endif %}
+        {% endif %}
+      attribute_templates:
+        matchup: >-
+          {% if state_attr('calendar.new_york_yankees', 'message') %}
+            {{ state_attr('calendar.new_york_yankees', 'message') }}
+          {% endif %}
+        location: >-
+          {% if state_attr('calendar.new_york_yankees', 'location') %}
+            {{ state_attr('calendar.new_york_yankees', 'location') }}
+          {% endif %}
+        duration: >-
+          {% if state_attr('calendar.new_york_yankees', 'start_time')   %}
+            {{ (as_timestamp(state_attr('calendar.new_york_yankees', 'end_time')) - as_timestamp(state_attr('calendar.new_york_yankees', 'start_time'))) | int / 3600 }} hours
+          {% else %}
+            -
+          {% endif %}
 
+    # New York Yankees Game Countdown
+    new_york_yankees_game_countdown:
+      friendly_name: New York Yankees Game Countdown
+      unit_of_measurement: minutes
+      value_template: >-
+        {% if state_attr('calendar.new_york_yankees', 'start_time') %}
+          {{ ((as_timestamp(state_attr('calendar.new_york_yankees', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
+        {%- else -%}
+          0
+        {%- endif %}
 
-      # # Gaming
-      # # World of Warcraft Raid
-      # wow_raid_countdown:
-      #   friendly_name: World of Warcraft Raid Countdown
-      #   unit_of_measurement: minutes
-      #   value_template: >-
-      #     {% if state_attr('calendar.wow_raid', 'start_time') %}
-      #       {{ ((as_timestamp(state_attr('calendar.wow_raid', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
-      #     {%- else -%}
-      #       0
-      #     {%- endif %}
+    # # Gaming
+    # # World of Warcraft Raid
+    # wow_raid_countdown:
+    #   friendly_name: World of Warcraft Raid Countdown
+    #   unit_of_measurement: minutes
+    #   value_template: >-
+    #     {% if state_attr('calendar.wow_raid', 'start_time') %}
+    #       {{ ((as_timestamp(state_attr('calendar.wow_raid', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
+    #     {%- else -%}
+    #       0
+    #     {%- endif %}
 
+    # # Commute Distance to Home
+    # home_commute_distance:
+    #   value_template: "{{ state_attr('sensor.home_commute', 'distance') | round(1) }}"
+    #   unit_of_measurement: 'mi'
 
-      # # Commute Distance to Home
-      # home_commute_distance:
-      #   value_template: "{{ state_attr('sensor.home_commute', 'distance') | round(1) }}"
-      #   unit_of_measurement: 'mi'
+    # # Commute Distance to Work
+    # work_commute_distance:
+    #   value_template: "{{ state_attr('sensor.work_commute', 'distance') | round(1) }}"
+    #   unit_of_measurement: 'mi'
 
+    # # Traffic Density to Work
+    # work_commute_traffic_density:
+    #   value_template: >-
+    #     {% if is_state('sensor.work_commute', 'duration') >= 45 %}
+    #       Heavy
+    #     {% elif is_state('sensor.work_commute', 'duration') > 20 and is_state('sensor.work_commute', 'duration') < 45 %}
+    #       Medium
+    #     {% else %}
+    #       Light
+    #     {% endif %}
 
-      # # Commute Distance to Work
-      # work_commute_distance:
-      #   value_template: "{{ state_attr('sensor.work_commute', 'distance') | round(1) }}"
-      #   unit_of_measurement: 'mi'
-
-
-      # # Traffic Density to Work
-      # work_commute_traffic_density:
-      #   value_template: >-
-      #     {% if is_state('sensor.work_commute', 'duration') >= 45 %}
-      #       Heavy
-      #     {% elif is_state('sensor.work_commute', 'duration') > 20 and is_state('sensor.work_commute', 'duration') < 45 %}
-      #       Medium
-      #     {% else %}
-      #       Light
-      #     {% endif %}
-
-
-      # # Traffic Density to Home
-      # home_commute_traffic_density:
-      #   value_template: >-
-      #     {% if is_state('sensor.home_commute', 'duration') >= 45 %}
-      #       Heavy
-      #     {% elif is_state('sensor.home_commute', 'duration') > 20 and is_state('sensor.home_commute', 'duration') < 45 %}
-      #       Medium
-      #     {% else %}
-      #       Light
-      #     {% endif %}
+    # # Traffic Density to Home
+    # home_commute_traffic_density:
+    #   value_template: >-
+    #     {% if is_state('sensor.home_commute', 'duration') >= 45 %}
+    #       Heavy
+    #     {% elif is_state('sensor.home_commute', 'duration') > 20 and is_state('sensor.home_commute', 'duration') < 45 %}
+    #       Medium
+    #     {% else %}
+    #       Light
+    #     {% endif %}
