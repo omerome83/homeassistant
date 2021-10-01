@@ -2,1845 +2,1744 @@
 ## Automations
 #################################################################
 
+- alias: "Set Theme at Startup"
+  initial_state: true
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    service: frontend.set_theme
+    data:
+      name: discord
 
-  - alias: "Set Theme at Startup"
-    initial_state: true
-    trigger:
-      platform: homeassistant
-      event: start
-    action:
-      service: frontend.set_theme
+- alias: "Home Assistant Release Notification"
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.upgrade_available
+      from: "off"
+      to: "on"
+  action:
+    - service: persistent_notification.create
       data:
-        name: discord
+        title: "Home Assistant Core {{ states('sensor.latest_release') }} is Available"
+        message: |
+          Description: {{ state_attr('sensor.latest_release', 'release_description') }}
 
+          Read the release notes at: {{ state_attr('sensor.latest_release', 'release_notes') }}
 
-  - alias: "Home Assistant Release Notification"
-    initial_state: true  
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.upgrade_available
-        from: "off"
-        to: "on"
-    action:
-      - service: persistent_notification.create
-        data:
-          title: "Home Assistant Core {{ states('sensor.latest_release') }} is Available"
-          message: |
-            Description: {{ state_attr('sensor.latest_release', 'release_description') }}
+- alias: "HDHR3-CC Firmware Upgrade Notification"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: sensor.hdhr3_cc_firmware_status
+  condition:
+    condition: template
+    value_template: "{{ is_state('sensor.hdhr3_cc_firmware_status', 'Upgrade available') }}"
+  action:
+    - service: persistent_notification.create
+      data:
+        title: "Firmware Upgrade Notification"
+        message: "A firmware upgrade is available for the HDHomeRun {{ state_attr('sensor.hdhr3_cc_firmware_status', 'ModelNumber') }} TV Tuner."
 
-            Read the release notes at: {{ state_attr('sensor.latest_release', 'release_notes') }}
+- alias: "Notify New Devices on Network"
+  initial_state: true
+  trigger:
+    - platform: event
+      event_type: device_tracker_new_device
+  action:
+    - service: persistent_notification.create
+      data:
+        title: "New Device Connected to Network"
+        message: >-
+          Name: {{ trigger.event.data.entity_id }}
+          Host: {{trigger.event.data.host_name}}
+          MAC address: {{trigger.event.data.mac}}
 
-
-  - alias: "HDHR3-CC Firmware Upgrade Notification"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: sensor.hdhr3_cc_firmware_status
-    condition:
-      condition: template
-      value_template: "{{ is_state('sensor.hdhr3_cc_firmware_status', 'Upgrade available') }}"
-    action:
-      - service: persistent_notification.create
-        data:
-          title: "Firmware Upgrade Notification"
-          message: "A firmware upgrade is available for the HDHomeRun {{ state_attr('sensor.hdhr3_cc_firmware_status', 'ModelNumber') }} TV Tuner."     
-
-
-  - alias: "Notify New Devices on Network"
-    initial_state: true
-    trigger:
-      - platform: event
-        event_type: device_tracker_new_device
-    action:
-      - service: persistent_notification.create
-        data:
-          title: "New Device Connected to Network"
-          message: >-
-            Name: {{ trigger.event.data.entity_id }}
-            Host: {{trigger.event.data.host_name}}
-            MAC address: {{trigger.event.data.mac}}
-
-
-  - alias: "Good Morning Routine"
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: binary_sensor.alarm_clock_active
-      to: 'on'
-    condition:
-      condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.disable_good_morning_routine
-          state: 'off'
-        # Only on Weekdays
-        - condition: time
-          weekday:
-            - mon
-            - tue
-            - wed
-            - thu
-            - fri
-        # Before 7 AM and after 4 AM
-        - condition: template
-          value_template: "{{ now().strftime('%H') | int < 7 and now().strftime('%H') | int > 4 }}"              
-    action:
-      - service: homeassistant.turn_on
-        data:
-          entity_id: light.master_bedroom_nightstand_lamps  
-          brightness: 250 
-          transition: 300
-      # - service: notify.mobile_app_sm_g960u1
-      #   data:
-      #     message: >-
-      #       Good morning, Romel. It is {{ now().strftime('%A, %B %-d, %Y') }}. It is currently
-      #       {{ state_attr('weather.kdmh_daynight', 'temperature') }} degrees. Today's forecast is
-      #       {{ state_attr('weather.kdmh_daynight', 'forecast')[0].detailed_description }} Right now, your commute to work will take you
-      #       {{ state_attr('sensor.work_commute', 'duration') | int }} minutes with
-      #       {{ states('sensor.work_commute_traffic_density') | lower }} traffic. Have a good one!
-      # # Resets the display to 'default mode'
-      # - delay: '00:00:25'            
-      # - service: media_player.turn_off
-      #   entity_id: media_player.master_bedroom_display 
-
-
-  # - alias: "Z-Wave Device Dead Notification"
-  #   initial_state: true
-  #   trigger:
-  #     - platform: state
-  #       entity_id:
-  #         - zwave.aeon_labs_zw090_z_stick_gen5_us
-  #         - zwave.aeotec_aquarium_co2_regulator_power_switch
-  #         - zwave.aeotec_washing_machine_power_switch
-  #         - zwave.zooz_sump_pump_power_switch
-  #         - zwave.aeotec_basement_trisensor
-  #         - zwave.dome_kitchen_sink_leak_sensor
-  #         - zwave.dome_refrigerator_leak_sensor
-  #         - zwave.dome_washing_machine_leak_sensor
-  #         - zwave.dome_water_heater_leak_sensor
-  #         - zwave.dome_basement_bathroom_sink_leak_sensor
-  #         - zwave.ecolink_firefighter
-  #       to: 'dead'
-  #   action:
-  #     service: notify.mobile_app_sm_g960u1
-  #     data:
-  #       title: "Z-Wave Device Notification"
-  #       message: "{{ trigger.to_state.attributes.friendly_name }} is currently dead. Check Z-Wave configuration."
-
-
-  # Restart Cable Modem - Monthly
-  - alias: "Restart Cable Modem"
-    initial_state: true  
-    trigger:
-       platform: time
-       # 4:00 AM
-       at: '04:00:00'
-    condition:
+- alias: "Good Morning Routine"
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: binary_sensor.alarm_clock_active
+    to: "on"
+  condition:
+    condition: and
+    conditions:
       - condition: state
-        entity_id: input_boolean.disable_restart_cable_modem
-        state: 'off'
-      - condition: template
-        # Only occurs on the first of the month
-        value_template: "{{ now().day == 1 }}"
-    action:
-      - service: script.restart_cable_modem
-
-
-  # - alias: "Internet Connection Status - Offline"
-  #   initial_state: true
-  #   trigger:
-  #     platform: state
-  #     entity_id: binary_sensor.internet_status
-  #     to: 'off'
-  #     for:
-  #       minutes: 3
-  #   action:
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Internet Connection"
-  #         message: "Status: Offline"
-  #         data:
-  #           actions:
-  #             - action: "restart_cable_modem" # The key you are sending for the event
-  #               title: "Restart Cable Modem" # The button title
-
-
-  # - alias: "Restart Cable Modem When Notification Action is Tapped"
-  #   trigger:
-  #     platform: event
-  #     event_type: mobile_app_notification_action
-  #     event_data:
-  #       action: restart_cable_modem
-  #   action:
-  #     - service: script.restart_cable_modem
-
-
-  # - alias: "Internet Connection Status - Online"
-  #   initial_state: true
-  #   trigger:
-  #     platform: state
-  #     entity_id: binary_sensor.internet_status
-  #     to: 'on'
-  #     for:
-  #       minutes: 1
-  #   action:
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Internet Connection"
-  #         message: "Status: Online"     
-  #         # data:
-  #         #   # Normal Priority (0)
-  #         #   # https://pushover.net/api#priority
-  #         #   priority: 0
-
-
-
-  # Start of Temporary Holiday Automation
-
-  # - alias: "Turn on Christmas Trees at Sunset"
-  #   initial_state: true
-  #   trigger:
-  #     platform: sun
-  #     event: sunset       
-  #   action:
-  #     - service: homeassistant.turn_on
-  #       entity_id: light.christmas_trees    
-
-
-  # - alias: "Turn off Christmas Trees at Midnight"
-  #   initial_state: true
-  #   trigger:
-  #     platform: time
-  #     # Midnight
-  #     at: '00:00:00'    
-  #   action:
-  #     - service: homeassistant.turn_off
-  #       entity_id: light.christmas_trees               
-
-  # End Temporary Holiday Automation
-
-
-  - alias: Toggle Master Bedroom Nightstand Lamp 1 with Aqara Switch - Single Press
-    initial_state: true
-    trigger:
-      platform: event
-      event_type: deconz_event
-      event_data:
-        id: master_bedroom_nightstand_lamp_1
-        event: 1002
-    action:
-      - service: light.toggle
-        entity_id: light.master_bedroom_nightstand_lamp_1
-
-
-  # - alias: Toggle Master Bedroom Nightstand Lamp 2 with Aqara Switch - Single Press
-  #   initial_state: true
-  #   trigger:
-  #     platform: event
-  #     event_type: deconz_event
-  #     event_data:
-  #       id: master_bedroom_nightstand_lamp_2
-  #       event: 1002
-  #   action:
-  #     - service: light.toggle
-  #       entity_id: light.master_bedroom_nightstand_lamp_2
-
-
-  - alias: Toggle Basement Table Lamp with Aqara Switch - Single Press
-    initial_state: true
-    trigger:
-      platform: event
-      event_type: deconz_event
-      event_data:
-        id: basement_table_lamp
-        event: 1002
-    action:
-      - service: light.toggle
-        entity_id: light.basement_table_lamp
-
-
-  - alias: Toggle Living Room Table Lamp 1 with Aqara Switch - Single Press
-    initial_state: true
-    trigger:
-      platform: event
-      event_type: deconz_event      
-      event_data:
-        id: living_room_table_lamp_1
-        event: 1002
-    action:
-      service: light.toggle
-      entity_id: light.living_room_table_lamp_1
-
-
-  # - alias: Toggle Living Room Table Lamp 2 with Aqara Switch - Single Press
-  #   initial_state: true
-  #   trigger:
-  #     platform: event
-  #     event_type: deconz_event      
-  #     event_data:
-  #       id: living_room_table_lamp_2
-  #       event: 1002
-  #   action:
-  #     service: light.toggle
-  #     entity_id: light.living_room_table_lamp_2      
-
-
-  - alias: Toggle Office Shelf Lamp with Aqara Switch - Single Press
-    initial_state: true
-    trigger:
-      platform: event
-      event_type: deconz_event      
-      event_data:
-        id: office_shelf_lamp
-        event: 1002
-    action:
-      service: light.toggle
-      entity_id: light.office_shelf_lamp
-
-
-  - alias: "Turn on Plant Grow Lights at Sunrise"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunrise
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_plant_grow_lights_on_sunrise
-        state: 'off'
-    action:
-      - service: homeassistant.turn_on
-        entity_id: switch.plant_grow_lights     
-
-
-  - alias: "Turn off Plant Grow Lights at Sunset"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunset
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_plant_grow_lights_off_sunset
-        state: 'off'
-    action:
-      - service: homeassistant.turn_off
-        entity_id: switch.plant_grow_lights      
-
-
-  - alias: "Turn on Living Room Table Lamps at Sunset"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunset
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_living_room_table_lamps_on_sunset
-        state: 'off'      
-    action:
-      - service: homeassistant.turn_on
-        entity_id: light.living_room_table_lamps
-
-
-  - alias: "Turn off Living Room Table Lamps at Midnight"
-    initial_state: true
-    trigger:
-      platform: time
-      # Midnight
-      at: '00:00:00'
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_living_room_table_lamps_off_midnight
-        state: 'off'      
-    action:
-      - service: homeassistant.turn_off
-        entity_id: light.living_room_table_lamps
-
-
-  # - alias: "Turn on Exterior Lights at Sunset"
-  #   initial_state: true
-  #   trigger:
-  #     platform: zone
-  #     entity_id: device_tracker.samsung_galaxy_s9_romel
-  #     zone: zone.home
-  #     event: enter
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_exterior_lights_on_sunset
-  #       state: 'off'
-  #     - condition: state
-  #       entity_id: sun.sun
-  #       state: 'below_horizon'
-  #   action:
-  #     - service: homeassistant.turn_on
-  #       entity_id: switch.front_door_entry_light
-
-
-  - alias: "Turn on Exterior Lights at Sunset"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunset
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_exterior_lights_on_sunset
-        state: 'off'            
-    action:
-      - service: homeassistant.turn_on
-        entity_id: switch.front_door_entry_light
-
-
-  - alias: "Turn off Exterior Lights at Sunrise"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunrise
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_exterior_lights_off_sunrise
-        state: 'off'        
-    action:
-      - service: homeassistant.turn_off
-        entity_id: switch.front_door_entry_light
-
-
-  - alias: "Turn on CO2 Regulator for Aquarium"
-    initial_state: true
-    trigger:
-      platform: time
-      # Turns on an hour (01:00 PM) before aquarium light turns on
-      at: '13:00:00'
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_aquarium_co2_regulator
-        state: 'off'        
-    action:
-      - service: homeassistant.turn_on
-        entity_id: switch.aquarium_co2_regulator
-
-
-  - alias: "Turn off CO2 Regulator for Aquarium"
-    initial_state: true
-    trigger:
-      platform: time
-      # Turns off an hour (10:00 PM) before aquarium light turns off
-      at: '22:00:00'
-    action:
-      - service: homeassistant.turn_off
-        entity_id: switch.aquarium_co2_regulator
-
-
-  - alias: "Aquarium CO2 Regulator Refill Notification"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunrise
-    condition:   
-      - condition: template
-        # February 1st
-        value_template: "{{ now().strftime('%m-%d') == '02-01' }}"
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Aquarium CO2 Regulator Refill Notification"
-          message: "The CO2 regulator for the aquarium needs to be refilled. Try Fireline at 4506 Hollins Ferry Rd."
-
-
-  - alias: "Aquarium Maintenance Reminder"
-    initial_state: true
-    trigger:
-      platform: time
-      # 04:00 PM
-      at: '16:00:00'
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_aquarium_maintenance_reminder
-        state: 'off'      
+        entity_id: input_boolean.disable_good_morning_routine
+        state: "off"
+      # Only on Weekdays
       - condition: time
-        # Only on Sunday
-        weekday:
-          - sun
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Aquarium Maintenance Reminder"
-          message: "Did you perform a water change or clean the canister filter this week?"
-
-
-  - alias: "Start Vacuuming"
-    initial_state: true
-    trigger:
-      platform: time
-      # Vacuum starts at 12:00 PM
-      at: '12:00:00'
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_robot_vacuum
-        state: 'off'      
-      - condition: time
-        # Only on Weekdays
         weekday:
           - mon
           - tue
           - wed
           - thu
           - fri
-    action:
-      - service: vacuum.start
-        entity_id: vacuum.rose
-
-
-  - alias: "Play Sound For Nintendo Activity on Basement Remote"
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: switch.basement_nintendo_switch
-        to: 'on'
-      - platform: state
-        entity_id: switch.basement_nintendo_gamecube
-        to: 'on'
-    action:
-      - service: script.play_nintendo_sound
-
-
-  - alias: "Play Sound For PlayStation 4 Activity on Basement Remote"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: switch.basement_playstation_4
-      to: 'on'
-    action:
-      - service: script.play_playstation_sound
-
-
-  - alias: "Turn on PlayStation 4"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: switch.basement_playstation_4
-      to: 'on'
-    condition:
+      # Before 7 AM and after 4 AM
       - condition: template
-        value_template: "{{ is_state('media_player.basement_playstation_4', 'standby') }}"
-    action:
-      - service: ps4.send_command
-        data:
-          entity_id: media_player.basement_playstation_4
-          command: ps
+        value_template: "{{ now().strftime('%H') | int < 7 and now().strftime('%H') | int > 4 }}"
+  action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: light.master_bedroom_nightstand_lamps
+        brightness: 250
+        transition: 300
+    # - service: notify.mobile_app_sm_g960u1
+    #   data:
+    #     message: >-
+    #       Good morning, Romel. It is {{ now().strftime('%A, %B %-d, %Y') }}. It is currently
+    #       {{ state_attr('weather.kdmh_daynight', 'temperature') }} degrees. Today's forecast is
+    #       {{ state_attr('weather.kdmh_daynight', 'forecast')[0].detailed_description }} Right now, your commute to work will take you
+    #       {{ state_attr('sensor.work_commute', 'duration') | int }} minutes with
+    #       {{ states('sensor.work_commute_traffic_density') | lower }} traffic. Have a good one!
+    # # Resets the display to 'default mode'
+    # - delay: '00:00:25'
+    # - service: media_player.turn_off
+    #   entity_id: media_player.master_bedroom_display
 
+# - alias: "Z-Wave Device Dead Notification"
+#   initial_state: true
+#   trigger:
+#     - platform: state
+#       entity_id:
+#         - zwave.aeon_labs_zw090_z_stick_gen5_us
+#         - zwave.aeotec_aquarium_co2_regulator_power_switch
+#         - zwave.aeotec_washing_machine_power_switch
+#         - zwave.zooz_sump_pump_power_switch
+#         - zwave.aeotec_basement_trisensor
+#         - zwave.dome_kitchen_sink_leak_sensor
+#         - zwave.dome_refrigerator_leak_sensor
+#         - zwave.dome_washing_machine_leak_sensor
+#         - zwave.dome_water_heater_leak_sensor
+#         - zwave.dome_basement_bathroom_sink_leak_sensor
+#         - zwave.ecolink_firefighter
+#       to: 'dead'
+#   action:
+#     service: notify.mobile_app_sm_g960u1
+#     data:
+#       title: "Z-Wave Device Notification"
+#       message: "{{ trigger.to_state.attributes.friendly_name }} is currently dead. Check Z-Wave configuration."
 
-  - alias: "High Humidity Notification"
-    initial_state: true
-    trigger:
-      platform: numeric_state
-      entity_id: 
-        - sensor.dining_room_humidity
-        - sensor.second_floor_humidity
-        - sensor.basement_humidity
-        - sensor.server_closet_humidity
-        - sensor.office_humidity
-      above: 67
-      for:
-        hours: 1
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "High Humidity Notification"        
-          message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
-      - service: tts.google_translate_say
-        entity_id: media_player.basement_display   
-        data:
-          message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
+# Restart Cable Modem - Monthly
+- alias: "Restart Cable Modem"
+  initial_state: true
+  trigger:
+    platform: time
+    # 4:00 AM
+    at: "04:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_restart_cable_modem
+      state: "off"
+    - condition: template
+      # Only occurs on the first of the month
+      value_template: "{{ now().day == 1 }}"
+  action:
+    - service: script.restart_cable_modem
 
+# - alias: "Internet Connection Status - Offline"
+#   initial_state: true
+#   trigger:
+#     platform: state
+#     entity_id: binary_sensor.internet_status
+#     to: 'off'
+#     for:
+#       minutes: 3
+#   action:
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Internet Connection"
+#         message: "Status: Offline"
+#         data:
+#           actions:
+#             - action: "restart_cable_modem" # The key you are sending for the event
+#               title: "Restart Cable Modem" # The button title
 
-  - alias: "Low Battery on Device Notification"
-    initial_state: true
-    trigger:
-      platform: numeric_state
+# - alias: "Restart Cable Modem When Notification Action is Tapped"
+#   trigger:
+#     platform: event
+#     event_type: mobile_app_notification_action
+#     event_data:
+#       action: restart_cable_modem
+#   action:
+#     - service: script.restart_cable_modem
+
+# - alias: "Internet Connection Status - Online"
+#   initial_state: true
+#   trigger:
+#     platform: state
+#     entity_id: binary_sensor.internet_status
+#     to: 'on'
+#     for:
+#       minutes: 1
+#   action:
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Internet Connection"
+#         message: "Status: Online"
+#         # data:
+#         #   # Normal Priority (0)
+#         #   # https://pushover.net/api#priority
+#         #   priority: 0
+
+# Start of Temporary Holiday Automation
+
+# - alias: "Turn on Christmas Trees at Sunset"
+#   initial_state: true
+#   trigger:
+#     platform: sun
+#     event: sunset
+#   action:
+#     - service: homeassistant.turn_on
+#       entity_id: light.christmas_trees
+
+# - alias: "Turn off Christmas Trees at Midnight"
+#   initial_state: true
+#   trigger:
+#     platform: time
+#     # Midnight
+#     at: '00:00:00'
+#   action:
+#     - service: homeassistant.turn_off
+#       entity_id: light.christmas_trees
+
+# End Temporary Holiday Automation
+
+- alias: Toggle Master Bedroom Nightstand Lamp 1 with Aqara Switch - Single Press
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: master_bedroom_nightstand_lamp_1
+      event: 1002
+  action:
+    - service: light.toggle
+      entity_id: light.master_bedroom_nightstand_lamp_1
+
+# - alias: Toggle Master Bedroom Nightstand Lamp 2 with Aqara Switch - Single Press
+#   initial_state: true
+#   trigger:
+#     platform: event
+#     event_type: deconz_event
+#     event_data:
+#       id: master_bedroom_nightstand_lamp_2
+#       event: 1002
+#   action:
+#     - service: light.toggle
+#       entity_id: light.master_bedroom_nightstand_lamp_2
+
+- alias: Toggle Basement Table Lamp with Aqara Switch - Single Press
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: basement_table_lamp
+      event: 1002
+  action:
+    - service: light.toggle
+      entity_id: light.basement_table_lamp
+
+- alias: Toggle Living Room Table Lamp 1 with Aqara Switch - Single Press
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: living_room_table_lamp_1
+      event: 1002
+  action:
+    service: light.toggle
+    entity_id: light.living_room_table_lamp_1
+
+- alias: Toggle Living Room Table Lamp 2 with Aqara Switch - Single Press
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: living_room_table_lamp_2
+      event: 1002
+  action:
+    service: light.toggle
+    entity_id: light.living_room_table_lamp_2
+
+- alias: Toggle Office Shelf Lamp with Aqara Switch - Single Press
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: office_shelf_lamp
+      event: 1002
+  action:
+    service: light.toggle
+    entity_id: light.office_shelf_lamp
+
+- alias: "Turn on Plant Grow Lights at Sunrise"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_plant_grow_lights_on_sunrise
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.plant_grow_lights
+
+- alias: "Turn off Plant Grow Lights at Sunset"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunset
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_plant_grow_lights_off_sunset
+      state: "off"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.plant_grow_lights
+
+- alias: "Turn on Living Room Table Lamps at Sunset"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunset
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_living_room_table_lamps_on_sunset
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.living_room_table_lamps
+
+- alias: "Turn off Living Room Table Lamps at Midnight"
+  initial_state: true
+  trigger:
+    platform: time
+    # Midnight
+    at: "00:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_living_room_table_lamps_off_midnight
+      state: "off"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: light.living_room_table_lamps
+
+# - alias: "Turn on Exterior Lights at Sunset"
+#   initial_state: true
+#   trigger:
+#     platform: zone
+#     entity_id: device_tracker.samsung_galaxy_s9_romel
+#     zone: zone.home
+#     event: enter
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_exterior_lights_on_sunset
+#       state: 'off'
+#     - condition: state
+#       entity_id: sun.sun
+#       state: 'below_horizon'
+#   action:
+#     - service: homeassistant.turn_on
+#       entity_id: switch.front_door_entry_light
+
+- alias: "Turn on Exterior Lights at Sunset"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunset
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_exterior_lights_on_sunset
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.front_door_entry_light
+
+- alias: "Turn off Exterior Lights at Sunrise"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_exterior_lights_off_sunrise
+      state: "off"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.front_door_entry_light
+
+- alias: "Turn on CO2 Regulator for Aquarium"
+  initial_state: true
+  trigger:
+    platform: time
+    # Turns on an hour (01:00 PM) before aquarium light turns on
+    at: "13:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_aquarium_co2_regulator
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.aquarium_co2_regulator
+
+- alias: "Turn off CO2 Regulator for Aquarium"
+  initial_state: true
+  trigger:
+    platform: time
+    # Turns off an hour (10:00 PM) before aquarium light turns off
+    at: "22:00:00"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.aquarium_co2_regulator
+
+- alias: "Aquarium CO2 Regulator Refill Notification"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    - condition: template
+      # February 1st
+      value_template: "{{ now().strftime('%m-%d') == '02-01' }}"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Aquarium CO2 Regulator Refill Notification"
+        message: "The CO2 regulator for the aquarium needs to be refilled. Try Fireline at 4506 Hollins Ferry Rd."
+
+- alias: "Aquarium Maintenance Reminder"
+  initial_state: true
+  trigger:
+    platform: time
+    # 04:00 PM
+    at: "16:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_aquarium_maintenance_reminder
+      state: "off"
+    - condition: time
+      # Only on Sunday
+      weekday:
+        - sun
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Aquarium Maintenance Reminder"
+        message: "Did you perform a water change or clean the canister filter this week?"
+
+- alias: "Start Vacuuming"
+  initial_state: true
+  trigger:
+    platform: time
+    # Vacuum starts at 12:00 PM
+    at: "12:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_robot_vacuum
+      state: "off"
+    - condition: time
+      # Only on Weekdays
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: vacuum.start
+      entity_id: vacuum.rose
+
+- alias: "Play Sound For Nintendo Activity on Basement Remote"
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: switch.basement_nintendo_switch
+      to: "on"
+    - platform: state
+      entity_id: switch.basement_nintendo_gamecube
+      to: "on"
+  action:
+    - service: script.play_nintendo_sound
+
+- alias: "Play Sound For PlayStation 4 Activity on Basement Remote"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: switch.basement_playstation_4
+    to: "on"
+  action:
+    - service: script.play_playstation_sound
+
+- alias: "Turn on PlayStation 4"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: switch.basement_playstation_4
+    to: "on"
+  condition:
+    - condition: template
+      value_template: "{{ is_state('media_player.basement_playstation_4', 'standby') }}"
+  action:
+    - service: ps4.send_command
+      data:
+        entity_id: media_player.basement_playstation_4
+        command: ps
+
+- alias: "High Humidity Notification"
+  initial_state: true
+  trigger:
+    platform: numeric_state
+    entity_id:
+      - sensor.dining_room_humidity
+      - sensor.second_floor_humidity
+      - sensor.basement_humidity
+      - sensor.server_closet_humidity
+      - sensor.office_humidity
+    above: 67
+    for:
+      hours: 1
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "High Humidity Notification"
+        message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
+    - service: tts.google_translate_say
+      entity_id: media_player.basement_display
+      data:
+        message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
+
+- alias: "Low Battery on Device Notification"
+  initial_state: true
+  trigger:
+    platform: numeric_state
+    entity_id:
+      - sensor.master_bedroom_nightstand_lamp_battery_level
+      - sensor.second_floor_multi_sensor_battery
+      - sensor.living_room_table_lamp_battery_level
+      - sensor.living_room_motion_sensor_battery
+      - sensor.ecolink_firefighter_battery_level
+      - sensor.kitchen_trisensor_battery_level
+      - sensor.kitchen_sink_leak_sensor_battery
+      - sensor.refrigerator_leak_sensor_battery
+      - sensor.washing_machine_door_sensor_battery
+      - sensor.washing_machine_leak_sensor_battery
+      - sensor.water_heater_leak_sensor_battery
+      - sensor.basement_bathroom_sink_leak_sensor_battery
+      - sensor.basement_motion_sensor_battery
+      - sensor.basement_multi_sensor_battery
+      - sensor.basement_table_lamp_battery_level
+      - sensor.server_closet_multi_sensor_battery
+      - sensor.office_multi_sensor_battery
+    below: 21
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Low Battery on Device Notification"
+        message: "The battery for {{ trigger.to_state.name | lower }} is at {{ trigger.to_state.state }}%."
+
+- alias: "Water Leak Notification"
+  initial_state: true
+  trigger:
+    - platform: state
       entity_id:
-        - sensor.master_bedroom_nightstand_lamp_battery_level
-        - sensor.second_floor_multi_sensor_battery
-        - sensor.living_room_table_lamp_battery_level
-        - sensor.living_room_motion_sensor_battery  
-        - sensor.ecolink_firefighter_battery_level
-        - sensor.kitchen_trisensor_battery_level
-        - sensor.kitchen_sink_leak_sensor_battery
-        - sensor.refrigerator_leak_sensor_battery
-        - sensor.washing_machine_door_sensor_battery
-        - sensor.washing_machine_leak_sensor_battery
-        - sensor.water_heater_leak_sensor_battery
-        - sensor.basement_bathroom_sink_leak_sensor_battery
-        - sensor.basement_motion_sensor_battery
-        - sensor.basement_multi_sensor_battery
-        - sensor.basement_table_lamp_battery_level
-        - sensor.server_closet_multi_sensor_battery
-        - sensor.office_multi_sensor_battery
-      below: 21
-    action:
-      - service: notify.mobile_app_sm_g960u1
+        - binary_sensor.kitchen_sink_leak_sensor
+        - binary_sensor.refrigerator_leak_sensor
+        - binary_sensor.water_heater_leak_sensor
+        - binary_sensor.washing_machine_leak_sensor
+        - binary_sensor.basement_bathroom_sink_leak_sensor
+      from: "off"
+      to: "on"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Water Leak Notification"
+        message: "Water has been detected by the {{ trigger.to_state.name | lower }}!"
         data:
-          title: "Low Battery on Device Notification"        
-          message: "The battery for {{ trigger.to_state.name | lower }} is at {{ trigger.to_state.state }}%."
+          # Sends message immediately
+          ttl: 0
+          priority: high
+          # Dismiss notification after selection
+          sticky: "false"
+          actions:
+            - action: "deactivate_house_alarm" # The key you are sending for the event
+              title: "Deactivate House Alarm" # The button title
+    - service: tts.google_translate_say
+      entity_id: media_player.office_speaker
+      data:
+        message: "Water has been detected by the {{ trigger.to_state.name | lower }}!"
+    - service: script.activate_house_alarm
 
+- alias: "Deactivate House Alarm When Notification Action is Tapped"
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: deactivate_house_alarm # Passed from "Water Leak Notification" automation
+  action:
+    - service: script.deactivate_house_alarm
 
-  - alias: "Water Leak Notification"
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: 
-          - binary_sensor.kitchen_sink_leak_sensor
-          - binary_sensor.refrigerator_leak_sensor
-          - binary_sensor.water_heater_leak_sensor
-          - binary_sensor.washing_machine_leak_sensor
-          - binary_sensor.basement_bathroom_sink_leak_sensor
-        from: 'off'
-        to: 'on'
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Water Leak Notification"
-          message: "Water has been detected by the {{ trigger.to_state.name | lower }}!"
-          data:
-            # Sends message immediately
-            ttl: 0
-            priority: high
-            # Dismiss notification after selection
-            sticky: 'false'
-            actions:
-              - action: "deactivate_house_alarm" # The key you are sending for the event
-                title: "Deactivate House Alarm" # The button title
-      - service: tts.google_translate_say
-        entity_id: media_player.office_speaker
-        data:
-          message: "Water has been detected by the {{ trigger.to_state.name | lower }}!"
-      - service: script.activate_house_alarm      
-
-
-  - alias: "Deactivate House Alarm When Notification Action is Tapped"
-    initial_state: true
-    trigger:
-      platform: event
-      event_type: mobile_app_notification_action
+- alias: "Doorbell Notification"
+  trigger:
+    - platform: event
+      event_type: nest_event
       event_data:
-        action: deactivate_house_alarm # Passed from "Water Leak Notification" automation
-    action:
-      - service: script.deactivate_house_alarm
-
-
-  - alias: "Doorbell Notification"
-    trigger:
-      - platform: event
-        event_type: nest_event
-        event_data:
-          type: doorbell_chime
-    action:
-      # - service: notify.mobile_app_sm_g960u1
-      #   data:
-      #     title: "Doorbell Notification"
-      #     message: "Someone is at the front door."
-      #     data:
-      #       image: /api/camera_proxy/camera.front_door
-      - service: camera.snapshot
-        target:
-          entity_id: camera.front_door
+        type: doorbell_chime
+  action:
+    # - service: notify.mobile_app_sm_g960u1
+    #   data:
+    #     title: "Doorbell Notification"
+    #     message: "Someone is at the front door."
+    #     data:
+    #       image: /api/camera_proxy/camera.front_door
+    - service: camera.snapshot
+      target:
+        entity_id: camera.front_door
+      data:
+        filename: /config/www/images/snapshots/front_door_{{ now ().year }}{{ now ().month }}{{ now ().day }}{{ now ().hour }}{{ now ().minute }}.jpg
+    - service: notify.android_tv_fire_tv
+      data:
+        title: "Doorbell Notification"
+        message: "Someone is at the front door."
         data:
-          filename: /config/www/images/snapshots/front_door_{{ now ().year }}{{ now ().month }}{{ now ().day }}{{ now ().hour }}{{ now ().minute }}.jpg
-      - service: notify.android_tv_fire_tv
-        data:
-          title: "Doorbell Notification"
-          message: "Someone is at the front door."
-          data:
-            duration: 5
-            color: grey
-            position: top-right
-            transparency: 50%
-            file:
-              path: /config/www/images/snapshots/front_door_{{ now ().year }}{{ now ().month }}{{ now ().day }}{{ now ().hour }}{{ now ().minute }}.jpg
+          duration: 5
+          color: grey
+          position: top-right
+          transparency: 50%
+          file:
+            path: /config/www/images/snapshots/front_door_{{ now ().year }}{{ now ().month }}{{ now ().day }}{{ now ().hour }}{{ now ().minute }}.jpg
 
-
-  - alias: "TEST ALARM AUTOMATION"
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: sensor.sm_g960u1_next_alarm
-    condition:
-      - condition: template
-        value_template: "{{ trigger.to_state.state | int < 15 }}"
-    action:
-      - service: persistent_notification.create
-        data:
-          title: "TEST ALARM"
-          message: "TEST ALARM"      
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "ALARM ACTIVATED"
-          message: "The automation worked for the alarm clock"
-
-
+- alias: "TEST ALARM AUTOMATION"
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: sensor.sm_g960u1_next_alarm
+  condition:
+    - condition: template
+      value_template: "{{ trigger.to_state.state | int < 15 }}"
+  action:
+    - service: persistent_notification.create
+      data:
+        title: "TEST ALARM"
+        message: "TEST ALARM"
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "ALARM ACTIVATED"
+        message: "The automation worked for the alarm clock"
 
 # START OF NYI AUTOMATION
 
-  # - alias: "Motion Detected When No One Is Home"
-  #   initial_state: true
-  #   trigger:
-  #     platform: state
-  #     entity_id:
-  #       - binary_sensor.kitchen_motion_sensor
-  #       - binary_sensor.living_room_motion_sensor
-  #       - binary_sensor.basement_motion_sensor
-  #     from: 'off'
-  #     to: 'on'
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_motion_detected_when_no_one_is_home
-  #       state: 'off'
-  #     - condition: state
-  #       entity_id: person.romel
-  #       state: 'not_home'
-  #   action:
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Motion Detected When No One Is Home"
-  #         message: "Motion has been detected in the {{ trigger.to_state.name | lower }}!"
-  #         data:
-  #           # Dismiss notification after selection
-  #           sticky: 'false'
-  #           actions:
-  #             - action: "activate_house_alarm" # The key you are sending for the event
-  #               title: "Activate House Alarm" # The button title
+# - alias: "Motion Detected When No One Is Home"
+#   initial_state: true
+#   trigger:
+#     platform: state
+#     entity_id:
+#       - binary_sensor.kitchen_motion_sensor
+#       - binary_sensor.living_room_motion_sensor
+#       - binary_sensor.basement_motion_sensor
+#     from: 'off'
+#     to: 'on'
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_motion_detected_when_no_one_is_home
+#       state: 'off'
+#     - condition: state
+#       entity_id: person.romel
+#       state: 'not_home'
+#   action:
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Motion Detected When No One Is Home"
+#         message: "Motion has been detected in the {{ trigger.to_state.name | lower }}!"
+#         data:
+#           # Dismiss notification after selection
+#           sticky: 'false'
+#           actions:
+#             - action: "activate_house_alarm" # The key you are sending for the event
+#               title: "Activate House Alarm" # The button title
 
-
-  # - alias: "Activates House Alarm When Notification Action is Tapped"
-  #   initial_state: true
-  #   trigger:
-  #     platform: event
-  #     event_type: mobile_app_notification_action
-  #     event_data:
-  #       action: activate_house_alarm # Passed from "Activate House Alarm Notification" automation
-  #   action:
-  #     - service: script.activate_house_alarm         
+# - alias: "Activates House Alarm When Notification Action is Tapped"
+#   initial_state: true
+#   trigger:
+#     platform: event
+#     event_type: mobile_app_notification_action
+#     event_data:
+#       action: activate_house_alarm # Passed from "Activate House Alarm Notification" automation
+#   action:
+#     - service: script.activate_house_alarm
 
 # END OF NYI AUTOMATION
 
+- alias: "Smoke/Carbon Monoxide Alarm"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id:
+      - binary_sensor.ecolink_firefighter_smoke_detected
+      # - binary_sensor.ecolink_firefighter_carbon_monoxide_detected
+    from: "off"
+    to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_smoke_co_alarm
+      state: "off"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Smoke/Carbon Monoxide Alarm"
+        message: "{{ trigger.to_state.name }} has been detected in the home!"
+        data:
+          # Sends message immediately
+          ttl: 0
+          priority: high
+    #- service: script.activate_alarm
+    # data:
+    #   # Emergency  Priority (2)
+    #   # https://pushover.net/api#priority
+    #   priority: 2
+    #   sound: echo
+    #   retry: 60
+    #   expire: 3600
 
-  - alias: "Smoke/Carbon Monoxide Alarm"
-    initial_state: true
-    trigger:
-      platform: state
+- alias: "Dehumidifier Checkup Reminder"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_dehumidifier_checkup_reminder
+      state: "off"
+    - condition: template
+      # Checks twice a month
+      value_template: "{{ (now().strftime('%d') | int) == 14 or (now().strftime('%d') | int) == 28 }}"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Dehumidifier Checkup Reminder"
+        message: "Perform bi-weekly cleaning for the dehumidifier."
+
+- alias: "Flush Water Heater Reminder"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_flush_water_heater_reminder
+      state: "off"
+    - condition: template
+      # September 15th
+      value_template: "{{ now().strftime('%m-%d') == '09-15' }}"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Flush Water Heater Reminder"
+        message: "Perform yearly flush for the water heater to remove existing sediment."
+        data:
+          clickAction: "https://www.youtube.com/watch?v=hs5N7HyDUWo"
+
+- alias: "Winterize Outdoor Spigots Reminder"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_winterize_outdoor_spigots_reminder
+      state: "off"
+    - condition: template
+      # November 1st
+      value_template: "{{ now().strftime('%m-%d') == '11-01' }}"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Winterize Outdoor Spigots Reminder"
+        message: |
+          1. Shut-off the valves in the basement and in the office then open the bleeder valve there.
+          2. Detach hoses and drain water before storing inside.
+          3. Turn the outdoor spigots to 'on' for the winter.
+          4. Install the insulation covers to the outdoor spigots.
+
+- alias: "HVAC Furnace Filter Reminder"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_hvac_furnace_filter_reminder
+      state: "off"
+    - condition: or
+      conditions:
+        - condition: template
+          value_template: "{{ now().strftime('%m-%d') == '03-18' }}"
+        # - condition: template
+        #   value_template: "{{ now().strftime('%m-%d') == '02-12' }}"
+        # - condition: template
+        #   value_template: "{{ now().strftime('%m-%d') == '05-12' }}"
+        # - condition: template
+        #   value_template: "{{ now().strftime('%m-%d') == '08-12' }}"
+        # - condition: template
+        #   value_template: "{{ now().strftime('%m-%d') == '11-12' }}"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "HVAC Furnace Filter Reminder"
+        message: "Replace the furnace filter in the HVAC unit with the arrow pointing (up) in the air handler. The filter size is 20x20x1 or 20X20X5 (Lennox X7935 MERV 16)."
+
+- alias: "Refrigerator Filter Reminder"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_refrigerator_filter_reminder
+      state: "off"
+    - condition: or
+      # Check every six months
+      conditions:
+        - condition: template
+          value_template: "{{ now().strftime('%m-%d') == '06-29' }}"
+        - condition: template
+          value_template: "{{ now().strftime('%m-%d') == '12-29' }}"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Refrigerator Filter Reminder"
+        message: "Replace the water filter in the refrigerator. Use the EveryDrop by Whirlpool Refrigerator Water Filter 4 (Model #: EDR4RXD1)."
+
+- alias: "Trash Day Reminder"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunset
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_trash_day_reminder
+      state: "off"
+    - condition: or
+      conditions:
+        - condition: time
+          # Only on Wednesday
+          weekday:
+            - wed
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Trash Day Reminder"
+        message: "Take the trash out to the curb."
+
+- alias: "Recycling Day Reminder"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunset
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_recycling_day_reminder
+      state: "off"
+    - condition: time
+      # Only on Sunday
+      weekday:
+        - sun
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Recycling Day Reminder"
+        message: "Take the recycling items out to the curb."
+
+- alias: "Activate Chromecast Activity Only When Basement TV Is Turned Off"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: media_player.basement_tv
+    to: "playing"
+  condition:
+    - condition: template
+      # As long as the current activity is not 'Google Chromecast'
+      value_template: "{{ not is_state_attr('remote.basement', 'current_activity', 'Google Chromecast') }}"
+    - condition: state
+      entity_id: input_boolean.disable_sync_google_chromecast_activity
+      state: "off"
+  action:
+    - service: script.turn_on
+      # Enable activity if the tv is off or notify user to enable activity on remote
+      data:
+        entity_id: >-
+          {% if is_state_attr('remote.basement', 'current_activity', 'PowerOff') %}
+            script.launch_basement_chromecast_activity
+          {% else %}
+            script.basement_chromecast_activity_notification
+          {% endif %}
+
+- alias: "Turn on Harmony Activity in Basement"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: remote.basement
+    to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_basement_ambient_lights
+      state: "off"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.default
+    - service: homeassistant.turn_off
+      entity_id: switch.dehumidifier
+
+- alias: "Turn off Harmony Activity in Basement"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: remote.basement
+    to: "off"
+  action:
+    - service: script.turn_off_basement_ambient_lights
+    - service: homeassistant.turn_on
+      entity_id: switch.dehumidifier
+
+# TEST SECTION 9/15/20 ##
+
+# - alias: "Turn on Basement Ambient Lights when Basement SHIELD is playing Emby"
+#   initial_state: false
+#   trigger:
+#     platform: state
+#     entity_id: media_player.emby_basement_shield
+#     to: 'playing'
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_basement_ambient_lights
+#       state: 'off'
+#   action:
+#     - service: scene.turn_on
+#       entity_id: scene.default
+
+# - alias: "Turn on Basement Ceiling Lights when Basement SHIELD has paused Emby"
+#   initial_state: false
+#   trigger:
+#     - platform: state
+#       entity_id: media_player.emby_basement_shield
+#       to: 'paused'
+#     - platform: state
+#       entity_id: media_player.emby_basement_shield
+#       to: 'stop'
+#   action:
+#     - service: script.turn_off_basement_ambient_lights
+#     - service: homeassistant.turn_on
+#       entity_id: light.basement_ceiling_lights
+
+# END TEST SECTION ##
+
+- alias: "Turn on basement ceiling lights when motion is detected"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.basement_motion_sensor
+    to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_basement_ceiling_lights_motion
+      state: "off"
+    # Ceiling lights do not turn on while the Basement TV is on
+    - condition: state
+      entity_id: remote.basement
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: light.basement_ceiling_lights
+        # # Brightness set at 50%
+        # brightness: 127
+
+- alias: "Turn off basement lights when no motion is detected"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.basement_motion_sensor
+    to: "off"
+    for:
+      minutes: 30
+  action:
+    - service: homeassistant.turn_off
       entity_id:
-        - binary_sensor.ecolink_firefighter_smoke_detected
-        # - binary_sensor.ecolink_firefighter_carbon_monoxide_detected
-      from: 'off'
-      to: 'on'
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_smoke_co_alarm
-        state: 'off'
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Smoke/Carbon Monoxide Alarm"
-          message: "{{ trigger.to_state.name }} has been detected in the home!"
-          data:
-            # Sends message immediately
-            ttl: 0
-            priority: high
-      #- service: script.activate_alarm  
-          # data:
-          #   # Emergency  Priority (2)
-          #   # https://pushover.net/api#priority
-          #   priority: 2
-          #   sound: echo
-          #   retry: 60
-          #   expire: 3600
+        - light.basement_ceiling_lights
 
+- alias: "Turn on kitchen ceiling lights when motion is detected"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.kitchen_motion_sensor
+    to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_kitchen_ceiling_lights_motion
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.kitchen_ceiling_lights
 
-  - alias: "Dehumidifier Checkup Reminder"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunrise
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_dehumidifier_checkup_reminder
-        state: 'off'             
-      - condition: template
-        # Checks twice a month 
-        value_template: "{{ (now().strftime('%d') | int) == 14 or (now().strftime('%d') | int) == 28 }}"
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Dehumidifier Checkup Reminder"
-          message: "Perform bi-weekly cleaning for the dehumidifier."
+- alias: "Turn off kitchen ceiling lights when no motion is detected"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.kitchen_motion_sensor
+    to: "off"
+    for:
+      minutes: 30
+  action:
+    - service: homeassistant.turn_off
+      entity_id:
+        - switch.kitchen_ceiling_lights
 
+- alias: "Turn on living room step light when motion is detected"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.living_room_motion_sensor
+    to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_living_room_step_light_motion
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: light.living_room_step_light
+        brightness: 50
+        color_temp: 155
 
-  - alias: "Flush Water Heater Reminder"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunrise
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_flush_water_heater_reminder
-        state: 'off'      
-      - condition: template
-        # September 15th
-        value_template: "{{ now().strftime('%m-%d') == '09-15' }}"
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Flush Water Heater Reminder"
-          message: "Perform yearly flush for the water heater to remove existing sediment."
-          data:
-            clickAction: "https://www.youtube.com/watch?v=hs5N7HyDUWo"
+- alias: "Turn off living room step light when no motion is detected"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.living_room_motion_sensor
+    to: "off"
+    for:
+      minutes: 5
+  action:
+    - service: homeassistant.turn_off
+      entity_id:
+        - light.living_room_step_light
 
-
-  - alias: "Winterize Outdoor Spigots Reminder"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunrise
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_winterize_outdoor_spigots_reminder
-        state: 'off'      
-      - condition: template
-        # November 1st
-        value_template: "{{ now().strftime('%m-%d') == '11-01' }}"
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Winterize Outdoor Spigots Reminder"
-          message: |
-            1. Shut-off the valves in the basement and in the office then open the bleeder valve there.
-            2. Detach hoses and drain water before storing inside.
-            3. Turn the outdoor spigots to 'on' for the winter.
-            4. Install the insulation covers to the outdoor spigots.
-
-
-  - alias: "HVAC Furnace Filter Reminder"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunrise
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_hvac_furnace_filter_reminder
-        state: 'off'
-      - condition: or
-        conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%m-%d') == '03-18' }}"
-          # - condition: template
-          #   value_template: "{{ now().strftime('%m-%d') == '02-12' }}"
-          # - condition: template
-          #   value_template: "{{ now().strftime('%m-%d') == '05-12' }}"
-          # - condition: template
-          #   value_template: "{{ now().strftime('%m-%d') == '08-12' }}"
-          # - condition: template
-          #   value_template: "{{ now().strftime('%m-%d') == '11-12' }}"
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "HVAC Furnace Filter Reminder"
-          message: "Replace the furnace filter in the HVAC unit with the arrow pointing (up) in the air handler. The filter size is 20x20x1 or 20X20X5 (Lennox X7935 MERV 16)."
-
-
-  - alias: "Refrigerator Filter Reminder"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunrise
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_refrigerator_filter_reminder
-        state: 'off' 
-      - condition: or
-        # Check every six months
-        conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%m-%d') == '06-29' }}"
-          - condition: template
-            value_template: "{{ now().strftime('%m-%d') == '12-29' }}"
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Refrigerator Filter Reminder"
-          message: "Replace the water filter in the refrigerator. Use the EveryDrop by Whirlpool Refrigerator Water Filter 4 (Model #: EDR4RXD1)."          
-
-
-  - alias: "Trash Day Reminder"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunset
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_trash_day_reminder
-        state: 'off'
-      - condition: or
-        conditions:          
-          - condition: time
-            # Only on Wednesday
-            weekday:
-              - wed
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Trash Day Reminder"
-          message: "Take the trash out to the curb."
-
-
-  - alias: "Recycling Day Reminder"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunset
-    condition:
-        - condition: state
-          entity_id: input_boolean.disable_recycling_day_reminder
-          state: 'off'      
-        - condition: time
-          # Only on Sunday
-          weekday:            
-            - sun
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Recycling Day Reminder"
-          message: "Take the recycling items out to the curb."
-
-
-  - alias: "Activate Chromecast Activity Only When Basement TV Is Turned Off"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: media_player.basement_tv
-      to: 'playing'
-    condition:
-      - condition: template
-        # As long as the current activity is not 'Google Chromecast'
-        value_template: "{{ not is_state_attr('remote.basement', 'current_activity', 'Google Chromecast') }}" 
-      - condition: state
-        entity_id: input_boolean.disable_sync_google_chromecast_activity
-        state: 'off'
-    action:
-      - service: script.turn_on
-        # Enable activity if the tv is off or notify user to enable activity on remote
-        data:
-          entity_id: >-
-            {% if is_state_attr('remote.basement', 'current_activity', 'PowerOff') %}
-              script.launch_basement_chromecast_activity
-            {% else %}
-              script.basement_chromecast_activity_notification
-            {% endif %}
-
-
-  - alias: "Turn on Harmony Activity in Basement"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: remote.basement
-      to: 'on'
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_basement_ambient_lights
-        state: 'off'    
-    action:
-      - service: scene.turn_on
-        entity_id: scene.default
-      - service: homeassistant.turn_off
-        entity_id: switch.dehumidifier
-
-
-  - alias: "Turn off Harmony Activity in Basement"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: remote.basement
-      to: 'off'
-    action:
-      - service: script.turn_off_basement_ambient_lights
-      - service: homeassistant.turn_on
-        entity_id: switch.dehumidifier
-
-  # TEST SECTION 9/15/20 ##
-
-
-  # - alias: "Turn on Basement Ambient Lights when Basement SHIELD is playing Emby"
-  #   initial_state: false
-  #   trigger:
-  #     platform: state
-  #     entity_id: media_player.emby_basement_shield
-  #     to: 'playing'
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_basement_ambient_lights
-  #       state: 'off'    
-  #   action:
-  #     - service: scene.turn_on
-  #       entity_id: scene.default
-  
-
-  # - alias: "Turn on Basement Ceiling Lights when Basement SHIELD has paused Emby"
-  #   initial_state: false
-  #   trigger:
-  #     - platform: state
-  #       entity_id: media_player.emby_basement_shield
-  #       to: 'paused'
-  #     - platform: state
-  #       entity_id: media_player.emby_basement_shield
-  #       to: 'stop'          
-  #   action:
-  #     - service: script.turn_off_basement_ambient_lights
-  #     - service: homeassistant.turn_on
-  #       entity_id: light.basement_ceiling_lights
-
-
-  # END TEST SECTION ##
-
-
-  - alias: "Turn on basement ceiling lights when motion is detected"
-    initial_state: true
-    trigger:
-      platform: state
+- alias: "Basement TV Inactivity Notification"
+  initial_state: true
+  trigger:
+    - platform: state
       entity_id: binary_sensor.basement_motion_sensor
-      to: 'on'
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_basement_ceiling_lights_motion
-        state: 'off'
-      # Ceiling lights do not turn on while the Basement TV is on        
-      - condition: state
-        entity_id: remote.basement
-        state: 'off'
-    action:
-      - service: homeassistant.turn_on
-        data:
-          entity_id: light.basement_ceiling_lights
-          # # Brightness set at 50%
-          # brightness: 127
-
-
-  - alias: "Turn off basement lights when no motion is detected"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.basement_motion_sensor
-      to: 'off'
+      to: "off"
       for:
-        minutes: 30
-    action:
-      - service: homeassistant.turn_off
-        entity_id: 
-          - light.basement_ceiling_lights
+        hours: 3
+  condition:
+    - condition: state
+      entity_id: remote.basement
+      state: "on"
+  action:
+    # Send notification after three hours of no activity (motion) when basement tv is on
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Inactivity Notification"
+        message: "Still watching the TV in the basement?"
+        data:
+          # Dismiss notification after selection
+          sticky: "false"
+          actions:
+            - action: "turn_off_basement_tv" # The key you are sending for the event
+              title: "Turn off" # The button title
 
+- alias: "Turns off Basement TV When Notification Action is Tapped"
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: turn_off_basement_tv # Passed from "Basement TV Inactivity Notification" automation
+  action:
+    - service: script.turn_off_basement_tv
 
-  - alias: "Turn on kitchen ceiling lights when motion is detected"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.kitchen_motion_sensor
-      to: 'on'
-    condition:
+- alias: "Turn on Default Scene"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.light_scenes
+    to: "Default"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.default
+
+- alias: "Turn on Romantic Scene"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.light_scenes
+    to: "Romantic"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.romantic
+
+- alias: "Turn on Spring Scene"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.light_scenes
+    to: "Spring"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.spring
+
+- alias: "Turn on Patriotic Scene"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.light_scenes
+    to: "Patriotic"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.patriotic
+
+- alias: "Turn on Autumn Scene"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.light_scenes
+    to: "Autumn"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.autumn
+
+- alias: "Turn on Christmas Scene"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.light_scenes
+    to: "Christmas"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.christmas
+
+- alias: "Turn on Alarm Scene"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.light_scenes
+    to: "Alarm"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.alarm
+
+- alias: "Turn on Sunrise Scene"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.light_scenes
+    to: "Sunrise"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.sunrise
+
+- alias: "HVAC - Bedtime Mode"
+  initial_state: true
+  trigger:
+    platform: time
+    # 11:30 PM
+    at: "23:30:00"
+  condition:
+    condition: and
+    conditions:
       - condition: state
-        entity_id: input_boolean.disable_kitchen_ceiling_lights_motion
-        state: 'off'
-    action:
-      - service: homeassistant.turn_on
-        entity_id: switch.kitchen_ceiling_lights
+        entity_id: input_boolean.disable_hvac_bedtime_mode
+        state: "off"
+      - condition: time
+        weekday:
+          - sun
+          - mon
+          - tue
+          - wed
+          - thu
+  action:
+    - service: script.master_bedroom_ceiling_fan_medium
+    - service: climate.set_temperature
+      entity_id: climate.thermostat
+      data:
+        temperature: 70
 
-
-  - alias: "Turn off kitchen ceiling lights when no motion is detected"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.kitchen_motion_sensor
-      to: 'off'
-      for:
-        minutes: 30
-    action:
-      - service: homeassistant.turn_off
-        entity_id: 
-          - switch.kitchen_ceiling_lights
-          
-
-  - alias: "Turn on living room step light when motion is detected"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.living_room_motion_sensor
-      to: 'on'
-    condition:
+- alias: "HVAC - Wake Up Mode"
+  initial_state: true
+  trigger:
+    platform: time
+    # 5:00 AM
+    at: "05:00:00"
+  condition:
+    condition: and
+    conditions:
       - condition: state
-        entity_id: input_boolean.disable_living_room_step_light_motion
-        state: 'off'
-    action:
-      - service: homeassistant.turn_on
-        data:
-          entity_id: light.living_room_step_light
-          brightness: 50
-          color_temp: 155
-
-
-  - alias: "Turn off living room step light when no motion is detected"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.living_room_motion_sensor
-      to: 'off'
-      for:
-        minutes: 5
-    action:
-      - service: homeassistant.turn_off
-        entity_id: 
-          - light.living_room_step_light 
-
-
-  - alias: "Basement TV Inactivity Notification"
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.basement_motion_sensor
-        to: 'off'
-        for:
-          hours: 3
-    condition:
-      - condition: state
-        entity_id: remote.basement
-        state: 'on'
-    action:
-      # Send notification after three hours of no activity (motion) when basement tv is on
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Inactivity Notification"
-          message: "Still watching the TV in the basement?"
-          data:
-            # Dismiss notification after selection
-            sticky: 'false'
-            actions:
-              - action: "turn_off_basement_tv" # The key you are sending for the event
-                title: "Turn off" # The button title
-
-
-  - alias: "Turns off Basement TV When Notification Action is Tapped"
-    initial_state: true
-    trigger:
-      platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: turn_off_basement_tv # Passed from "Basement TV Inactivity Notification" automation
-    action:
-      - service: script.turn_off_basement_tv
-
-
-  - alias: "Turn on Default Scene"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.light_scenes
-      to: 'Default'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.default
-
-
-  - alias: "Turn on Romantic Scene"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.light_scenes
-      to: 'Romantic'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.romantic
-
-
-  - alias: "Turn on Spring Scene"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.light_scenes
-      to: 'Spring'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.spring     
-
-
-  - alias: "Turn on Patriotic Scene"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.light_scenes
-      to: 'Patriotic'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.patriotic      
-
-     
-  - alias: "Turn on Autumn Scene"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.light_scenes
-      to: 'Autumn'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.autumn
-
-
-  - alias: "Turn on Christmas Scene"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.light_scenes
-      to: 'Christmas'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.christmas
-
-
-  - alias: "Turn on Alarm Scene"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.light_scenes
-      to: 'Alarm'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.alarm
-
-
-  - alias: "Turn on Sunrise Scene"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.light_scenes
-      to: 'Sunrise'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.sunrise
-
-
-  - alias: "HVAC - Bedtime Mode"
-    initial_state: true
-    trigger:
-      platform: time
-      # 11:30 PM
-      at: '23:30:00'
-    condition:
-      condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.disable_hvac_bedtime_mode
-          state: 'off'      
-        - condition: time
-          weekday:
-            - sun
-            - mon
-            - tue
-            - wed
-            - thu 
-    action:
-      - service: script.master_bedroom_ceiling_fan_medium
-      - service: climate.set_temperature
-        entity_id: climate.thermostat
-        data:
-          temperature: 70          
- 
-
-  - alias: "HVAC - Wake Up Mode"
-    initial_state: true
-    trigger:
-      platform: time
-      # 5:00 AM
-      at: '05:00:00'
-    condition:
-      condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.disable_hvac_wake_up_mode
-          state: 'off'
-        - condition: time
-          weekday:
-            - sun
-            - mon
-            - tue
-            - wed
-            - thu
-            - fri 
-    action:
-      # - service: fan.turn_off
-      #   entity_id: fan.master_bedroom_ceiling_fan
-      - service: climate.set_temperature
-        entity_id: climate.thermostat
-        data:
-          temperature: 72
-
+        entity_id: input_boolean.disable_hvac_wake_up_mode
+        state: "off"
+      - condition: time
+        weekday:
+          - sun
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+  action:
+    # - service: fan.turn_off
+    #   entity_id: fan.master_bedroom_ceiling_fan
+    - service: climate.set_temperature
+      entity_id: climate.thermostat
+      data:
+        temperature: 72
 
 ## START OF TEST CODE ##
 
-  - alias: "Test Away Mode"
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: group.household
-      to: 'not_home'
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Away Mode Reminder"
-          message: "You are now away from home."
+- alias: "Test Away Mode"
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: group.household
+    to: "not_home"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Away Mode Reminder"
+        message: "You are now away from home."
 
+- alias: "Test Home Mode"
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: group.household
+    to: "home"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Home Mode Reminder"
+        message: "You are now home."
 
-  - alias: "Test Home Mode"
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: group.household
-      to: 'home'
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Home Mode Reminder"
-          message: "You are now home."  
+- alias: "HVAC - Home Mode"
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: group.household
+    to: "home"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_home_mode
+      state: "off"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.thermostat
+        temperature: 75
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.vacation_mode
 
-  - alias: "HVAC - Home Mode"
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: group.household
-      to: 'home'
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_home_mode
-        state: 'off'
-    action:
-      - service: climate.set_temperature
-        data:
-          entity_id: climate.thermostat
-          temperature: 75
-      - service: homeassistant.turn_off
-        entity_id: input_boolean.vacation_mode
+# - alias: "HVAC - Away Mode"
+#   initial_state: true
+#   trigger:
+#     platform: state
+#     entity_id: group.household
+#     to: 'not_home'
+#     for:
+#       hours: 4
+#       minutes: 0
+#       seconds: 0
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_home_away_mode
+#       state: 'off'
+#   action:
+#     - service: climate.set_temperature
+#       data:
+#         entity_id: climate.thermostat
+#         temperature: 70
 
-
-  # - alias: "HVAC - Away Mode"
-  #   initial_state: true
-  #   trigger:
-  #     platform: state
-  #     entity_id: group.household
-  #     to: 'not_home'
-  #     for:
-  #       hours: 4
-  #       minutes: 0
-  #       seconds: 0      
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_home_away_mode
-  #       state: 'off'
-  #   action:
-  #     - service: climate.set_temperature
-  #       data:
-  #         entity_id: climate.thermostat
-  #         temperature: 70
-
-
-  - alias: "HVAC - Vacation Mode"
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: group.household
-      from: 'home'
-      to: 'not_home'
-      for:
-        hours: 24
-        minutes: 0
-        seconds: 0
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_hvac_home_mode
-        state: 'off'
-    action:
-      - service: climate.set_temperature
-        data:
-          entity_id: climate.thermostat
-          temperature: 60
-      - service: homeassistant.turn_off
-        entity_id: switch.washing_machine
-      - service: homeassistant.turn_on
-        entity_id: input_boolean.vacation_mode
-      # NYI - Turn off water automation
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Vacation Mode"        
-          message: |
-            The house is in vacation mode. The following tasks are enabled:
-            1. House temperature is set to 60F.
-            2. The washing machine switch is turned off.
-
+- alias: "HVAC - Vacation Mode"
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: group.household
+    from: "home"
+    to: "not_home"
+    for:
+      hours: 24
+      minutes: 0
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_hvac_home_mode
+      state: "off"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.thermostat
+        temperature: 60
+    - service: homeassistant.turn_off
+      entity_id: switch.washing_machine
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.vacation_mode
+    # NYI - Turn off water automation
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Vacation Mode"
+        message: |
+          The house is in vacation mode. The following tasks are enabled:
+          1. House temperature is set to 60F.
+          2. The washing machine switch is turned off.
 
 ## END OF TEST CODE ##
 
 ##
 
-  # - alias: "Power Outtage Notification"
-  #   initial_state: true
-  #   trigger:
-  #     platform: numeric_state
-  #     entity_id: sensor.ups_input_voltage
-  #     below: 50
-  #   action:
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Power Outtage Notification"
-  #         message: "The devices are now running off the UPS."
-  #     - service: homeassistant.turn_on
-  #       entity_id: automation.power_restored_notification
+# - alias: "Power Outtage Notification"
+#   initial_state: true
+#   trigger:
+#     platform: numeric_state
+#     entity_id: sensor.ups_input_voltage
+#     below: 50
+#   action:
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Power Outtage Notification"
+#         message: "The devices are now running off the UPS."
+#     - service: homeassistant.turn_on
+#       entity_id: automation.power_restored_notification
 
+# - alias: "Power Restored Notification"
+#   initial_state: true
+#   trigger:
+#     platform: numeric_state
+#     entity_id: sensor.ups_input_voltage
+#     above: 50
+#   action:
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Power Restored Notification"
+#         message: "The devices are no longer running off the UPS."
+#     - service: homeassistant.turn_off
+#       entity_id: automation.power_restored_notification
 
-  # - alias: "Power Restored Notification"
-  #   initial_state: true
-  #   trigger:
-  #     platform: numeric_state
-  #     entity_id: sensor.ups_input_voltage
-  #     above: 50
-  #   action:
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Power Restored Notification"
-  #         message: "The devices are no longer running off the UPS."
-  #     - service: homeassistant.turn_off
-  #       entity_id: automation.power_restored_notification
+# - alias: Grubhub Food Delivery Notification
+#   initial_state: true
+#   trigger:
+#     - platform: event
+#       event_type: state_changed
+#       event_data:
+#         entity_id: sensor.sm_g960u1_last_notification
+#   condition:
+#     - condition: state
+#       entity_id: sensor.sm_g960u1_last_notification
+#       state: com.grubhub.android
+#       attribute: package
+#     - condition: state
+#       entity_id: input_boolean.disable_grubhub_food_delivery_notification
+#       state: 'off'
+#   action:
+#     - service: tts.google_translate_say
+#       entity_id: group.google_nest_speakers
+#       data:
+#         message: "{{ state_attr('sensor.sm_g960u1_last_notification', 'android.text') }}"
 
+- alias: "Temperature Warning in Server Closet"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: sensor.server_closet_temperature
+  condition:
+    - condition: template
+      value_template: "{{ states('sensor.server_closet_temperature') | int > 82 }}"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "High Temperature Warning"
+        message: "The server closet's temperature is currently at {{ states('sensor.server_closet_temperature') }}°F..."
+    # - service_template: >-
+    #     {% if states('sensor.server_closet_temperature') | int > 82 %}
+    #       homeassistant.turn_on
+    #     {% elif states('sensor.server_closet_temperature') | int < 78  %}
+    #       homeassistant.turn_off
+    #     {% else %}
+    #       homeassistant.turn_off
+    #     {% endif %}
+    #   entity_id: switch.server_closet_fan
 
-  # - alias: Grubhub Food Delivery Notification
-  #   initial_state: true
-  #   trigger:
-  #     - platform: event
-  #       event_type: state_changed
-  #       event_data:
-  #         entity_id: sensor.sm_g960u1_last_notification
-  #   condition:
-  #     - condition: state
-  #       entity_id: sensor.sm_g960u1_last_notification
-  #       state: com.grubhub.android
-  #       attribute: package
-  #     - condition: state
-  #       entity_id: input_boolean.disable_grubhub_food_delivery_notification
-  #       state: 'off'
-  #   action:
-  #     - service: tts.google_translate_say
-  #       entity_id: group.google_nest_speakers
-  #       data:
-  #         message: "{{ state_attr('sensor.sm_g960u1_last_notification', 'android.text') }}"
+- alias: "Dishwasher Weekly Reminder"
+  initial_state: true
+  trigger:
+    platform: time
+    # 11:00 PM
+    at: "23:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_dishwasher_weekly_reminder
+      state: "off"
+    # Thursday
+    - condition: time
+      weekday:
+        - thu
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Dishwasher Weekly Reminder"
+        message: "Run the dishwasher if needed."
 
-  
-  - alias: "Temperature Warning in Server Closet"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: sensor.server_closet_temperature
-    condition:
-      - condition: template
-        value_template: "{{ states('sensor.server_closet_temperature') | int > 82 }}"
-    action:
-      - service: notify.mobile_app_sm_g960u1
+- alias: "Sump Pump Notification"
+  initial_state: true
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.sump_pump_power_switch_power
+    # Typical wattage of usage
+    above: 600
+    for:
+      seconds: 15
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Sump Pump Notification"
+        message: "The sump pump is currently running. It is using {{ states('sensor.sump_pump_power_switch_power') }} watts."
+
+- alias: "Low Fuel Notification"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    - condition: template
+      value_template: "{{ states('sensor.sentra_fuel_level') | int < 25 }}"
+    - condition: state
+      entity_id: input_boolean.disable_low_fuel_notification
+      state: "off"
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Low Fuel Notification"
+        message: "The Nissan Sentra's fuel level is currently at {{ states('sensor.sentra_fuel_level') | int }}%."
+
+# When power is detected, set the washing machine status as running
+- alias: "Set Washing Machine as Running"
+  initial_state: true
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.washing_machine_switch_wattage
+    above: 5
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washing_machine_cycle_status
+        option: Running
+
+# When power is not detected for 3 minutes, machine
+# machine's cycle is complete only when the status
+# is set as 'Running' to avoid message spam
+- alias: "Set Washing Machine as Complete"
+  initial_state: true
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.washing_machine_switch_wattage
+    below: 1
+    for:
+      minutes: 6
+  condition:
+    - condition: state
+      entity_id: sensor.washing_machine_cycle_status
+      state: Running
+    # - condition: template
+    #   # Only after 9 AM and before 11 PM
+    #   value_template: "{{ (now().strftime('%H') | int) > 9 and (now().strftime('%H') | int) < 23 }}"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washing_machine_cycle_status
+        option: Complete
+    - service: tts.google_translate_say
+      entity_id: media_player.basement_display, media_player.kitchen_display
+      data:
+        message: "Washing machine cycle is complete."
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Washing Machine Notification"
+        message: "Washing machine cycle is complete."
+    - service: notify.android_tv_fire_tv
+      data:
+        title: "Washing Machine Notification"
+        message: "Washing machine cycle is complete."
         data:
-          title: "High Temperature Warning"
-          message: "The server closet's temperature is currently at {{ states('sensor.server_closet_temperature') }}°F..."
-      # - service_template: >-
-      #     {% if states('sensor.server_closet_temperature') | int > 82 %}
-      #       homeassistant.turn_on
-      #     {% elif states('sensor.server_closet_temperature') | int < 78  %}
-      #       homeassistant.turn_off
-      #     {% else %}
-      #       homeassistant.turn_off
-      #     {% endif %}
-      #   entity_id: switch.server_closet_fan
+          duration: 5
+          color: grey
+          position: top-right
+          transparency: 50%
 
+# When the washing machine door is opened, reset the status
+# back to Idle
+- alias: "Set Washing Machine as Idle"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.washing_machine_door_sensor
+    to: "on"
+  condition:
+    condition: state
+    entity_id: input_select.washing_machine_cycle_status
+    state: Complete
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washing_machine_cycle_status
+        option: Idle
 
-  - alias: "Dishwasher Weekly Reminder"
-    initial_state: true    
-    trigger:
-      platform: time
-      # 11:00 PM
-      at: '23:00:00'
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_dishwasher_weekly_reminder
-        state: 'off'
-      # Thursday
-      - condition: time
-        weekday:
-          - thu
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Dishwasher Weekly Reminder"
-          message: "Run the dishwasher if needed."
+# # Reminder to remove clothes from machine if 'Complete' status
+# # every two hours and within non-sleeping hours
+# - alias: "Washing Machine Reminder"
+#   initial_state: true
+#   trigger:
+#     platform: time_pattern
+#     hours: '/2'
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: state
+#         entity_id: input_select.washing_machine_cycle_status
+#         state: 'Complete'
+#       - condition: template
+#         # Between the hours of 8 AM and 11 PM
+#         value_template: "{{ (now().strftime('%H') | int) > 8 and (now().strftime('%H') | int) < 23 }}"
+#   action:
+#     - service: tts.google_translate_say
+#       entity_id: media_player.basement_display
+#       data:
+#         message: "Remove the items from the washing machine."
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Washing Machine Notification"
+#         message: "Remove the items from the washing machine."
+#     - service: script.reset_basement_display
 
+# - alias: "National Weather Service Alert"
+#   initial_state: true
+#   trigger:
+#     platform: numeric_state
+#     entity_id: sensor.nws_alert_count
+#     above: 0
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_national_weather_service_alert
+#       state: 'off'
+#     - condition: template
+#       value_template: "{{ not is_state('sensor.nws_alert_headline', 'unavailable') and not is_state('sensor.nws_alert_headline', 'none') and not is_state('sensor.nws_alert_headline', 'unknown') }}"
+#   action:
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "National Weather Service Alert"
+#         message: "{{ states('sensor.nws_alert_headline') }}"
 
-  - alias: "Sump Pump Notification"
-    initial_state: true    
-    trigger:
-      platform: numeric_state
-      entity_id: sensor.sump_pump_power_switch_power
-      # Typical wattage of usage
-      above: 600
-      for:
-        seconds: 15   
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Sump Pump Notification"
-          message: "The sump pump is currently running. It is using {{ states('sensor.sump_pump_power_switch_power') }} watts."
-
-
-  - alias: "Low Fuel Notification"
-    initial_state: true
-    trigger:
-      platform: sun
-      event: sunrise
-    condition:
-      - condition: template
-        value_template: "{{ states('sensor.sentra_fuel_level') | int < 25 }}"
-      - condition: state
-        entity_id: input_boolean.disable_low_fuel_notification
-        state: 'off'
-    action:
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Low Fuel Notification"
-          message: "The Nissan Sentra's fuel level is currently at {{ states('sensor.sentra_fuel_level') | int }}%."          
-
-
-  # When power is detected, set the washing machine status as running
-  - alias: "Set Washing Machine as Running"
-    initial_state: true    
-    trigger:
-      platform: numeric_state
-      entity_id: sensor.washing_machine_switch_wattage
-      above: 5         
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.washing_machine_cycle_status
-          option: Running
-
-
-  # When power is not detected for 3 minutes, machine
-  # machine's cycle is complete only when the status
-  # is set as 'Running' to avoid message spam
-  - alias: "Set Washing Machine as Complete"
-    initial_state: true 
-    trigger:
-      platform: numeric_state
-      entity_id: sensor.washing_machine_switch_wattage
-      below: 1
-      for:
-        minutes: 6
-    condition:
-      - condition: state
-        entity_id: sensor.washing_machine_cycle_status
-        state: Running
-      # - condition: template
-      #   # Only after 9 AM and before 11 PM
-      #   value_template: "{{ (now().strftime('%H') | int) > 9 and (now().strftime('%H') | int) < 23 }}"
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.washing_machine_cycle_status
-          option: Complete
-      - service: tts.google_translate_say
-        entity_id: media_player.basement_display, media_player.kitchen_display
-        data:
-          message: "Washing machine cycle is complete."     
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Washing Machine Notification"
-          message: "Washing machine cycle is complete."
-      - service: notify.android_tv_fire_tv
-        data:
-          title: "Washing Machine Notification"
-          message: "Washing machine cycle is complete."
-          data:
-            duration: 5
-            color: grey
-            position: top-right
-            transparency: 50%    
-  
-
-  # When the washing machine door is opened, reset the status
-  # back to Idle
-  - alias: "Set Washing Machine as Idle"
-    initial_state: true 
-    trigger:
-      platform: state
-      entity_id: binary_sensor.washing_machine_door_sensor
-      to: 'on'
-    condition:
-      condition: state
-      entity_id: input_select.washing_machine_cycle_status
-      state: Complete
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.washing_machine_cycle_status
-          option: Idle
-
-
-  # # Reminder to remove clothes from machine if 'Complete' status
-  # # every two hours and within non-sleeping hours
-  # - alias: "Washing Machine Reminder"
-  #   initial_state: true 
-  #   trigger:
-  #     platform: time_pattern
-  #     hours: '/2'
-  #   condition:
-  #     condition: and
-  #     conditions:      
-  #       - condition: state
-  #         entity_id: input_select.washing_machine_cycle_status
-  #         state: 'Complete'
-  #       - condition: template
-  #         # Between the hours of 8 AM and 11 PM
-  #         value_template: "{{ (now().strftime('%H') | int) > 8 and (now().strftime('%H') | int) < 23 }}"
-  #   action:
-  #     - service: tts.google_translate_say
-  #       entity_id: media_player.basement_display    
-  #       data:
-  #         message: "Remove the items from the washing machine."         
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Washing Machine Notification"
-  #         message: "Remove the items from the washing machine."
-  #     - service: script.reset_basement_display
-
-
-  # - alias: "National Weather Service Alert"
-  #   initial_state: true
-  #   trigger:
-  #     platform: numeric_state
-  #     entity_id: sensor.nws_alert_count
-  #     above: 0
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_national_weather_service_alert
-  #       state: 'off'
-  #     - condition: template
-  #       value_template: "{{ not is_state('sensor.nws_alert_headline', 'unavailable') and not is_state('sensor.nws_alert_headline', 'none') and not is_state('sensor.nws_alert_headline', 'unknown') }}"
-  #   action: 
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "National Weather Service Alert"  
-  #         message: "{{ states('sensor.nws_alert_headline') }}"
-
-
-  - alias: "Printer Low Ink Reminder"
-    initial_state: true
-    trigger:
-      platform: numeric_state
-      entity_id:
+- alias: "Printer Low Ink Reminder"
+  initial_state: true
+  trigger:
+    platform: numeric_state
+    entity_id:
       - sensor.mfc_j995dw_black_ink_remaining
       - sensor.mfc_j995dw_cyan_ink_remaining
       - sensor.mfc_j995dw_magenta_ink_remaining
       - sensor.mfc_j995dw_yellow_ink_remaining
-      below: 16
-    action:   
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "Printer Low Ink Reminder"        
-          message: "The {{ trigger.to_state.name }} ink cartridge is at {{ trigger.to_state.state }}%. }}."
+    below: 16
+  action:
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Printer Low Ink Reminder"
+        message: "The {{ trigger.to_state.name }} ink cartridge is at {{ trigger.to_state.state }}%. }}."
 
+- alias: "Sports Team Game Reminder"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id:
+      - sensor.new_york_knicks_game_countdown
+      - sensor.new_york_giants_game_countdown
+      - sensor.new_york_yankees_game_countdown
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_sports_game_reminder
+      state: "off"
+    - condition: template
+      value_template: "{{ trigger.to_state.state | int == 60 }}"
+  action:
+    - service: tts.google_translate_say
+      entity_id:
+        - media_player.basement_display
+        - media_player.kitchen_display
+      data:
+        # Strips the team name from the string
+        message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "{{ trigger.to_state.name.split('Game Countdown')[0] }} Game Reminder"
+        message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
 
-  - alias: "Sports Team Game Reminder"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: 
-        - sensor.new_york_knicks_game_countdown
-        - sensor.new_york_giants_game_countdown
-        - sensor.new_york_yankees_game_countdown
-    condition:
-      - condition: state
-        entity_id: input_boolean.disable_sports_game_reminder
-        state: 'off'
-      - condition: template
-        value_template: "{{ trigger.to_state.state | int == 60 }}"
-    action:
-      - service: tts.google_translate_say
-        entity_id:
-          - media_player.basement_display
-          - media_player.kitchen_display
-        data:
-          # Strips the team name from the string
-          message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
-      - service: notify.mobile_app_sm_g960u1
-        data:
-          title: "{{ trigger.to_state.name.split('Game Countdown')[0] }} Game Reminder"
-          message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
+# - alias: "New York Knicks Game Reminder"
+#   initial_state: true
+#   trigger:
+#     platform: state
+#     entity_id: sensor.new_york_knicks_game_countdown
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_new_york_knicks_game_reminder
+#       state: 'off'
+#     - condition: template
+#       value_template: "{{ states('sensor.new_york_knicks_game_countdown') | int == 60 }}"
+#   action:
+#     - service: tts.google_translate_say
+#       entity_id: media_player.basement_display
+#       data:
+#         message: "The New York Knicks tip off in one hour!"
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Knicks Game Reminder"
+#         message: "The New York Knicks tip off in one hour!"
 
+# - alias: "New York Giants Game Reminder"
+#   initial_state: true
+#   trigger:
+#     platform: state
+#     entity_id: sensor.new_york_giants_game_countdown
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_new_york_giants_game_reminder
+#       state: 'off'
+#     - condition: template
+#       value_template: "{{ states('sensor.new_york_giants_game_countdown') | int == 60 }}"
+#   action:
+#     - service: tts.google_translate_say
+#       entity_id: media_player.basement_display
+#       data:
+#         message: "The New York Giants kick off in one hour!"
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Giants Game Reminder"
+#         message: "The New York Giants kick off in one hour!"
 
+# - alias: "New York Yankees Game Reminder"
+#   initial_state: true
+#   trigger:
+#     platform: state
+#     entity_id: sensor.new_york_yankees_game_countdown
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_new_york_yankees_game_reminder
+#       state: 'off'
+#     - condition: template
+#       value_template: "{{ states('sensor.new_york_yankees_game_countdown') | int == 60 }}"
+#   action:
+#     - service: tts.google_translate_say
+#       entity_id: media_player.basement_display
+#       data:
+#         message: "The New York Yankees start in one hour!"
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Yankees Game Reminder"
+#         message: "The New York Yankees start in one hour!"
 
-  # - alias: "New York Knicks Game Reminder"
-  #   initial_state: true
-  #   trigger:
-  #     platform: state
-  #     entity_id: sensor.new_york_knicks_game_countdown
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_new_york_knicks_game_reminder
-  #       state: 'off'
-  #     - condition: template
-  #       value_template: "{{ states('sensor.new_york_knicks_game_countdown') | int == 60 }}"
-  #   action:
-  #     - service: tts.google_translate_say
-  #       entity_id: media_player.basement_display
-  #       data:
-  #         message: "The New York Knicks tip off in one hour!"
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Knicks Game Reminder"
-  #         message: "The New York Knicks tip off in one hour!"
+# - alias: "World of Warcraft Raid Reminder"
+#   initial_state: false
+#   trigger:
+#     platform: state
+#     entity_id: sensor.wow_raid_countdown
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_wow_raid_reminder
+#       state: 'off'
+#     - condition: template
+#       value_template: "{{ states('sensor.wow_raid_countdown') | int == 60 }}"
+#   action:
+#     - service: tts.google_translate_say
+#       entity_id: media_player.basement_display
+#       data:
+#         message: "A guild raid for World of Warcraft starts in one hour!"
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "World of Warcraft Raid Reminder"
+#         message: "A guild raid for World of Warcraft starts in one hour!"
 
+# - alias: "Automobile Battery Warning"
+#   initial_state: false
+#   trigger:
+#     platform: state
+#     entity_id: sensor.sentra_battery_voltage
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_automobile_battery_warning
+#       state: 'off'
+#     - condition: template
+#       value_template: "{{ trigger.to_state.state | float > 12.0 and trigger.to_state.state | float < 12.4 }}"
+#   action:
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Automobile Battery Warning"
+#         message: "The {{ trigger.to_state.name | lower }} of the Nissan Sentra is at {{ trigger.to_state.state }}V. Replace soon."
 
-  # - alias: "New York Giants Game Reminder"
-  #   initial_state: true
-  #   trigger:
-  #     platform: state
-  #     entity_id: sensor.new_york_giants_game_countdown
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_new_york_giants_game_reminder
-  #       state: 'off'
-  #     - condition: template
-  #       value_template: "{{ states('sensor.new_york_giants_game_countdown') | int == 60 }}"
-  #   action:
-  #     - service: tts.google_translate_say
-  #       entity_id: media_player.basement_display
-  #       data:
-  #         message: "The New York Giants kick off in one hour!"
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Giants Game Reminder"
-  #         message: "The New York Giants kick off in one hour!"
-
-
-  # - alias: "New York Yankees Game Reminder"
-  #   initial_state: true
-  #   trigger:
-  #     platform: state
-  #     entity_id: sensor.new_york_yankees_game_countdown
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_new_york_yankees_game_reminder
-  #       state: 'off'  
-  #     - condition: template
-  #       value_template: "{{ states('sensor.new_york_yankees_game_countdown') | int == 60 }}"
-  #   action:
-  #     - service: tts.google_translate_say
-  #       entity_id: media_player.basement_display
-  #       data:
-  #         message: "The New York Yankees start in one hour!"
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Yankees Game Reminder"
-  #         message: "The New York Yankees start in one hour!"
-
-
-  # - alias: "World of Warcraft Raid Reminder"
-  #   initial_state: false
-  #   trigger:
-  #     platform: state
-  #     entity_id: sensor.wow_raid_countdown
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_wow_raid_reminder
-  #       state: 'off'  
-  #     - condition: template
-  #       value_template: "{{ states('sensor.wow_raid_countdown') | int == 60 }}"
-  #   action:
-  #     - service: tts.google_translate_say
-  #       entity_id: media_player.basement_display
-  #       data:
-  #         message: "A guild raid for World of Warcraft starts in one hour!"
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "World of Warcraft Raid Reminder"
-  #         message: "A guild raid for World of Warcraft starts in one hour!"
-
-
-  # - alias: "Automobile Battery Warning"
-  #   initial_state: false
-  #   trigger:
-  #     platform: state
-  #     entity_id: sensor.sentra_battery_voltage
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.disable_automobile_battery_warning
-  #       state: 'off'
-  #     - condition: template
-  #       value_template: "{{ trigger.to_state.state | float > 12.0 and trigger.to_state.state | float < 12.4 }}"        
-  #   action:
-  #     - service: notify.mobile_app_sm_g960u1
-  #       data:
-  #         title: "Automobile Battery Warning"
-  #         message: "The {{ trigger.to_state.name | lower }} of the Nissan Sentra is at {{ trigger.to_state.state }}V. Replace soon."
-
-
-  - alias: "Play Streaming Radio"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.radio_station
-    action:
-      - service: media_player.play_media
-        data:
-          # Audio Source
-          entity_id: >
-            {% if is_state('input_select.audio_source', 'Living Room') %}
-              media_player.living_room_chromecast
-            {% elif is_state('input_select.audio_source', 'Dining Room') %}
-              media_player.dining_room_chromecast  
-            {% elif is_state('input_select.audio_source', 'Everywhere') %}
-              media_player.chromecast_audio                            
-            {% else %}
-              none              
-            {% endif %}
-          # Radio Stations
-          media_content_id: >
-            {% if is_state('input_select.radio_station', 'R&B') %} 
-              http://tunein4.streamguys1.com/rbhtsfree1?source=TuneIn&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1568162024&aw_0_1st.skey=1568162024&aw_0_1st.premium=false
-            {% elif is_state('input_select.radio_station', 'Hip hop') %} 
-              http://tunein4.streamguys1.com/clshhfree1?source=TuneIn&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1568160901&aw_0_1st.skey=1568160901&aw_0_1st.premium=false
-            {% elif is_state('input_select.radio_station', 'Smooth Jazz') %}             
-              http://rfcmedia.streamguys1.com/smoothjazz.mp3?source=TuneIn&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1568232405&aw_0_1st.skey=1568232405&aw_0_1st.premium=false
-            {% elif is_state('input_select.radio_station', 'Salsa') %}              
-              http://node-06.zeno.fm/tgzmw19rqrquv?rj-ttl=5&rj-token=AAABbR3E2J2-1FlWjSRHja6XzDsrVbLA_uj214yjksHJ1wpQRB3rEA
-            {% elif is_state('input_select.radio_station', 'Holiday Hits') %}               
-              http://rfcmedia.streamguys1.com/holidayhits.mp3?source=TuneIn&aw_0_1st.age=36&aw_0_1st.age=36&aw_0_1st.gender=male&aw_0_1st.gender=male&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1574630152&aw_0_1st.skey=1574630152&aw_0_1st.premium=false&aw_0_1st.platform=tunein 
-            {% else %}
-              none
-            {% endif %}
-          media_content_type: 'music'
-
-
-  - alias: "Stop Streaming Radio"
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_select.radio_station
-      to: 'None'
-    action:
-      #delay: '00:00:05'
-      service: media_player.turn_off
+- alias: "Play Streaming Radio"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.radio_station
+  action:
+    - service: media_player.play_media
       data:
         # Audio Source
         entity_id: >
           {% if is_state('input_select.audio_source', 'Living Room') %}
             media_player.living_room_chromecast
           {% elif is_state('input_select.audio_source', 'Dining Room') %}
-            media_player.dining_room_chromecast            
-          {% elif is_state('input_select.audio_source', 'Chromecast Speakers') %}
+            media_player.dining_room_chromecast  
+          {% elif is_state('input_select.audio_source', 'Everywhere') %}
             media_player.chromecast_audio                            
+          {% else %}
+            none              
+          {% endif %}
+        # Radio Stations
+        media_content_id: >
+          {% if is_state('input_select.radio_station', 'R&B') %} 
+            http://tunein4.streamguys1.com/rbhtsfree1?source=TuneIn&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1568162024&aw_0_1st.skey=1568162024&aw_0_1st.premium=false
+          {% elif is_state('input_select.radio_station', 'Hip hop') %} 
+            http://tunein4.streamguys1.com/clshhfree1?source=TuneIn&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1568160901&aw_0_1st.skey=1568160901&aw_0_1st.premium=false
+          {% elif is_state('input_select.radio_station', 'Smooth Jazz') %}             
+            http://rfcmedia.streamguys1.com/smoothjazz.mp3?source=TuneIn&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1568232405&aw_0_1st.skey=1568232405&aw_0_1st.premium=false
+          {% elif is_state('input_select.radio_station', 'Salsa') %}              
+            http://node-06.zeno.fm/tgzmw19rqrquv?rj-ttl=5&rj-token=AAABbR3E2J2-1FlWjSRHja6XzDsrVbLA_uj214yjksHJ1wpQRB3rEA
+          {% elif is_state('input_select.radio_station', 'Holiday Hits') %}               
+            http://rfcmedia.streamguys1.com/holidayhits.mp3?source=TuneIn&aw_0_1st.age=36&aw_0_1st.age=36&aw_0_1st.gender=male&aw_0_1st.gender=male&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1574630152&aw_0_1st.skey=1574630152&aw_0_1st.premium=false&aw_0_1st.platform=tunein 
           {% else %}
             none
           {% endif %}
+        media_content_type: "music"
+
+- alias: "Stop Streaming Radio"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.radio_station
+    to: "None"
+  action:
+    #delay: '00:00:05'
+    service: media_player.turn_off
+    data:
+      # Audio Source
+      entity_id: >
+        {% if is_state('input_select.audio_source', 'Living Room') %}
+          media_player.living_room_chromecast
+        {% elif is_state('input_select.audio_source', 'Dining Room') %}
+          media_player.dining_room_chromecast            
+        {% elif is_state('input_select.audio_source', 'Chromecast Speakers') %}
+          media_player.chromecast_audio                            
+        {% else %}
+          none
+        {% endif %}

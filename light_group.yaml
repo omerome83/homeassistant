@@ -18,7 +18,7 @@
       # - light.master_bedroom_nightstand_lamp_2
 
 
-  # Light "switches" that are converted into lights
+  # Light switches that are "converted" into lights
   - platform: switch
     name: Living Room Table Lamp 1
     entity_id: switch.living_room_table_lamp_1
