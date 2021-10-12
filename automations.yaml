@@ -1743,3 +1743,6 @@
         {% else %}
           none
         {% endif %}
+
+# TODO
+# Add automation to replace air purifier filter in office every 6 months (purchased 10/7/21)

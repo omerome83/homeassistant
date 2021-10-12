@@ -365,24 +365,24 @@ script.deactivate_house_alarm:
   icon: mdi:bell-off
 
 # Server Components
-sensor.hd_temperature_dev_sdb:
-  friendly_name: Parity (/dev/sdb)
-  icon: mdi:harddisk
-sensor.hd_temperature_dev_sdc:
-  friendly_name: Drive 1 (/dev/sdc)
-  icon: mdi:harddisk
-sensor.hd_temperature_dev_sdd:
-  friendly_name: Drive 2 (/dev/sdd)
-  icon: mdi:harddisk
-sensor.hd_temperature_dev_sde:
-  friendly_name: Drive 3 (/dev/sde)
-  icon: mdi:harddisk
-sensor.hd_temperature_dev_sdf:
-  friendly_name: Drive 4 (/dev/sdf)
-  icon: mdi:harddisk
-sensor.hd_temperature_dev_sdg:
-  friendly_name: Drive 5 (/dev/sdg)
-  icon: mdi:harddisk
+# sensor.hd_temperature_dev_sdb:
+#   friendly_name: Parity (/dev/sdb)
+#   icon: mdi:harddisk
+# sensor.hd_temperature_dev_sdc:
+#   friendly_name: Drive 1 (/dev/sdc)
+#   icon: mdi:harddisk
+# sensor.hd_temperature_dev_sdd:
+#   friendly_name: Drive 2 (/dev/sdd)
+#   icon: mdi:harddisk
+# sensor.hd_temperature_dev_sde:
+#   friendly_name: Drive 3 (/dev/sde)
+#   icon: mdi:harddisk
+# sensor.hd_temperature_dev_sdf:
+#   friendly_name: Drive 4 (/dev/sdf)
+#   icon: mdi:harddisk
+# sensor.hd_temperature_dev_sdg:
+#   friendly_name: Drive 5 (/dev/sdg)
+#   icon: mdi:harddisk
 
 # HVAC
 climate.thermostat:
@@ -444,6 +444,10 @@ switch.server_closet_fan:
   friendly_name: Server Closet Fan
   icon: mdi:fan
 
+switch.office_air_purifier:
+  friendly_name: Office Air Purifier
+  icon: mdi:air-purifier
+
 sensor.ecolink_firefighter_battery_level:
   friendly_name: Ecolink Firefighter
 binary_sensor.ecolink_firefighter_smoke_detected:
@@ -453,9 +457,9 @@ binary_sensor.ecolink_firefighter_carbon_monoxide_detected:
   friendly_name: Carbon Monoxide
   icon: mdi:smoke-detector
 
-switch.office_desk_lamp:
-  friendly_name: Office Desk Lamp
-  icon: mdi:desk-lamp
+# switch.office_desk_lamp:
+#   friendly_name: Office Desk Lamp
+#   icon: mdi:desk-lamp
 
 # Batteries
 sensor.kitchen_motion_sensor_battery:
