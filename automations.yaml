@@ -56,6 +56,15 @@
           Host: {{trigger.event.data.host_name}}
           MAC address: {{trigger.event.data.mac}}
 
+- alias: Test Internet Speed Daily
+  initial_state: true
+  trigger:
+    - platform: time
+      # 3:00 AM
+      at: "03:00:00"
+  action:
+    - service: script.run_speedtest
+
 - alias: "Good Morning Routine"
   initial_state: false
   trigger:
@@ -266,17 +275,29 @@
     service: light.toggle
     entity_id: light.living_room_table_lamp_2
 
-- alias: Toggle Office Shelf Lamp with Aqara Switch - Single Press
+- alias: Toggle Office Shelf Lamp 1 with Aqara Switch - Single Press
   initial_state: true
   trigger:
     platform: event
     event_type: deconz_event
     event_data:
-      id: office_shelf_lamp
+      id: office_shelf_lamp_1
       event: 1002
   action:
     service: light.toggle
-    entity_id: light.office_shelf_lamp
+    entity_id: light.office_shelf_lamp_1
+
+- alias: Toggle Office Shelf Lamp 2 with Aqara Switch - Single Press
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: office_shelf_lamp_2
+      event: 1002
+  action:
+    service: light.toggle
+    entity_id: light.office_shelf_lamp_2
 
 - alias: "Turn on Plant Grow Lights at Sunrise"
   initial_state: true
@@ -1147,7 +1168,7 @@
       entity_id: scene.sunrise
 
 - alias: "HVAC - Bedtime Mode"
-  initial_state: true
+  initial_state: false
   trigger:
     platform: time
     # 11:30 PM
@@ -1173,7 +1194,7 @@
         temperature: 70
 
 - alias: "HVAC - Wake Up Mode"
-  initial_state: true
+  initial_state: false
   trigger:
     platform: time
     # 5:00 AM
@@ -1193,8 +1214,8 @@
           - thu
           - fri
   action:
-    # - service: fan.turn_off
-    #   entity_id: fan.master_bedroom_ceiling_fan
+    - service: fan.turn_off
+      entity_id: fan.master_bedroom_ceiling_fan
     - service: climate.set_temperature
       entity_id: climate.thermostat
       data:

@@ -53,8 +53,14 @@ light.basement_cabinet:
 light.basement_ceiling_lights:
   friendly_name: Basement Ceiling Lights
   icon: mdi:ceiling-light
-light.office_shelf_lamp:
-  friendly_name: Office Shelf Lamp
+light.office_shelf_lamp_1:
+  friendly_name: Office Shelf Lamp 1
+  icon: mdi:lamp
+light.office_shelf_lamp_2:
+  friendly_name: Office Shelf Lamp 2
+  icon: mdi:lamp
+light.office_shelf_lamps:
+  friendly_name: Office Shelf Lamps
   icon: mdi:lamp
 light.office_desk_ambient_light:
   friendly_name: Office Desk Ambient Light
@@ -476,8 +482,6 @@ sensor.basement_multi_sensor_battery:
   friendly_name: Basement Multi Sensor
 sensor.office_multi_sensor_battery:
   friendly_name: Office Multi Sensor
-sensor.office_shelf_lamp_battery_level:
-  friendly_name: Office Shelf Lamp Switch
 
 sensor.kitchen_sink_leak_sensor_battery_level:
   friendly_name: Kitchen Sink Leak Sensor
@@ -491,14 +495,20 @@ sensor.water_heater_leak_sensor_battery_level:
   friendly_name: Water Heater Leak Sensor
 sensor.washing_machine_door_sensor_battery_level:
   friendly_name: Washing Machine Door Sensor
+sensor.master_bedroom_nightstand_lamp_1_battery_level:
+  friendly_name: Master Bedroom Nightstand Lamp 1 Switch
+# sensor.master_bedroom_nightstand_lamp_2_battery_level:
+#   friendly_name: Master Bedroom Nightstand Lamp 2 Switch
 sensor.basement_table_lamp_battery_level:
   friendly_name: Basement Table Lamp Switch
 sensor.living_room_table_lamp_1_battery_level:
   friendly_name: Living Room Table Lamp 1 Switch
 sensor.living_room_table_lamp_2_battery_level:
   friendly_name: Living Room Table Lamp 2 Switch
-sensor.master_bedroom_nightstand_lamp_1_battery_level:
-  friendly_name: Master Bedroom Nightstand Lamp 1 Switch
+sensor.office_shelf_lamp_1_battery_level:
+  friendly_name: Office Shelf Lamp 1 Switch
+sensor.office_shelf_lamp_2_battery_level:
+  friendly_name: Office Shelf Lamp 2 Switch
 
 # Motion Sensors
 binary_sensor.kitchen_motion_sensor:
