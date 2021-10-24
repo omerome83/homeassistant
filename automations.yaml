@@ -56,15 +56,6 @@
           Host: {{trigger.event.data.host_name}}
           MAC address: {{trigger.event.data.mac}}
 
-- alias: Test Internet Speed Daily
-  initial_state: true
-  trigger:
-    - platform: time
-      # 3:00 AM
-      at: "03:00:00"
-  action:
-    - service: script.run_speedtest
-
 - alias: "Good Morning Routine"
   initial_state: false
   trigger:
@@ -541,12 +532,13 @@
   trigger:
     platform: numeric_state
     entity_id:
-      - sensor.master_bedroom_nightstand_lamp_battery_level
+      - sensor.master_bedroom_nightstand_lamp_1_battery_level
       - sensor.second_floor_multi_sensor_battery
-      - sensor.living_room_table_lamp_battery_level
+      - sensor.living_room_table_lamp_1_battery_level
+      - sensor.living_room_table_lamp_2_battery_level
       - sensor.living_room_motion_sensor_battery
       - sensor.ecolink_firefighter_battery_level
-      - sensor.kitchen_trisensor_battery_level
+      - sensor.kitchen_motion_sensor_battery
       - sensor.kitchen_sink_leak_sensor_battery
       - sensor.refrigerator_leak_sensor_battery
       - sensor.washing_machine_door_sensor_battery
@@ -558,12 +550,15 @@
       - sensor.basement_table_lamp_battery_level
       - sensor.server_closet_multi_sensor_battery
       - sensor.office_multi_sensor_battery
+      - sensor.office_motion_sensor_battery
+      - sensor.office_shelf_lamp_1_battery_level
+      - sensor.office_shelf_lamp_2_battery_level
     below: 21
   action:
     - service: notify.mobile_app_sm_g960u1
       data:
         title: "Low Battery on Device Notification"
-        message: "The battery for {{ trigger.to_state.name | lower }} is at {{ trigger.to_state.state }}%."
+        message: "The battery level for {{ trigger.to_state.name | lower }} is at {{ trigger.to_state.state }}%."
 
 - alias: "Water Leak Notification"
   initial_state: true
@@ -1051,6 +1046,33 @@
     - service: homeassistant.turn_off
       entity_id:
         - light.living_room_step_light
+
+- alias: "Turn on office lights when motion is detected"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.office_motion_sensor
+    to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_office_lights_motion
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.office_lights
+
+- alias: "Turn off office lights when no motion is detected"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.office_motion_sensor
+    to: "off"
+    for:
+      minutes: 30
+  action:
+    - service: homeassistant.turn_off
+      entity_id:
+        - light.office_lights
 
 - alias: "Basement TV Inactivity Notification"
   initial_state: true

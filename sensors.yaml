@@ -530,8 +530,18 @@
       device_class: battery
       unit_of_measurement: "%"
 
+    kitchen_motion_sensor_battery:
+      value_template: "{{ states('sensor.kitchen_motion_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
     basement_motion_sensor_battery:
       value_template: "{{ states('sensor.basement_motion_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
+    office_motion_sensor_battery:
+      value_template: "{{ states('sensor.office_motion_sensor_battery_level') | round(0) }}"
       device_class: battery
       unit_of_measurement: "%"
 
@@ -680,7 +690,6 @@
         {%- else -%}
           0
         {%- endif %}
-
     # # Gaming
     # # World of Warcraft Raid
     # wow_raid_countdown:
@@ -692,17 +701,14 @@
     #     {%- else -%}
     #       0
     #     {%- endif %}
-
     # # Commute Distance to Home
     # home_commute_distance:
     #   value_template: "{{ state_attr('sensor.home_commute', 'distance') | round(1) }}"
     #   unit_of_measurement: 'mi'
-
     # # Commute Distance to Work
     # work_commute_distance:
     #   value_template: "{{ state_attr('sensor.work_commute', 'distance') | round(1) }}"
     #   unit_of_measurement: 'mi'
-
     # # Traffic Density to Work
     # work_commute_traffic_density:
     #   value_template: >-
@@ -713,7 +719,6 @@
     #     {% else %}
     #       Light
     #     {% endif %}
-
     # # Traffic Density to Home
     # home_commute_traffic_density:
     #   value_template: >-

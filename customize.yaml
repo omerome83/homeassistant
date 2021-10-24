@@ -53,6 +53,12 @@ light.basement_cabinet:
 light.basement_ceiling_lights:
   friendly_name: Basement Ceiling Lights
   icon: mdi:ceiling-light
+light.office_desk_ambient_light:
+  friendly_name: Office Desk Ambient Light
+  icon: mdi:desk
+light.office_desk_lamp:
+  friendly_name: Office Desk Lamp
+  icon: mdi:desk-lamp
 light.office_shelf_lamp_1:
   friendly_name: Office Shelf Lamp 1
   icon: mdi:lamp
@@ -62,9 +68,6 @@ light.office_shelf_lamp_2:
 light.office_shelf_lamps:
   friendly_name: Office Shelf Lamps
   icon: mdi:lamp
-light.office_desk_ambient_light:
-  friendly_name: Office Desk Ambient Light
-  icon: mdi:desk
 
 light.basement_lights:
   icon: mdi:stairs
@@ -450,10 +453,6 @@ switch.server_closet_fan:
   friendly_name: Server Closet Fan
   icon: mdi:fan
 
-switch.office_air_purifier:
-  friendly_name: Office Air Purifier
-  icon: mdi:air-purifier
-
 sensor.ecolink_firefighter_battery_level:
   friendly_name: Ecolink Firefighter
 binary_sensor.ecolink_firefighter_smoke_detected:
@@ -462,10 +461,6 @@ binary_sensor.ecolink_firefighter_smoke_detected:
 binary_sensor.ecolink_firefighter_carbon_monoxide_detected:
   friendly_name: Carbon Monoxide
   icon: mdi:smoke-detector
-
-# switch.office_desk_lamp:
-#   friendly_name: Office Desk Lamp
-#   icon: mdi:desk-lamp
 
 # Batteries
 sensor.kitchen_motion_sensor_battery:
@@ -476,6 +471,8 @@ sensor.basement_motion_sensor_battery:
   friendly_name: Basement Motion Sensor
 sensor.server_closet_multi_sensor_battery:
   friendly_name: Server Closet Multi Sensor
+sensor.office_motion_sensor_battery:
+  friendly_name: Office Motion Sensor
 sensor.second_floor_multi_sensor_battery:
   friendly_name: Second Floor Multi Sensor
 sensor.basement_multi_sensor_battery:
@@ -516,6 +513,9 @@ binary_sensor.kitchen_motion_sensor:
   device_class: motion
 binary_sensor.basement_motion_sensor:
   friendly_name: Basement
+  device_class: motion
+binary_sensor.office_motion_sensor:
+  friendly_name: Office
   device_class: motion
 binary_sensor.living_room_motion_sensor:
   friendly_name: Living Room
