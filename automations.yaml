@@ -290,6 +290,18 @@
     service: light.toggle
     entity_id: light.office_shelf_lamp_2
 
+- alias: Toggle Office Desk Lamp with Aqara Switch - Single Press
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: office_desk_lamp
+      event: 1002
+  action:
+    service: light.toggle
+    entity_id: light.office_desk_lamp
+
 - alias: "Turn on Plant Grow Lights at Sunrise"
   initial_state: true
   trigger:
@@ -619,7 +631,7 @@
       target:
         entity_id: camera.front_door
       data:
-        filename: /config/www/images/snapshots/front_door_{{ now ().year }}{{ now ().month }}{{ now ().day }}{{ now ().hour }}{{ now ().minute }}.jpg
+        filename: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
     - service: notify.android_tv_fire_tv
       data:
         title: "Doorbell Notification"
@@ -630,7 +642,7 @@
           position: top-right
           transparency: 50%
           file:
-            path: /config/www/images/snapshots/front_door_{{ now ().year }}{{ now ().month }}{{ now ().day }}{{ now ().hour }}{{ now ().minute }}.jpg
+            path: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
 
 - alias: "TEST ALARM AUTOMATION"
   initial_state: false
@@ -1601,95 +1613,134 @@
         title: "Printer Low Ink Reminder"
         message: "The {{ trigger.to_state.name }} ink cartridge is at {{ trigger.to_state.state }}%. }}."
 
-- alias: "Sports Team Game Reminder"
+# - alias: "Upcoming Game Reminder"
+#   initial_state: true
+#   trigger:
+#     platform: state
+#     entity_id:
+#       - sensor.new_york_knicks_game_countdown
+#       - sensor.new_york_giants_game_countdown
+#       - sensor.new_york_yankees_game_countdown
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_upcoming_game_reminder
+#       state: "off"
+#     - condition: template
+#       value_template: "{{ trigger.to_state.state | int == 60 }}"
+#   action:
+#     - service: tts.google_translate_say
+#       entity_id:
+#         - media_player.basement_display
+#         - media_player.kitchen_display
+#       data:
+#         # Strips the team name from the string
+#         message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
+#     - service: notify.mobile_app_sm_g960u1
+#       data:
+#         title: "Upcoming Game Reminder"
+#         message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
+
+- alias: "New York Knicks Game Reminder"
   initial_state: true
   trigger:
     platform: state
-    entity_id:
-      - sensor.new_york_knicks_game_countdown
-      - sensor.new_york_giants_game_countdown
-      - sensor.new_york_yankees_game_countdown
+    entity_id: sensor.new_york_knicks_game_countdown
   condition:
     - condition: state
-      entity_id: input_boolean.disable_sports_game_reminder
+      entity_id: input_boolean.disable_new_york_knicks_game_reminder
       state: "off"
     - condition: template
-      value_template: "{{ trigger.to_state.state | int == 60 }}"
+      value_template: "{{ states('sensor.new_york_knicks_game_countdown') | int == 60 }}"
   action:
     - service: tts.google_translate_say
-      entity_id:
-        - media_player.basement_display
-        - media_player.kitchen_display
+      entity_id: media_player.basement_display
       data:
-        # Strips the team name from the string
-        message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
+        message: "The New York Knicks tips off in one hour!"
     - service: notify.mobile_app_sm_g960u1
       data:
-        title: "{{ trigger.to_state.name.split('Game Countdown')[0] }} Game Reminder"
-        message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
+        title: "Upcoming Game Reminder"
+        message: "The New York Knicks tips off in one hour!"
+        data:
+          image: /config/www/images/logos/ny_knicks.png
+    - service: notify.android_tv_fire_tv
+      data:
+        title: "Upcoming Game Reminder"
+        message: "The New York Knicks tips off in one hour!"
+        data:
+          duration: 10
+          color: grey
+          position: top-right
+          transparency: 50%
+          file:
+            path: /config/www/images/logos/ny_knicks.png
 
-# - alias: "New York Knicks Game Reminder"
-#   initial_state: true
-#   trigger:
-#     platform: state
-#     entity_id: sensor.new_york_knicks_game_countdown
-#   condition:
-#     - condition: state
-#       entity_id: input_boolean.disable_new_york_knicks_game_reminder
-#       state: 'off'
-#     - condition: template
-#       value_template: "{{ states('sensor.new_york_knicks_game_countdown') | int == 60 }}"
-#   action:
-#     - service: tts.google_translate_say
-#       entity_id: media_player.basement_display
-#       data:
-#         message: "The New York Knicks tip off in one hour!"
-#     - service: notify.mobile_app_sm_g960u1
-#       data:
-#         title: "Knicks Game Reminder"
-#         message: "The New York Knicks tip off in one hour!"
+- alias: "New York Giants Game Reminder"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: sensor.new_york_giants_game_countdown
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_new_york_giants_game_reminder
+      state: "off"
+    - condition: template
+      value_template: "{{ states('sensor.new_york_giants_game_countdown') | int == 60 }}"
+  action:
+    - service: tts.google_translate_say
+      entity_id: media_player.basement_display
+      data:
+        message: "The New York Giants kick off in one hour!"
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Upcoming Game Reminder"
+        message: "The New York Giants kick off in one hour!"
+        data:
+          image: /config/www/images/logos/ny_giants.png
+    - service: notify.android_tv_fire_tv
+      data:
+        title: "Upcoming Game Reminder"
+        message: "The New York Giants kicks off in one hour!"
+        data:
+          duration: 10
+          color: grey
+          position: top-right
+          transparency: 50%
+          file:
+            path: /config/www/images/logos/ny_giants.png
 
-# - alias: "New York Giants Game Reminder"
-#   initial_state: true
-#   trigger:
-#     platform: state
-#     entity_id: sensor.new_york_giants_game_countdown
-#   condition:
-#     - condition: state
-#       entity_id: input_boolean.disable_new_york_giants_game_reminder
-#       state: 'off'
-#     - condition: template
-#       value_template: "{{ states('sensor.new_york_giants_game_countdown') | int == 60 }}"
-#   action:
-#     - service: tts.google_translate_say
-#       entity_id: media_player.basement_display
-#       data:
-#         message: "The New York Giants kick off in one hour!"
-#     - service: notify.mobile_app_sm_g960u1
-#       data:
-#         title: "Giants Game Reminder"
-#         message: "The New York Giants kick off in one hour!"
-
-# - alias: "New York Yankees Game Reminder"
-#   initial_state: true
-#   trigger:
-#     platform: state
-#     entity_id: sensor.new_york_yankees_game_countdown
-#   condition:
-#     - condition: state
-#       entity_id: input_boolean.disable_new_york_yankees_game_reminder
-#       state: 'off'
-#     - condition: template
-#       value_template: "{{ states('sensor.new_york_yankees_game_countdown') | int == 60 }}"
-#   action:
-#     - service: tts.google_translate_say
-#       entity_id: media_player.basement_display
-#       data:
-#         message: "The New York Yankees start in one hour!"
-#     - service: notify.mobile_app_sm_g960u1
-#       data:
-#         title: "Yankees Game Reminder"
-#         message: "The New York Yankees start in one hour!"
+- alias: "New York Yankees Game Reminder"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: sensor.new_york_yankees_game_countdown
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_new_york_yankees_game_reminder
+      state: "off"
+    - condition: template
+      value_template: "{{ states('sensor.new_york_yankees_game_countdown') | int == 60 }}"
+  action:
+    - service: tts.google_translate_say
+      entity_id: media_player.basement_display
+      data:
+        message: "The New York Yankees starts in one hour!"
+    - service: notify.mobile_app_sm_g960u1
+      data:
+        title: "Upcoming Game Reminder"
+        message: "The New York Yankees starts in one hour!"
+        data:
+          image: /config/www/images/logos/ny_yankees.png
+    - service: notify.android_tv_fire_tv
+      data:
+        title: "Upcoming Game Reminder"
+        message: "The New York Yankees game starts in one hour!"
+        data:
+          duration: 10
+          color: grey
+          position: top-right
+          transparency: 50%
+          file:
+            path: /config/www/images/logos/ny_yankees.png
 
 # - alias: "World of Warcraft Raid Reminder"
 #   initial_state: false

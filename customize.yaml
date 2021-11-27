@@ -506,6 +506,8 @@ sensor.office_shelf_lamp_1_battery_level:
   friendly_name: Office Shelf Lamp 1 Switch
 sensor.office_shelf_lamp_2_battery_level:
   friendly_name: Office Shelf Lamp 2 Switch
+sensor.office_desk_lamp_battery_level:
+  friendly_name: Office Desk Lamp Switch
 
 # Motion Sensors
 binary_sensor.kitchen_motion_sensor:
