@@ -641,7 +641,7 @@
           color: grey
           position: top-right
           transparency: 50%
-          file:
+          image:
             path: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
 
 - alias: "TEST ALARM AUTOMATION"
@@ -886,7 +886,7 @@
         message: "Take the recycling items out to the curb."
 
 - alias: "Activate Chromecast Activity Only When Basement TV Is Turned Off"
-  initial_state: true
+  initial_state: false
   trigger:
     platform: state
     entity_id: media_player.basement_tv
@@ -1671,7 +1671,7 @@
           color: grey
           position: top-right
           transparency: 50%
-          file:
+          image:
             path: /config/www/images/logos/ny_knicks.png
 
 - alias: "New York Giants Game Reminder"
@@ -1705,7 +1705,7 @@
           color: grey
           position: top-right
           transparency: 50%
-          file:
+          image:
             path: /config/www/images/logos/ny_giants.png
 
 - alias: "New York Yankees Game Reminder"
@@ -1739,7 +1739,7 @@
           color: grey
           position: top-right
           transparency: 50%
-          file:
+          image:
             path: /config/www/images/logos/ny_yankees.png
 
 # - alias: "World of Warcraft Raid Reminder"
