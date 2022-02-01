@@ -39,8 +39,9 @@
   action:
     - service: persistent_notification.create
       data:
-        title: "Firmware Upgrade Notification"
-        message: "A firmware upgrade is available for the HDHomeRun {{ state_attr('sensor.hdhr3_cc_firmware_status', 'ModelNumber') }} TV Tuner."
+        title: "Firmware Upgrade is Available"
+        message: |
+          Release {{ state_attr('sensor.hdhr3_cc_firmware_status', 'UpgradeAvailable') }} is available for the HDHomeRun {{ state_attr('sensor.hdhr3_cc_firmware_status', 'ModelNumber') }} TV Tuner.
 
 - alias: "Notify New Devices on Network"
   initial_state: true
@@ -545,24 +546,26 @@
     platform: numeric_state
     entity_id:
       - sensor.master_bedroom_nightstand_lamp_1_battery_level
-      - sensor.second_floor_multi_sensor_battery
+      # - sensor.master_bedroom_nightstand_lamp_2_battery_level
+      - sensor.second_floor_multi_sensor_battery_levelf
       - sensor.living_room_table_lamp_1_battery_level
       - sensor.living_room_table_lamp_2_battery_level
-      - sensor.living_room_motion_sensor_battery
+      - sensor.living_room_motion_sensor_battery_level
       - sensor.ecolink_firefighter_battery_level
-      - sensor.kitchen_motion_sensor_battery
-      - sensor.kitchen_sink_leak_sensor_battery
-      - sensor.refrigerator_leak_sensor_battery
-      - sensor.washing_machine_door_sensor_battery
-      - sensor.washing_machine_leak_sensor_battery
-      - sensor.water_heater_leak_sensor_battery
-      - sensor.basement_bathroom_sink_leak_sensor_battery
-      - sensor.basement_motion_sensor_battery
+      - sensor.kitchen_motion_sensor_battery_level
+      - sensor.kitchen_sink_leak_sensor_battery_level
+      - sensor.refrigerator_leak_sensor_battery_level
+      - sensor.washing_machine_door_sensor_battery_level
+      - sensor.washing_machine_leak_sensor_battery_level
+      - sensor.water_heater_leak_sensor_battery_level
+      - sensor.basement_bathroom_sink_leak_sensor_battery_level
+      - sensor.basement_motion_sensor_battery_level
       - sensor.basement_multi_sensor_battery
       - sensor.basement_table_lamp_battery_level
       - sensor.server_closet_multi_sensor_battery
-      - sensor.office_multi_sensor_battery
-      - sensor.office_motion_sensor_battery
+      - sensor.office_multi_sensor_battery_level
+      - sensor.office_motion_sensor_battery_level
+      - sensor.office_desk_lamp_battery_level
       - sensor.office_shelf_lamp_1_battery_level
       - sensor.office_shelf_lamp_2_battery_level
     below: 21
@@ -1464,7 +1467,7 @@
         message: "The sump pump is currently running. It is using {{ states('sensor.sump_pump_power_switch_power') }} watts."
 
 - alias: "Low Fuel Notification"
-  initial_state: true
+  initial_state: false
   trigger:
     platform: sun
     event: sunrise

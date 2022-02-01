@@ -244,6 +244,10 @@
     - "date"
     - "date_time"
 
+# # Torque (TEST)
+# - platform: torque
+#   email: omerome@hotmail.com
+
 # https://www.home-assistant.io/docs/configuration/templating/
 - platform: template
   sensors:
@@ -350,6 +354,14 @@
     sentra_volumetric_efficiency:
       value_template: "{{ state_attr('sensor.sentra_torque', 'Volumetric Efficiency (Calculated)(%)') | round(1) }}"
       unit_of_measurement: "%"
+
+    # Next Event Date
+    next_event_date:
+      value_template: "{{ as_timestamp(state_attr('calendar.next_event', 'start_time')) | timestamp_custom('%B %-d') }}"
+
+    # Next Event Day
+    next_event_day:
+      value_template: "{{ as_timestamp(state_attr('calendar.next_event', 'start_time')) | timestamp_custom('%A') }}"
 
     # Trash Pickup Date
     trash_pickup_date:
