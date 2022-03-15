@@ -22,7 +22,7 @@
   action:
     - service: persistent_notification.create
       data:
-        title: "Home Assistant Core {{ states('sensor.latest_release') }} is Available"
+        title: "Home Assistant {{ states('sensor.latest_release') }} is Available"
         message: |
           Description: {{ state_attr('sensor.latest_release', 'release_description') }}
 
@@ -811,20 +811,22 @@
     - condition: or
       conditions:
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '03-18' }}"
+          # Every three months
+          value_template: "{{ now().timetuple().tm_yday % 90 == 0 }}"
         # - condition: template
-        #   value_template: "{{ now().strftime('%m-%d') == '02-12' }}"
+        #   value_template: "{{ now().strftime('%m-%d') == '03-03' }}"
         # - condition: template
-        #   value_template: "{{ now().strftime('%m-%d') == '05-12' }}"
+        #   value_template: "{{ now().strftime('%m-%d') == '06-03' }}"
         # - condition: template
-        #   value_template: "{{ now().strftime('%m-%d') == '08-12' }}"
+        #   value_template: "{{ now().strftime('%m-%d') == '09-03' }}"
         # - condition: template
-        #   value_template: "{{ now().strftime('%m-%d') == '11-12' }}"
+        #   value_template: "{{ now().strftime('%m-%d') == '12-03' }}"
+
   action:
     - service: notify.mobile_app_sm_g960u1
       data:
         title: "HVAC Furnace Filter Reminder"
-        message: "Replace the furnace filter in the HVAC unit with the arrow pointing (up) in the air handler. The filter size is 20x20x1 or 20X20X5 (Lennox X7935 MERV 16)."
+        message: "Replace/Check the furnace filter in the HVAC unit with the arrow pointing (up) in the air handler. The filter size is 20x20x1 or 20X20X5 (Lennox X7935 MERV 16)."
 
 - alias: "Refrigerator Filter Reminder"
   initial_state: true
@@ -839,14 +841,17 @@
       # Check every six months
       conditions:
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '06-29' }}"
-        - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '12-29' }}"
+          # Every six months
+          value_template: "{{ now().timetuple().tm_yday % 180 == 0 }}"
+        # - condition: template
+        #   value_template: "{{ now().strftime('%m-%d') == '06-29' }}"
+        # - condition: template
+        #   value_template: "{{ now().strftime('%m-%d') == '12-29' }}"
   action:
     - service: notify.mobile_app_sm_g960u1
       data:
         title: "Refrigerator Filter Reminder"
-        message: "Replace the water filter in the refrigerator. Use the EveryDrop by Whirlpool Refrigerator Water Filter 4 (Model #: EDR4RXD1)."
+        message: "Replace/Check the water filter in the refrigerator. Use the EveryDrop by Whirlpool Refrigerator Water Filter 4 (Model #: EDR4RXD1)."
 
 - alias: "Trash Day Reminder"
   initial_state: true

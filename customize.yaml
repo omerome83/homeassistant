@@ -237,7 +237,7 @@ sensor.home_assistant_db_size:
 sensor.home_assistant_log:
   friendly_name: Log File
   icon: mdi:file-document-outline
-sensor.snapshot_backup:
+sensor.backup_state:
   icon: mdi:camera
 
 weather.openweathermap:
