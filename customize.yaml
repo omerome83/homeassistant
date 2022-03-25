@@ -178,11 +178,19 @@ script.run_speedtest:
 #   friendly_name: Office Printer
 #   icon: mdi:printer
 
-# DNS/AdGuard Home
-# sensor.adguard_dns_queries:
-#   friendly_name: DNS Queries
-# sensor.adguard_dns_queries_blocked_ratio:
-#   friendly_name: DNS Queries Blocked Ratio
+# DNS/Pi-Hole
+sensor.pi_hole_ads_blocked_today:
+  friendly_name: Ads Blocked Today
+sensor.pi_hole_ads_percentage_blocked_today:
+  friendly_name: Ads Percentage Blocked Today
+sensor.pi_hole_domains_blocked:
+  friendly_name: Domains Blocked
+sensor.pi_hole_dns_queries_today:
+  friendly_name: DNS Queries Today
+sensor.pi_hole_dns_queries_cached:
+  friendly_name: DNS Queries Cached
+sensor.pi_hole_dns_queries_forwarded:
+  friendly_name: DNS Queries Forwarded
 
 # HDHomeRun Prime (TV Tuner)
 sensor.hdhr3_cc_firmware_status:
