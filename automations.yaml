@@ -86,7 +86,7 @@
         entity_id: light.master_bedroom_nightstand_lamps
         brightness: 250
         transition: 300
-    # - service: notify.mobile_app_sm_g960u1
+    # - service: notify.mobile_app_sm_s901u1
     #   data:
     #     message: >-
     #       Good morning, Romel. It is {{ now().strftime('%A, %B %-d, %Y') }}. It is currently
@@ -117,7 +117,7 @@
 #         - zwave.ecolink_firefighter
 #       to: 'dead'
 #   action:
-#     service: notify.mobile_app_sm_g960u1
+#     service: notify.mobile_app_sm_s901u1
 #     data:
 #       title: "Z-Wave Device Notification"
 #       message: "{{ trigger.to_state.attributes.friendly_name }} is currently dead. Check Z-Wave configuration."
@@ -127,8 +127,8 @@
   initial_state: true
   trigger:
     platform: time
-    # 4:00 AM
-    at: "04:00:00"
+    # 3:59 AM
+    at: "03:59:00"
   condition:
     - condition: state
       entity_id: input_boolean.disable_restart_cable_modem
@@ -148,7 +148,7 @@
 #     for:
 #       minutes: 3
 #   action:
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "Internet Connection"
 #         message: "Status: Offline"
@@ -175,7 +175,7 @@
 #     for:
 #       minutes: 1
 #   action:
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "Internet Connection"
 #         message: "Status: Online"
@@ -434,7 +434,7 @@
       # February 1st
       value_template: "{{ now().strftime('%m-%d') == '02-01' }}"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Aquarium CO2 Regulator Refill Notification"
         message: "The CO2 regulator for the aquarium needs to be refilled. Try Fireline at 4506 Hollins Ferry Rd."
@@ -454,7 +454,7 @@
       weekday:
         - sun
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Aquarium Maintenance Reminder"
         message: "Did you perform a water change or clean the canister filter this week?"
@@ -531,7 +531,7 @@
     for:
       hours: 1
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "High Humidity Notification"
         message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
@@ -570,7 +570,7 @@
       - sensor.office_shelf_lamp_2_battery_level
     below: 21
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Low Battery on Device Notification"
         message: "The battery level for {{ trigger.to_state.name | lower }} is at {{ trigger.to_state.state }}%."
@@ -588,7 +588,7 @@
       from: "off"
       to: "on"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Water Leak Notification"
         message: "Water has been detected by the {{ trigger.to_state.name | lower }}!"
@@ -624,7 +624,7 @@
       event_data:
         type: doorbell_chime
   action:
-    # - service: notify.mobile_app_sm_g960u1
+    # - service: notify.mobile_app_sm_s901u1
     #   data:
     #     title: "Doorbell Notification"
     #     message: "Someone is at the front door."
@@ -651,7 +651,7 @@
   initial_state: false
   trigger:
     platform: state
-    entity_id: sensor.sm_g960u1_next_alarm
+    entity_id: sensor.sm_s901u1_next_alarm
   condition:
     - condition: template
       value_template: "{{ trigger.to_state.state | int < 15 }}"
@@ -660,7 +660,7 @@
       data:
         title: "TEST ALARM"
         message: "TEST ALARM"
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "ALARM ACTIVATED"
         message: "The automation worked for the alarm clock"
@@ -685,7 +685,7 @@
 #       entity_id: person.romel
 #       state: 'not_home'
 #   action:
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "Motion Detected When No One Is Home"
 #         message: "Motion has been detected in the {{ trigger.to_state.name | lower }}!"
@@ -722,7 +722,7 @@
       entity_id: input_boolean.disable_smoke_co_alarm
       state: "off"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Smoke/Carbon Monoxide Alarm"
         message: "{{ trigger.to_state.name }} has been detected in the home!"
@@ -752,7 +752,7 @@
       # Checks twice a month
       value_template: "{{ (now().strftime('%d') | int) == 14 or (now().strftime('%d') | int) == 28 }}"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Dehumidifier Checkup Reminder"
         message: "Perform bi-weekly cleaning for the dehumidifier."
@@ -770,7 +770,7 @@
       # September 15th
       value_template: "{{ now().strftime('%m-%d') == '09-15' }}"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Flush Water Heater Reminder"
         message: "Perform yearly flush for the water heater to remove existing sediment."
@@ -790,7 +790,7 @@
       # November 1st
       value_template: "{{ now().strftime('%m-%d') == '11-01' }}"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Winterize Outdoor Spigots Reminder"
         message: |
@@ -823,7 +823,7 @@
         #   value_template: "{{ now().strftime('%m-%d') == '12-03' }}"
 
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "HVAC Furnace Filter Reminder"
         message: "Replace/Check the furnace filter in the HVAC unit with the arrow pointing (up) in the air handler. The filter size is 20x20x1 or 20X20X5 (Lennox X7935 MERV 16)."
@@ -848,7 +848,7 @@
         # - condition: template
         #   value_template: "{{ now().strftime('%m-%d') == '12-29' }}"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Refrigerator Filter Reminder"
         message: "Replace/Check the water filter in the refrigerator. Use the EveryDrop by Whirlpool Refrigerator Water Filter 4 (Model #: EDR4RXD1)."
@@ -869,7 +869,7 @@
           weekday:
             - wed
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Trash Day Reminder"
         message: "Take the trash out to the curb."
@@ -888,7 +888,7 @@
       weekday:
         - sun
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Recycling Day Reminder"
         message: "Take the recycling items out to the curb."
@@ -1108,7 +1108,7 @@
       state: "on"
   action:
     # Send notification after three hours of no activity (motion) when basement tv is on
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Inactivity Notification"
         message: "Still watching the TV in the basement?"
@@ -1272,7 +1272,7 @@
     entity_id: group.household
     to: "not_home"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Away Mode Reminder"
         message: "You are now away from home."
@@ -1284,7 +1284,7 @@
     entity_id: group.household
     to: "home"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Home Mode Reminder"
         message: "You are now home."
@@ -1352,7 +1352,7 @@
     - service: homeassistant.turn_on
       entity_id: input_boolean.vacation_mode
     # NYI - Turn off water automation
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Vacation Mode"
         message: |
@@ -1371,7 +1371,7 @@
 #     entity_id: sensor.ups_input_voltage
 #     below: 50
 #   action:
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "Power Outtage Notification"
 #         message: "The devices are now running off the UPS."
@@ -1385,7 +1385,7 @@
 #     entity_id: sensor.ups_input_voltage
 #     above: 50
 #   action:
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "Power Restored Notification"
 #         message: "The devices are no longer running off the UPS."
@@ -1398,10 +1398,10 @@
 #     - platform: event
 #       event_type: state_changed
 #       event_data:
-#         entity_id: sensor.sm_g960u1_last_notification
+#         entity_id: sensor.sm_s901u1_last_notification
 #   condition:
 #     - condition: state
-#       entity_id: sensor.sm_g960u1_last_notification
+#       entity_id: sensor.sm_s901u1_last_notification
 #       state: com.grubhub.android
 #       attribute: package
 #     - condition: state
@@ -1411,7 +1411,7 @@
 #     - service: tts.google_translate_say
 #       entity_id: group.google_nest_speakers
 #       data:
-#         message: "{{ state_attr('sensor.sm_g960u1_last_notification', 'android.text') }}"
+#         message: "{{ state_attr('sensor.sm_s901u1_last_notification', 'android.text') }}"
 
 - alias: "Temperature Warning in Server Closet"
   initial_state: true
@@ -1422,7 +1422,7 @@
     - condition: template
       value_template: "{{ states('sensor.server_closet_temperature') | int > 82 }}"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "High Temperature Warning"
         message: "The server closet's temperature is currently at {{ states('sensor.server_closet_temperature') }}°F..."
@@ -1451,7 +1451,7 @@
       weekday:
         - thu
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Dishwasher Weekly Reminder"
         message: "Run the dishwasher if needed."
@@ -1466,7 +1466,7 @@
     for:
       seconds: 15
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Sump Pump Notification"
         message: "The sump pump is currently running. It is using {{ states('sensor.sump_pump_power_switch_power') }} watts."
@@ -1483,7 +1483,7 @@
       entity_id: input_boolean.disable_low_fuel_notification
       state: "off"
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Low Fuel Notification"
         message: "The Nissan Sentra's fuel level is currently at {{ states('sensor.sentra_fuel_level') | int }}%."
@@ -1528,7 +1528,7 @@
       entity_id: media_player.basement_display, media_player.kitchen_display
       data:
         message: "Washing machine cycle is complete."
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Washing Machine Notification"
         message: "Washing machine cycle is complete."
@@ -1541,6 +1541,8 @@
           color: grey
           position: top-right
           transparency: 50%
+          image:
+            path: /config/www/images/misc/washing_machine.jpg
 
 # When the washing machine door is opened, reset the status
 # back to Idle
@@ -1581,7 +1583,7 @@
 #       entity_id: media_player.basement_display
 #       data:
 #         message: "Remove the items from the washing machine."
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "Washing Machine Notification"
 #         message: "Remove the items from the washing machine."
@@ -1600,7 +1602,7 @@
 #     - condition: template
 #       value_template: "{{ not is_state('sensor.nws_alert_headline', 'unavailable') and not is_state('sensor.nws_alert_headline', 'none') and not is_state('sensor.nws_alert_headline', 'unknown') }}"
 #   action:
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "National Weather Service Alert"
 #         message: "{{ states('sensor.nws_alert_headline') }}"
@@ -1616,7 +1618,7 @@
       - sensor.mfc_j995dw_yellow_ink_remaining
     below: 16
   action:
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Printer Low Ink Reminder"
         message: "The {{ trigger.to_state.name }} ink cartridge is at {{ trigger.to_state.state }}%. }}."
@@ -1643,7 +1645,7 @@
 #       data:
 #         # Strips the team name from the string
 #         message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "Upcoming Game Reminder"
 #         message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
@@ -1664,12 +1666,12 @@
       entity_id: media_player.basement_display
       data:
         message: "The New York Knicks tips off in one hour!"
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Upcoming Game Reminder"
         message: "The New York Knicks tips off in one hour!"
         data:
-          image: /config/www/images/logos/ny_knicks.png
+          image: /config/www/images/misc/ny_knicks.png
     - service: notify.android_tv_fire_tv
       data:
         title: "Upcoming Game Reminder"
@@ -1680,7 +1682,7 @@
           position: top-right
           transparency: 50%
           image:
-            path: /config/www/images/logos/ny_knicks.png
+            path: /config/www/images/misc/ny_knicks.png
 
 - alias: "New York Giants Game Reminder"
   initial_state: true
@@ -1698,12 +1700,12 @@
       entity_id: media_player.basement_display
       data:
         message: "The New York Giants kick off in one hour!"
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Upcoming Game Reminder"
         message: "The New York Giants kick off in one hour!"
         data:
-          image: /config/www/images/logos/ny_giants.png
+          image: /config/www/images/misc/ny_giants.png
     - service: notify.android_tv_fire_tv
       data:
         title: "Upcoming Game Reminder"
@@ -1714,7 +1716,7 @@
           position: top-right
           transparency: 50%
           image:
-            path: /config/www/images/logos/ny_giants.png
+            path: /config/www/images/misc/ny_giants.png
 
 - alias: "New York Yankees Game Reminder"
   initial_state: true
@@ -1732,12 +1734,12 @@
       entity_id: media_player.basement_display
       data:
         message: "The New York Yankees starts in one hour!"
-    - service: notify.mobile_app_sm_g960u1
+    - service: notify.mobile_app_sm_s901u1
       data:
         title: "Upcoming Game Reminder"
         message: "The New York Yankees starts in one hour!"
         data:
-          image: /config/www/images/logos/ny_yankees.png
+          image: /config/www/images/misc/ny_yankees.png
     - service: notify.android_tv_fire_tv
       data:
         title: "Upcoming Game Reminder"
@@ -1748,7 +1750,7 @@
           position: top-right
           transparency: 50%
           image:
-            path: /config/www/images/logos/ny_yankees.png
+            path: /config/www/images/misc/ny_yankees.png
 
 # - alias: "World of Warcraft Raid Reminder"
 #   initial_state: false
@@ -1766,7 +1768,7 @@
 #       entity_id: media_player.basement_display
 #       data:
 #         message: "A guild raid for World of Warcraft starts in one hour!"
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "World of Warcraft Raid Reminder"
 #         message: "A guild raid for World of Warcraft starts in one hour!"
@@ -1783,7 +1785,7 @@
 #     - condition: template
 #       value_template: "{{ trigger.to_state.state | float > 12.0 and trigger.to_state.state | float < 12.4 }}"
 #   action:
-#     - service: notify.mobile_app_sm_g960u1
+#     - service: notify.mobile_app_sm_s901u1
 #       data:
 #         title: "Automobile Battery Warning"
 #         message: "The {{ trigger.to_state.name | lower }} of the Nissan Sentra is at {{ trigger.to_state.state }}V. Replace soon."

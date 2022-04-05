@@ -1,14 +1,13 @@
 homeassistant:
-# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-# http:
-#   base_url: example.duckdns.org:8123
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # http:
+  #   base_url: example.duckdns.org:8123
 
   # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
   latitude: !secret home_latitude
   longitude: !secret home_longitude
-
 
   allowlist_external_dirs:
     - /config
@@ -23,21 +22,18 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/New_York
 
-
   auth_providers:
     - type: homeassistant
     - type: trusted_networks
       trusted_networks:
-        - 192.168.1.0/24  #=> Local network
-        - 10.0.8.0/24     #=> VPN network
+        - 192.168.1.0/24 #=> Local network
+        - 10.0.8.0/24 #=> VPN network
 
   customize: !include customize.yaml
-
 
 # RESTful API
 # https://www.home-assistant.io/integrations/api
 api:
-
 
 # Discover some devices automatically
 discovery:
@@ -45,24 +41,19 @@ discovery:
     - harmony
     - homekit
 
-
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
-
 
 # Enables the frontend
 frontend:
   themes: !include_dir_merge_named themes/
 
-
 # Text to speech
 tts:
   - platform: google_translate
-  
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
-
 
 # Logger
 # https://home-assistant.io/components/logger/
@@ -74,9 +65,8 @@ nest:
   client_secret: !secret nest_client_secret
   # "Project ID" in the Device Access Console
   project_id: !secret nest_project_id
-  # Provide the full path exactly as shown under "Subscription name" in Google Cloud Console
-  subscriber_id: !secret nest_subscriber_id
-  
+  # # Provide the full path exactly as shown under "Subscription name" in Google Cloud Console
+  # subscriber_id: !secret nest_subscriber_id
 
 # Component for storing details in database
 recorder:
@@ -120,7 +110,6 @@ recorder:
       - sensor.yankees_game_countdown
       - sensor.wow_raid_countdown
 
-
 # # InfluxDB
 # # https://github.com/hassio-addons/addon-influxdb/blob/main/influxdb/DOCS.md
 # influxdb:
@@ -132,7 +121,6 @@ recorder:
 #   max_retries: 3
 #   default_measurement: state
 
-
 # lovelace:
 #   mode: storage
 
@@ -140,7 +128,7 @@ recorder:
 #     # https://github.com/thomasloven/lovelace-card-tools
 #     - url: /local/card-tools.js
 #       type: js
-      
+
 #     # https://github.com/custom-cards/secondaryinfo-entity-row
 #     - url: /local/secondaryinfo-entity-row.js
 #       type: module
@@ -149,7 +137,6 @@ recorder:
 #     - url: /local/custom-lovelace/upcoming-media-card/upcoming-media-card.js?v=0.1.1
 #       type: js
 
-
 media_player:
   # Emby
   # https://www.home-assistant.io/integrations/emby/
@@ -157,12 +144,10 @@ media_player:
   #   host: !secret nas_host_name
   #   api_key: !secret emby_api_key
 
-
   # # Yamaha AV Receiver
   # # https://www.home-assistant.io/components/yamaha/
   # - platform: yamaha
   #   host: !secret av_receiver_host_name
-
 
   # Android TV
   # https://www.home-assistant.io/integrations/androidtv#adb-setup
@@ -177,7 +162,6 @@ media_player:
       com.amazon.amazonvideo.livingroom: Prime Video
       com.netflix.ninja: Netflix
 
-
 # Lutron Smart Bridge
 # https://www.home-assistant.io/components/lutron_caseta/
 lutron_caseta:
@@ -185,7 +169,6 @@ lutron_caseta:
   keyfile: caseta.key
   certfile: caseta.crt
   ca_certs: caseta-bridge.crt
-
 
 # TP-Link
 # https://www.home-assistant.io/components/tplink/
@@ -198,12 +181,10 @@ tplink:
     - host: !secret cable_modem_switch_host_name
     - host: !secret server_closet_fan_host_name
 
-
 # UPS
 # https://www.home-assistant.io/components/apcupsd/
 apcupsd:
   host: !secret nas_host_name
-
 
 # Google Calendar
 # https://www.home-assistant.io/components/calendar.google/
@@ -212,11 +193,9 @@ google:
   client_secret: !secret google_client_secret
   track_new_calendar: true
 
-
 # SpeedTest
 # https://www.home-assistant.io/components/speedtestdotnet/
 speedtestdotnet:
-
 
 # Z-Wave Graph
 # https://www.home-assistant.io/components/panel_custom/
@@ -235,6 +214,19 @@ speedtestdotnet:
 #       # grouping - pick one: z-wave, ungrouped
 #       grouping: z-wave
 
+# Proxmox VE
+proxmoxve:
+  - host: !secret proxmox_ip_address
+    username: !secret proxmox_username
+    password: !secret proxmox_password
+    verify_ssl: false
+    realm: pve
+    nodes:
+      - node: ommiepve
+        vms:
+          - 103
+        containers:
+          - 102
 
 # Includes
 group: !include groups.yaml

@@ -3,7 +3,7 @@
 #################################################################
 
 # Device Tracker
-device_tracker.romel_sm_g960u1:
+device_tracker.romel_sm_s901u1:
   friendly_name: Romel
 sensor.phone_battery_level_user_1:
   friendly_name: Battery Level
@@ -191,6 +191,20 @@ sensor.pi_hole_dns_queries_cached:
   friendly_name: DNS Queries Cached
 sensor.pi_hole_dns_queries_forwarded:
   friendly_name: DNS Queries Forwarded
+
+# Proxmox VE
+# binary_sensor.ommiepve_alpine_linux_running:
+#   friendly_name: Alpine Linux Running
+#   icon: mdi:monitor
+binary_sensor.ommiepve_debian_running:
+  friendly_name: Debian Running
+  icon: mdi:monitor
+# binary_sensor.ommiepve_ubuntu_server_running:
+#   friendly_name: Ubuntu Server Running
+#   icon: mdi:monitor
+binary_sensor.ommiepve_pi_hole_running:
+  friendly_name: Pi-hole Running
+  icon: mdi:cube
 
 # HDHomeRun Prime (TV Tuner)
 sensor.hdhr3_cc_firmware_status:
@@ -551,28 +565,6 @@ binary_sensor.basement_bathroom_sink_leak_sensor:
 binary_sensor.washing_machine_door_sensor:
   device_class: door
 
-# Z-Wave Devices
-# zwave.aeon_labs_zw090_z_stick_gen5_us:
-#   friendly_name: Aeotec Z-Stick Gen5
-# zwave.dome_kitchen_sink_leak_sensor:
-#   friendly_name: Kitchen Sink Leak Sensor
-# zwave.dome_refrigerator_leak_sensor:
-#   friendly_name: Refrigerator Leak Sensor
-# zwave.dome_water_heater_leak_sensor:
-#   friendly_name: Water Heater Leak Sensor
-# zwave.dome_washing_machine_leak_sensor:
-#   friendly_name: Washing Machine Leak Sensor
-# zwave.dome_basement_bathroom_sink_leak_sensor:
-#   friendly_name: Basement Bathroom Sink Leak Sensor
-# zwave.aeotec_washing_machine_smart_switch:
-#   friendly_name: Washing Machine Smart Switch
-# zwave.aeotec_aquarium_co2_regulator_smart_switch:
-#   friendly_name: Aquarium CO2 Regulator Smart Switch
-# zwave.zooz_sump_pump_power_switch:
-#   friendly_name: Sump Pump Power Switch
-# zwave.ecolink_firefighter:
-#   friendly_name: Ecolink Firefighter
-
 # Calendar
 sensor.upcoming_holiday_date:
   friendly_name: Upcoming Holiday
@@ -586,31 +578,19 @@ sensor.trash_pickup_date:
 sensor.curbside_recycling_date:
   friendly_name: Curbside Recycling
   icon: mdi:recycle
-sensor.next_new_york_knicks_game:
-  friendly_name: Next Game
-  #icon: mdi:basketball
-  entity_picture: /local/images/logos/ny_knicks.png
-sensor.next_new_york_giants_game:
-  friendly_name: Next Game
-  #icon: mdi:football
-  entity_picture: /local/images/logos/ny_giants.png
-sensor.next_new_york_yankees_game:
-  friendly_name: Next Game
-  #icon: mdi:baseball
-  entity_picture: /local/images/logos/ny_yankees.png
 
 sensor.new_york_knicks:
   friendly_name: New York Knicks
   # icon: mdi:basketball
-  entity_picture: /local/images/logos/ny_knicks.png
+  entity_picture: /local/images/misc/ny_knicks.png
 sensor.new_york_giants:
   friendly_name: New York Giants
   # icon: mdi:football
-  entity_picture: /local/images/logos/ny_giants.png
+  entity_picture: /local/images/misc/ny_giants.png
 sensor.new_york_yankees:
   friendly_name: New York Yankees
   # icon: mdi:baseball
-  entity_picture: /local/images/logos/ny_yankees.png
+  entity_picture: /local/images/misc/ny_yankees.png
 
 # Commute
 # sensor.home_commute_duration:

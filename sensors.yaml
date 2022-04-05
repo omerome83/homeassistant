@@ -142,8 +142,8 @@
 # Sonarr
 # https://www.home-assistant.io/components/sonarr/
 - platform: sonarr_upcoming_media
-  api_key: !secret sonarr_api_key
-  host: !secret nas_host_name
+  api_key: secret sonarr_api_key
+  host: 192.168.1.44 #!secret nas_host_name
   days: 10
   max: 3
 
@@ -253,18 +253,18 @@
   sensors:
     # Battery Status on User 1's Phone (Charged/Charging/Unplugged)
     phone_battery_state_user_1:
-      value_template: "{{ states('sensor.sm_g960u1_battery_state') | title }}"
+      value_template: "{{ states('sensor.sm_s901u1_battery_state') | title }}"
 
     # Battery Level on User 1's Phone
     phone_battery_level_user_1:
-      value_template: "{{ states('sensor.sm_g960u1_battery_level') }}"
-      icon_template: "{{ state_attr('sensor.sm_g960u1_battery_level', 'icon') }}"
+      value_template: "{{ states('sensor.sm_s901u1_battery_level') }}"
+      icon_template: "{{ state_attr('sensor.sm_s901u1_battery_level', 'icon') }}"
       unit_of_measurement: "%"
 
     # User 1's Phone Location
     phone_location_user_1:
       friendly_name: Location
-      value_template: "{{ state_attr('sensor.sm_g960u1_geocoded_location', 'Locality') }}"
+      value_template: "{{ state_attr('sensor.sm_s901u1_geocoded_location', 'Locality') }}"
 
     # Torque
     # Nissan Sentra
