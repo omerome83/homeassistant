@@ -512,26 +512,6 @@
           image:
             path: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
 
-
-- alias: "TEST ALARM AUTOMATION"
-  initial_state: false
-  trigger:
-    platform: state
-    entity_id: sensor.sm_s901u1_next_alarm
-  condition:
-    - condition: template
-      value_template: "{{ trigger.to_state.state | int < 15 }}"
-  action:
-    - service: persistent_notification.create
-      data:
-        title: "TEST ALARM"
-        message: "TEST ALARM"
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        title: "ALARM ACTIVATED"
-        message: "The automation worked for the alarm clock"
-
-
 # START OF NYI AUTOMATION
 
 # - alias: "Motion Detected When No One Is Home"
@@ -686,7 +666,6 @@
         #   value_template: "{{ now().strftime('%m-%d') == '09-03' }}"
         # - condition: template
         #   value_template: "{{ now().strftime('%m-%d') == '12-03' }}"
-
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
@@ -1155,109 +1134,6 @@
         temperature: 72
 
 
-## START OF TEST CODE ##
-
-- alias: "Test Away Mode"
-  initial_state: false
-  trigger:
-    platform: state
-    entity_id: group.household
-    to: "not_home"
-  action:
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        title: "Away Mode Reminder"
-        message: "You are now away from home."
-
-
-- alias: "Test Home Mode"
-  initial_state: false
-  trigger:
-    platform: state
-    entity_id: group.household
-    to: "home"
-  action:
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        title: "Home Mode Reminder"
-        message: "You are now home."
-
-
-- alias: "HVAC - Home Mode"
-  initial_state: false
-  trigger:
-    platform: state
-    entity_id: group.household
-    to: "home"
-  condition:
-    - condition: state
-      entity_id: input_boolean.disable_home_mode
-      state: "off"
-  action:
-    - service: climate.set_temperature
-      data:
-        entity_id: climate.thermostat
-        temperature: 75
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.vacation_mode
-
-# - alias: "HVAC - Away Mode"
-#   initial_state: true
-#   trigger:
-#     platform: state
-#     entity_id: group.household
-#     to: 'not_home'
-#     for:
-#       hours: 4
-#       minutes: 0
-#       seconds: 0
-#   condition:
-#     - condition: state
-#       entity_id: input_boolean.disable_home_away_mode
-#       state: 'off'
-#   action:
-#     - service: climate.set_temperature
-#       data:
-#         entity_id: climate.thermostat
-#         temperature: 70
-
-- alias: "HVAC - Vacation Mode"
-  initial_state: false
-  trigger:
-    platform: state
-    entity_id: group.household
-    from: "home"
-    to: "not_home"
-    for:
-      hours: 24
-      minutes: 0
-      seconds: 0
-  condition:
-    - condition: state
-      entity_id: input_boolean.disable_hvac_home_mode
-      state: "off"
-  action:
-    - service: climate.set_temperature
-      data:
-        entity_id: climate.thermostat
-        temperature: 60
-    - service: homeassistant.turn_off
-      entity_id: switch.washing_machine
-    - service: homeassistant.turn_on
-      entity_id: input_boolean.vacation_mode
-    # NYI - Turn off water automation
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        title: "Vacation Mode"
-        message: |
-          The house is in vacation mode. The following tasks are enabled:
-          1. House temperature is set to 60F.
-          2. The washing machine switch is turned off.
-
-## END OF TEST CODE ##
-
-##
-
 - alias: "Power Outage Notification"
   initial_state: true
   trigger:
@@ -1321,7 +1197,7 @@
     - service: notify.mobile_app_sm_s901u1
       data:
         title: "High Temperature Warning"
-        message: "The server closet's temperature is currently at {{ states('sensor.server_closet_temperature') }}°F..."
+        message: "The temperature in the server closet is currently at {{ states('sensor.server_closet_temperature') }}°F..."
 
 
 - alias: "Dishwasher Weekly Reminder"

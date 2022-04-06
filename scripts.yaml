@@ -78,20 +78,6 @@ turn_off_basement_ambient_lights:
         - light.basement_floor_lamps
         - light.basement_cabinet
 
-# stop_android_app_main_menu:
-#   alias: "Stops Android App and Return to Main Menu"
-#   sequence:
-#     # Stops App
-#     - service: androidtv.adb_command
-#       data:
-#         entity_id: media_player.basement_shield
-#         command: 'input keyevent 86'
-#     # Main Menu
-#     - service: androidtv.adb_command
-#       data:
-#         entity_id: media_player.basement_shield
-#         command: 'HOME'
-
 run_speedtest:
   alias: Run Speedtest
   sequence:
@@ -122,14 +108,6 @@ deactivate_house_alarm:
         entity_id: group.google_nest_speakers
     # - service: scene.turn_on
     #   entity_id: scene.stop
-
-# master_bedroom_ceiling_fan_off:
-#   sequence:
-#     - service: fan.set_percentage
-#       target:
-#         entity_id: fan.master_bedroom_ceiling
-#       data:
-#         percentage: 0
 
 master_bedroom_ceiling_fan_low:
   sequence:

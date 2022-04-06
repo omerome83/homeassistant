@@ -153,13 +153,13 @@ media_player:
 
 # TP-Link
 # https://www.home-assistant.io/components/tplink/
-tplink:
-  discovery: false
-  switch:
-    #- host: !secret mini_christmas_tree_host_name
-    #- host: !secret christmas_tree_host_name
-    - host: !secret plant_grow_lights_host_name
-    - host: !secret cable_modem_switch_host_name
+# tplink:
+#   discovery: false
+#   switch:
+#     #- host: !secret mini_christmas_tree_host_name
+#     #- host: !secret christmas_tree_host_name
+#     - host: !secret plant_grow_lights_host_name
+#     - host: !secret cable_modem_switch_host_name
 
 # UPS
 # https://www.home-assistant.io/components/apcupsd/
