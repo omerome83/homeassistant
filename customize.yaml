@@ -149,34 +149,12 @@ sensor.speedtest_ping:
   icon: mdi:gauge
 binary_sensor.internet_status:
   icon: mdi:wan
-# binary_sensor.gateway:
-#   icon: mdi:security-network
-# binary_sensor.ubiquiti_switch:
-#   icon: mdi:network-router
-# binary_sensor.lutron_smart_bridge:
-#   icon: mdi:ethernet
-# binary_sensor.redlink_gateway:
-#   icon: mdi:ethernet
-# binary_sensor.hdhomerun_prime:
-#   icon: mdi:ethernet
-# binary_sensor.ubiquiti_basement_ap:
-#   friendly_name: Basement
-#   icon: mdi:access-point-network
-# binary_sensor.ubiquiti_living_room_ap:
-#   friendly_name: Living Room
-#   icon: mdi:access-point-network
-# binary_sensor.ubiquiti_second_floor_ap:
-#   friendly_name: Second Floor
-#   icon: mdi:access-point-network
 script.restart_cable_modem:
   friendly_name: Restart Cable Modem
   icon: mdi:restart
 script.run_speedtest:
   friendly_name: Run Speedtest
   icon: mdi:speedometer
-# sensor.office_printer:
-#   friendly_name: Office Printer
-#   icon: mdi:printer
 
 # DNS/Pi-Hole
 sensor.pi_hole_ads_blocked_today:
@@ -205,6 +183,9 @@ binary_sensor.ommiepve_debian_running:
 binary_sensor.ommiepve_pi_hole_running:
   friendly_name: Pi-hole Running
   icon: mdi:cube
+binary_sensor.ommiepve_web_dev_running:
+  friendly_name: Web Dev Running
+  icon: mdi:monitor
 
 # HDHomeRun Prime (TV Tuner)
 sensor.hdhr3_cc_firmware_status:
@@ -226,6 +207,7 @@ sensor.hdhr3_cc_tuner_2_channel:
   friendly_name: Tuner 3 Channel
   icon: mdi:television
 
+
 # Printer
 sensor.mfc_j995dw_status:
   friendly_name: Brother MFC-J995DW
@@ -242,6 +224,7 @@ sensor.mfc_j995dw_cyan_ink_remaining:
 sensor.mfc_j995dw_yellow_ink_remaining:
   friendly_name: Yellow
   icon: mdi:water
+
 
 # Home Assistant Version/File Info
 sensor.installed_version:
@@ -292,90 +275,70 @@ sensor.next_sunset:
 sensor.sentra_mpg:
   friendly_name: Fuel Efficiency
   icon: mdi:gas-station
-
 sensor.sentra_fuel_level:
   friendly_name: Fuel Level
   icon: mdi:gauge
-
 sensor.sentra_fuel_used_trip:
   friendly_name: Fuel Used (Trip)
   icon: mdi:fuel
-
 # sensor.sentra_distance_to_empty:
 #   friendly_name: Distance to Empty (DTE)
 #   icon: mdi:alpha-e-box-outline
-
 sensor.sentra_percentage_city_driving:
   friendly_name: City Driving
   icon: mdi:city
-
 sensor.sentra_percentage_highway_driving:
   friendly_name: Highway Driving
   icon: mdi:highway
-
 sensor.sentra_percentage_idle_driving:
   friendly_name: Idle Driving
   icon: mdi:pause
-
 sensor.sentra_percentage_trip_distance:
   friendly_name: Trip Distance
   icon: mdi:map-marker-distance
-
 sensor.sentra_run_time_since_engine_start:
   friendly_name: Run Time Since Engine Start
   icon: mdi:timer
-
 sensor.sentra_distance_traveled_since_codes_cleared:
   friendly_name: Distance Traveled Since Codes Cleared
   icon: mdi:eraser
-
 sensor.sentra_distance_traveled_with_cel_lit:
   friendly_name: Distance Traveled With Check Engine Light
   icon: mdi:engine
-
 sensor.sentra_battery_voltage:
   friendly_name: Battery Voltage
   icon: mdi:car-battery
-
 sensor.sentra_catalyst_temperature:
   friendly_name: Catalytic Converter
   icon: mdi:thermometer
-
 sensor.sentra_engine_coolant_temperature:
   friendly_name: Engine Coolant
   icon: mdi:thermometer
-
 sensor.sentra_intake_air_temperature:
   friendly_name: Intake Air
   icon: mdi:thermometer
-
 sensor.sentra_air_fuel_ratio:
   friendly_name: Air/Fuel Ratio
   icon: mdi:alpha-a-box-outline
-
 sensor.sentra_engine_load:
   friendly_name: Engine Load
   icon: mdi:engine
-
 sensor.sentra_engine_rpm:
   friendly_name: Engine RPM
   icon: mdi:speedometer
-
 sensor.sentra_o2_sensor_equivalence_ratio:
   friendly_name: O2 Sensor Equivalence Ratio
   icon: mdi:alpha-o-box-outline
-
 sensor.sentra_o2_sensor_voltage:
   friendly_name: O2 Sensor Voltage
   icon: mdi:flash
-
 sensor.sentra_mass_air_flow_rate:
   friendly_name: Mass Air Flow Rate
   icon: mdi:arrow-expand-all
-
 sensor.sentra_volumetric_efficiency:
   friendly_name: Volumetric Efficiency
   icon: mdi:alpha-v-box-outline
+
 
 # UPS
 sensor.ups_operating_status:
@@ -386,6 +349,7 @@ sensor.ups_input_voltage:
 sensor.ups_time_left:
   friendly_name: Battery Runtime
   icon: mdi:timer
+  
 
 # House Alarm
 script.activate_house_alarm:
@@ -441,6 +405,8 @@ sensor.server_closet_humidity:
   friendly_name: Server Closet
 sensor.office_humidity:
   friendly_name: Office
+sensor.utility_room_humidity:
+  friendly_name: Utility Room
 
 sensor.second_floor_temperature:
   friendly_name: Second Floor
@@ -452,6 +418,8 @@ sensor.server_closet_temperature:
   friendly_name: Server Closet
 sensor.office_temperature:
   friendly_name: Office
+sensor.utility_room_temperature:
+  friendly_name: Utility Room
 
 # Appliances/Devices
 sensor.washing_machine_switch_wattage:
@@ -501,6 +469,8 @@ sensor.basement_multi_sensor_battery:
   friendly_name: Basement Multi Sensor
 sensor.office_multi_sensor_battery:
   friendly_name: Office Multi Sensor
+sensor.utility_room_multi_sensor_battery:
+  friendly_name: Utility Room Multi Sensor
 
 sensor.kitchen_sink_leak_sensor_battery_level:
   friendly_name: Kitchen Sink Leak Sensor

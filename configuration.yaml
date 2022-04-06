@@ -110,17 +110,6 @@ recorder:
       - sensor.yankees_game_countdown
       - sensor.wow_raid_countdown
 
-# # InfluxDB
-# # https://github.com/hassio-addons/addon-influxdb/blob/main/influxdb/DOCS.md
-# influxdb:
-#   host: a0d7b954-influxdb
-#   port: 8086
-#   database: homeassistant
-#   username: homeassistant
-#   password: !secret influxdb_password
-#   max_retries: 3
-#   default_measurement: state
-
 # lovelace:
 #   mode: storage
 
@@ -162,14 +151,6 @@ media_player:
       com.amazon.amazonvideo.livingroom: Prime Video
       com.netflix.ninja: Netflix
 
-# Lutron Smart Bridge
-# https://www.home-assistant.io/components/lutron_caseta/
-lutron_caseta:
-  host: !secret lutron_smart_bridge_host_name
-  keyfile: caseta.key
-  certfile: caseta.crt
-  ca_certs: caseta-bridge.crt
-
 # TP-Link
 # https://www.home-assistant.io/components/tplink/
 tplink:
@@ -179,7 +160,6 @@ tplink:
     #- host: !secret christmas_tree_host_name
     - host: !secret plant_grow_lights_host_name
     - host: !secret cable_modem_switch_host_name
-    - host: !secret server_closet_fan_host_name
 
 # UPS
 # https://www.home-assistant.io/components/apcupsd/
@@ -197,23 +177,6 @@ google:
 # https://www.home-assistant.io/components/speedtestdotnet/
 speedtestdotnet:
 
-# Z-Wave Graph
-# https://www.home-assistant.io/components/panel_custom/
-# https://github.com/AdamNaj/ZWaveGraphHA
-# panel_custom:
-#   - name: zwave-graph-panel
-#     url_path: zwave-graph
-#     sidebar_title: Z-Wave Graph
-#     sidebar_icon: mdi:z-wave
-#     module_url: /local/zwavegraph3.js
-#     config:
-#       # ranker - pick one: network-simplex, tight-tree, longest-path
-#       ranker: network-simplex
-#       # edge_visibility - pick one: relevant, all
-#       edge_visibility: relevant
-#       # grouping - pick one: z-wave, ungrouped
-#       grouping: z-wave
-
 # Proxmox VE
 proxmoxve:
   - host: !secret proxmox_ip_address
@@ -225,6 +188,7 @@ proxmoxve:
       - node: ommiepve
         vms:
           - 103
+          - 104
         containers:
           - 102
 

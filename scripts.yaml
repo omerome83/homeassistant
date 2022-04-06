@@ -2,47 +2,6 @@
 ## Scripts
 #################################################################
 
-# normal_mode:
-#   alias: "Normal Mode"
-#   sequence:
-#     - service: light.turn_on
-#       data:
-#         entity_id: light.basement_ceiling_lights
-#         transition: 5
-#         brightness_pct: 25
-#     - service: light.turn_off
-#       data:
-#         entity_id: light.basement_tv_stand
-#         transition: 5
-#     - service: light.turn_off
-#       data:
-#         entity_id: light.basement_cabinetbasement_floor_lamps
-#         transition: 5
-#     - service: light.turn_off
-#       data:
-#         entity_id: light.basement_floor_lamps
-#         transition: 5
-
-# movie_mode:
-#   alias: "Movie Mode"
-#   sequence:
-#     - service: light.turn_off
-#       data:
-#         entity_id: light.basement_ceiling_lights
-#         transition: 5
-#     - service: light.turn_on
-#       data:
-#         entity_id: light.basement_tv_stand
-#         transition: 5
-#         brightness_pct: 25
-#         rgb_color: [108, 145, 255]
-#     - service: light.turn_on
-#       data:
-#         entity_id: light.basement_cabinet
-#         transition: 5
-#         brightness_pct: 25
-#         rgb_color: [194, 159, 255]
-
 restart_cable_modem:
   alias: "Restart Cable Modem"
   sequence:
@@ -118,18 +77,6 @@ turn_off_basement_ambient_lights:
         - light.basement_table_lamp
         - light.basement_floor_lamps
         - light.basement_cabinet
-
-# turn_on_server_closet_fan:
-#   alias: "Turns on Server Closet Fan"
-#   sequence:
-#     - service: homeassistant.turn_on
-#       entity: switch.server_closet_fan
-
-# turn_off_server_closet_fan:
-#   alias: "Turns off Server Closet Fan"
-#   sequence:
-#     - service: homeassistant.turn_off
-#       entity: switch.server_closet_fan
 
 # stop_android_app_main_menu:
 #   alias: "Stops Android App and Return to Main Menu"
@@ -207,10 +154,3 @@ master_bedroom_ceiling_fan_high:
         entity_id: fan.master_bedroom_ceiling_fan
       data:
         percentage: 100
-# reset_basement_display:
-#   alias: "Resets Basement Nest Hub's Display"
-#   sequence:
-#     # Resets the display to 'default mode'
-#     - delay: '00:00:10'
-#     - service: media_player.turn_off
-#       entity_id: media_player.basement_display

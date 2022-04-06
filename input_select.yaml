@@ -30,14 +30,6 @@
       - Complete
     initial: Idle
 
-  # # Dryer Cycle Status
-  # dryer_cycle_status:
-  #   name: Dryer Cycle Status
-  #   options:
-  #     - Idle
-  #     - Running
-  #   initial: Idle
-
   # Radio Station
   radio_station:
     name: Radio Station

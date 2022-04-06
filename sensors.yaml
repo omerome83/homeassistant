@@ -244,10 +244,6 @@
     - "date"
     - "date_time"
 
-# # Torque (TEST)
-# - platform: torque
-#   email: omerome@hotmail.com
-
 # https://www.home-assistant.io/docs/configuration/templating/
 - platform: template
   sensors:
@@ -473,6 +469,11 @@
       device_class: temperature
       unit_of_measurement: "°F"
 
+    utility_room_temperature:
+      value_template: "{{ states('sensor.utility_room_multi_sensor_temperature') | round(0) }}"
+      device_class: temperature
+      unit_of_measurement: "°F"
+
     # Humidity
     dining_room_humidity:
       value_template: "{{ state_attr('climate.thermostat', 'current_humidity') | round(0) }}"
@@ -496,6 +497,11 @@
 
     office_humidity:
       value_template: "{{ states('sensor.office_multi_sensor_humidity') | round(0) }}"
+      device_class: humidity
+      unit_of_measurement: "%"
+
+    utility_room_humidity:
+      value_template: "{{ states('sensor.utility_room_multi_sensor_humidity') | round(0) }}"
       device_class: humidity
       unit_of_measurement: "%"
 
@@ -547,13 +553,23 @@
       device_class: battery
       unit_of_measurement: "%"
 
+    office_motion_sensor_battery:
+      value_template: "{{ states('sensor.office_motion_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
+    second_floor_multi_sensor_battery:
+      value_template: "{{ states('sensor.second_floor_multi_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
     basement_motion_sensor_battery:
       value_template: "{{ states('sensor.basement_motion_sensor_battery_level') | round(0) }}"
       device_class: battery
       unit_of_measurement: "%"
 
-    office_motion_sensor_battery:
-      value_template: "{{ states('sensor.office_motion_sensor_battery_level') | round(0) }}"
+    basement_multi_sensor_battery:
+      value_template: "{{ states('sensor.basement_multi_sensor_battery_level') | round(0) }}"
       device_class: battery
       unit_of_measurement: "%"
 
@@ -567,13 +583,8 @@
       device_class: battery
       unit_of_measurement: "%"
 
-    basement_multi_sensor_battery:
-      value_template: "{{ states('sensor.basement_multi_sensor_battery_level') | round(0) }}"
-      device_class: battery
-      unit_of_measurement: "%"
-
-    second_floor_multi_sensor_battery:
-      value_template: "{{ states('sensor.second_floor_multi_sensor_battery_level') | round(0) }}"
+    utility_room_multi_sensor_battery:
+      value_template: "{{ states('sensor.utility_room_multi_sensor_battery_level') | round(0) }}"
       device_class: battery
       unit_of_measurement: "%"
 
