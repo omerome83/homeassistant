@@ -89,38 +89,6 @@
         rgb_color: [224, 241, 187]
 
 
-  - name: Patriotic
-    entities:
-      light.basement_ceiling_lights:
-        state: "off"      
-      light.basement_tv_stand:
-        state: "on"
-        brightness: 100
-        # White
-        rgb_color: [255, 255, 255]
-      light.basement_table_lamp:
-        state: "on"
-        brightness: 100
-        # White
-        rgb_color: [255, 255, 255]
-      light.basement_floor_lamp_1: 
-        state: "on"
-        brightness: 100
-        # American Red
-        rgb_color: [178, 34, 52]
-      light.basement_floor_lamp_2:
-        state: "on"
-        brightness: 150
-        # American Blue
-        # rgb_color: [60, 59, 110]
-        rgb_color: [64, 0, 255]
-      light.basement_cabinet:
-        state: "on"
-        brightness: 100
-        # White
-        rgb_color: [255, 255, 255]
-
-
   # Autumn Forest
   # https://www.schemecolor.com/autumn-forest-2.php
   - name: Autumn
@@ -183,13 +151,6 @@
         brightness: 100
         # Snow
         rgb_color: [255, 250, 250]
-
-
-  - name: Sunrise
-    entities:
-      light.master_bedroom_nightstand_lamps:
-        state: "on"          
-        effect: Slow Temp        
 
 
   - name: Alarm

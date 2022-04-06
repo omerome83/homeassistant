@@ -9,17 +9,11 @@ disable_good_morning_routine:
 disable_sync_google_chromecast_activity:
   name: Disable Sync Google Chromecast Activity
   icon: mdi:autorenew
-# disable_home_assistant_new_version_notification:
-#   name: Disable Home Assistant New Version Notification
-#   icon: mdi:home-assistant
 disable_motion_detected_when_no_one_is_home:
   name: Disable Motion Detected When No One is Home
   icon: mdi:motion-sensor
 
 # Sports
-disable_upcoming_game_reminder:
-  name: Disable Upcoming Game Reminder
-  icon: mdi:basketball-hoop
 disable_new_york_knicks_game_reminder:
   name: Disable New York Knicks Game Reminder
   icon: mdi:basketball
@@ -58,18 +52,18 @@ disable_washing_machine_reminder:
   icon: mdi:washing-machine
 
 # HVAC
-disable_hvac_wake_up_mode:
-  name: Disable HVAC Wake Up Mode
-  icon: mdi:white-balance-sunny
-disable_hvac_bedtime_mode:
-  name: Disable HVAC Bedtime Mode
-  icon: mdi:bed-empty
-disable_home_mode:
-  name: Disable Home Mode
-  icon: mdi:home-thermometer
-disable_vacation_mode:
-  name: Disable Vacation Mode
-  icon: mdi:island
+# disable_hvac_wake_up_mode:
+#   name: Disable HVAC Wake Up Mode
+#   icon: mdi:white-balance-sunny
+# disable_hvac_bedtime_mode:
+#   name: Disable HVAC Bedtime Mode
+#   icon: mdi:bed-empty
+# disable_home_mode:
+#   name: Disable Home Mode
+#   icon: mdi:home-thermometer
+# disable_vacation_mode:
+#   name: Disable Vacation Mode
+#   icon: mdi:island
 
 # Lights
 disable_exterior_lights_on_sunset:

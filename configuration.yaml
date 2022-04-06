@@ -98,17 +98,16 @@ recorder:
       - sensor.script_count
       - sensor.switch_count
       - sensor.lights_count
-      - sensor.zwave_count
       - sensor.upcoming_holiday_date
       - sensor.upcoming_holiday
       - sensor.trash_pickup_date
       - sensor.trash_pickup_day
       - sensor.curbside_recycling_date
       - sensor.curbside_recycling_day
-      - sensor.knicks_game_countdown
-      - sensor.giants_game_countdown
-      - sensor.yankees_game_countdown
-      - sensor.wow_raid_countdown
+      - sensor.new_york_knicks_game_countdown
+      - sensor.new_york_giants_game_countdown
+      - sensor.new_york_yankees_game_countdown
+      # - sensor.wow_raid_countdown
 
 # lovelace:
 #   mode: storage
@@ -150,6 +149,7 @@ media_player:
       com.plexapp.android: Plex
       com.amazon.amazonvideo.livingroom: Prime Video
       com.netflix.ninja: Netflix
+      com.google.android.youtube.tv: YouTube
 
 # TP-Link
 # https://www.home-assistant.io/components/tplink/

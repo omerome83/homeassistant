@@ -606,9 +606,9 @@ switch.basement_google_chromecast:
 switch.basement_nintendo_gamecube:
   friendly_name: Nintendo Gamecube
   icon: mdi:gamepad
-# switch.basement_shield_youtube:
-#   friendly_name: YouTube
-#   icon: mdi:youtube
+switch.basement_shield_youtube:
+  friendly_name: YouTube
+  icon: mdi:youtube
 switch.basement_shield_emby:
   friendly_name: Emby
   icon: mdi:emby
@@ -621,9 +621,9 @@ switch.basement_shield_pandora:
 switch.basement_shield_netflix:
   friendly_name: Netflix
   icon: mdi:netflix
-switch.basement_shield_prime_video:
-  friendly_name: Prime Video
-  icon: mdi:amazon
+# switch.basement_shield_prime_video:
+#   friendly_name: Prime Video
+#   icon: mdi:television-classic
 switch.basement_fireplace:
   friendly_name: Basement Fireplace
   icon: mdi:fireplace
@@ -635,4 +635,4 @@ switch.master_bedroom_roku_netflix:
   icon: mdi:netflix
 switch.master_bedroom_roku_prime_video:
   friendly_name: Prime Video
-  icon: mdi:amazon
+  icon: mdi:television-classic
