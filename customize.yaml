@@ -80,13 +80,13 @@ light.master_bedroom_lights:
 light.outdoor_lights:
   icon: mdi:flower
 
-switch.plant_grow_lights:
+light.plant_grow_lights:
   friendly_name: Plant Grow Lights
   icon: mdi:sprout
-switch.front_door_entry_light:
+light.front_door_entry_light:
   friendly_name: Front Door Entry Light
   icon: mdi:coach-lamp
-switch.kitchen_ceiling_lights:
+light.kitchen_ceiling_lights:
   friendly_name: Kitchen Ceiling Lights
   icon: mdi:wall-sconce-flat
 
@@ -207,24 +207,22 @@ sensor.hdhr3_cc_tuner_2_channel:
   friendly_name: Tuner 3 Channel
   icon: mdi:television
 
-
 # Printer
 sensor.mfc_j995dw_status:
   friendly_name: Brother MFC-J995DW
   icon: mdi:printer
 sensor.mfc_j995dw_black_ink_remaining:
   friendly_name: Black
-  icon: mdi:water
+  icon: mdi:printer-3d-nozzle
 sensor.mfc_j995dw_magenta_ink_remaining:
   friendly_name: Magenta
-  icon: mdi:water
+  icon: mdi:printer-3d-nozzle
 sensor.mfc_j995dw_cyan_ink_remaining:
   friendly_name: Cyan
-  icon: mdi:water
+  icon: mdi:printer-3d-nozzle
 sensor.mfc_j995dw_yellow_ink_remaining:
   friendly_name: Yellow
-  icon: mdi:water
-
+  icon: mdi:printer-3d-nozzle
 
 # Home Assistant Version/File Info
 sensor.installed_version:
@@ -307,16 +305,16 @@ sensor.sentra_distance_traveled_with_cel_lit:
   icon: mdi:engine
 sensor.sentra_battery_voltage:
   friendly_name: Battery Voltage
-  icon: mdi:car-battery
+  # icon: mdi:car-battery
 sensor.sentra_catalyst_temperature:
   friendly_name: Catalytic Converter
-  icon: mdi:thermometer
+  # icon: mdi:thermometer
 sensor.sentra_engine_coolant_temperature:
   friendly_name: Engine Coolant
-  icon: mdi:thermometer
+  # icon: mdi:thermometer
 sensor.sentra_intake_air_temperature:
   friendly_name: Intake Air
-  icon: mdi:thermometer
+  # icon: mdi:thermometer
 sensor.sentra_air_fuel_ratio:
   friendly_name: Air/Fuel Ratio
   icon: mdi:alpha-a-box-outline
@@ -326,19 +324,18 @@ sensor.sentra_engine_load:
 sensor.sentra_engine_rpm:
   friendly_name: Engine RPM
   icon: mdi:speedometer
-sensor.sentra_o2_sensor_equivalence_ratio:
-  friendly_name: O2 Sensor Equivalence Ratio
-  icon: mdi:alpha-o-box-outline
-sensor.sentra_o2_sensor_voltage:
-  friendly_name: O2 Sensor Voltage
-  icon: mdi:flash
-sensor.sentra_mass_air_flow_rate:
-  friendly_name: Mass Air Flow Rate
-  icon: mdi:arrow-expand-all
-sensor.sentra_volumetric_efficiency:
-  friendly_name: Volumetric Efficiency
-  icon: mdi:alpha-v-box-outline
-
+# sensor.sentra_o2_sensor_equivalence_ratio:
+#   friendly_name: O2 Sensor Equivalence Ratio
+#   icon: mdi:alpha-o-box-outline
+# sensor.sentra_o2_sensor_voltage:
+#   friendly_name: O2 Sensor Voltage
+#   # icon: mdi:flash
+# sensor.sentra_mass_air_flow_rate:
+#   friendly_name: Mass Air Flow Rate
+#   icon: mdi:arrow-expand-all
+# sensor.sentra_volumetric_efficiency:
+#   friendly_name: Volumetric Efficiency
+#   icon: mdi:alpha-v-box-outline
 
 # UPS
 sensor.ups_operating_status:
@@ -349,7 +346,6 @@ sensor.ups_input_voltage:
 sensor.ups_time_left:
   friendly_name: Battery Runtime
   icon: mdi:timer
-  
 
 # House Alarm
 script.activate_house_alarm:
@@ -439,9 +435,6 @@ switch.sump_pump:
 switch.dehumidifier:
   friendly_name: Dehumidifier
   icon: mdi:air-humidifier
-switch.server_closet_fan:
-  friendly_name: Server Closet Fan
-  icon: mdi:fan
 
 sensor.ecolink_firefighter_battery_level:
   friendly_name: Ecolink Firefighter

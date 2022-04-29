@@ -2,10 +2,6 @@
 ## Sensors
 #################################################################
 
-# Moon
-# https://www.home-assistant.io/components/moon/
-- platform: moon
-
 # MQTT
 # https://www.home-assistant.io/integrations/mqtt/
 - platform: mqtt
@@ -14,41 +10,41 @@
   value_template: "{{ state_attr('sensor.sentra_torque', 'GPS Time') }}"
   json_attributes_topic: "devices/sentra/torque"
 
-# Weather Alert Count
-# https://www.weather.gov/documentation/services-web-api
-- platform: rest
-  resource: "https://api.weather.gov/alerts/active/count"
-  name: NWS Alert Count
-  value_template: >-
-    {% if value_json.zones.MDC005 is defined %}
-      {{ value_json.zones.MDC005 }}
-    {% else %}
-      0
-    {% endif %}
-  headers:
-    User-Agent: Homeassistant
-    Accept: application/ld+json
-  scan_interval: 900
-  verify_ssl: false
+# # Weather Alert Count
+# # https://www.weather.gov/documentation/services-web-api
+# - platform: rest
+#   resource: "https://api.weather.gov/alerts/active/count"
+#   name: NWS Alert Count
+#   value_template: >-
+#     {% if value_json.zones.MDC005 is defined %}
+#       {{ value_json.zones.MDC005 }}
+#     {% else %}
+#       0
+#     {% endif %}
+#   headers:
+#     User-Agent: Homeassistant
+#     Accept: application/ld+json
+#   scan_interval: 900
+#   verify_ssl: false
 
-# Weather Alert Headline
-# https://www.weather.gov/documentation/services-web-api
-- platform: rest
-  resource: "https://api.weather.gov/alerts/active?zone=MDC005"
-  name: NWS Alert Headline
-  value_template: >-
-    {% if value_json.features[0] is defined %}
-      {{ value_json['features'][0]['properties']['headline'] }}
-    {% else %}
-      None
-    {% endif %}
-  json_attributes:
-    - features
-  headers:
-    User-Agent: Homeassistant
-    Accept: application/geo+json
-  scan_interval: 900
-  verify_ssl: false
+# # Weather Alert Headline
+# # https://www.weather.gov/documentation/services-web-api
+# - platform: rest
+#   resource: "https://api.weather.gov/alerts/active?zone=MDC005"
+#   name: NWS Alert Headline
+#   value_template: >-
+#     {% if value_json.features[0] is defined %}
+#       {{ value_json['features'][0]['properties']['headline'] }}
+#     {% else %}
+#       None
+#     {% endif %}
+#   json_attributes:
+#     - features
+#   headers:
+#     User-Agent: Homeassistant
+#     Accept: application/geo+json
+#   scan_interval: 900
+#   verify_ssl: false
 
 # HDHomeRun Prime Firmware Status
 - platform: rest
@@ -62,7 +58,7 @@
     {% if value_json.UpgradeAvailable is defined %}
       Upgrade available
     {% else %}
-      Up to date
+      Up-to-date
     {% endif %}
 
 # Tuner 0
@@ -142,17 +138,10 @@
 # Sonarr
 # https://www.home-assistant.io/components/sonarr/
 - platform: sonarr_upcoming_media
-  api_key: secret sonarr_api_key
-  host: 192.168.1.44 #!secret nas_host_name
+  api_key: !secret sonarr_api_key
+  host: !secret media_server_host_name
   days: 10
   max: 3
-
-# Filesizes (DB and Log)
-# https://www.home-assistant.io/components/filesize/
-# - platform: filesize
-#   file_paths:
-#     #- /config/home-assistant_v2.db
-#     - /config/home-assistant.log
 
 # MariaDB Database Size
 # https://www.home-assistant.io/integrations/sql
@@ -180,18 +169,6 @@
 - platform: command_line
   name: Installed Version
   command: "cat /config/.HA_VERSION"
-
-# CPU Speed
-# https://www.home-assistant.io/components/cpuspeed/
-- platform: cpuspeed
-
-# CPU Temperature
-# https://www.home-assistant.io/components/sensor.command_line/
-# - platform: command_line
-#   name: CPU Temperature
-#   command: "cat /sys/class/thermal/thermal_zone2/temp"
-#   unit_of_measurement: "°C"
-#   value_template: '{{ value | multiply(0.001) | round(1) }}'
 
 # System Monitor
 # https://www.home-assistant.io/components/systemmonitor/
@@ -282,6 +259,7 @@
 
     sentra_battery_voltage:
       value_template: "{{ state_attr('sensor.sentra_torque', 'Voltage (Control Module)(V)') | round(2) }}"
+      device_class: voltage
       unit_of_measurement: "V"
 
     sentra_percentage_city_driving:
@@ -314,14 +292,17 @@
 
     sentra_catalyst_temperature:
       value_template: "{{ state_attr('sensor.sentra_torque', 'Catalyst Temperature (Bank 1 Sensor 1)(°F)') | round(1) }}"
+      device_class: temperature
       unit_of_measurement: "°F"
 
     sentra_engine_coolant_temperature:
       value_template: "{{ state_attr('sensor.sentra_torque', 'Engine Coolant Temperature(°F)') | round(1) }}"
+      device_class: temperature
       unit_of_measurement: "°F"
 
     sentra_intake_air_temperature:
       value_template: "{{ state_attr('sensor.sentra_torque', 'Intake Air Temperature(°F)') | round(1) }}"
+      device_class: temperature
       unit_of_measurement: "°F"
 
     sentra_air_fuel_ratio:
@@ -336,20 +317,21 @@
       value_template: "{{ state_attr('sensor.sentra_torque', 'Engine RPM(rpm)') | round(0) }}"
       unit_of_measurement: "rpm"
 
-    sentra_o2_sensor_equivalence_ratio:
-      value_template: "{{ state_attr('sensor.sentra_torque', 'O2 Sensor1 Equivalence Ratio') | round(1) }}"
+    # sentra_o2_sensor_equivalence_ratio:
+    #   value_template: "{{ state_attr('sensor.sentra_torque', 'O2 Sensor1 Equivalence Ratio') | round(1) }}"
 
-    sentra_o2_sensor_voltage:
-      value_template: "{{ state_attr('sensor.sentra_torque', 'O2 Volts Bank 1 sensor 2(V)') | round(1) }}"
-      unit_of_measurement: "V"
+    # sentra_o2_sensor_voltage:
+    #   value_template: "{{ state_attr('sensor.sentra_torque', 'O2 Volts Bank 1 sensor 2(V)') | round(1) }}"
+    #   device_class: voltage
+    #   unit_of_measurement: "V"
 
-    sentra_mass_air_flow_rate:
-      value_template: "{{ state_attr('sensor.sentra_torque', 'Mass Air Flow Rate(g/s)') | round(1) }}"
-      unit_of_measurement: "g/s"
+    # sentra_mass_air_flow_rate:
+    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Mass Air Flow Rate(g/s)') | round(1) }}"
+    #   unit_of_measurement: "g/s"
 
-    sentra_volumetric_efficiency:
-      value_template: "{{ state_attr('sensor.sentra_torque', 'Volumetric Efficiency (Calculated)(%)') | round(1) }}"
-      unit_of_measurement: "%"
+    # sentra_volumetric_efficiency:
+    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Volumetric Efficiency (Calculated)(%)') | round(1) }}"
+    #   unit_of_measurement: "%"
 
     # Next Event Date
     next_event_date:
@@ -411,29 +393,6 @@
     # Lights Count
     lights_count:
       value_template: "{{ states.light | count }}"
-
-    # Robot Vacuum
-    vacuum_name:
-      value_template: "{{ state_attr('vacuum.rose', 'friendly_name') }}"
-
-    # vacuum_status:
-    #   value_template: "{{ state_attr('vacuum.rose', 'status') }}"
-
-    # vacuum_cleaning_time:
-    #   value_template: "{{ state_attr('vacuum.rose', 'cleaning_time') }}"
-    #   unit_of_measurement: 'm'
-
-    # vacuum_cleaned_area:
-    #   value_template: "{{ state_attr('vacuum.rose', 'cleaned_area') | round(0) }}"
-    #   unit_of_measurement: 'm²'
-
-    # vacuum_battery_level:
-    #   value_template: "{{ state_attr('vacuum.rose', 'battery_level') }} %"
-    #   icon_template: "{{ state_attr('vacuum.rose', 'battery_icon') }}"
-
-    # Snapshot State
-    # snapshot_state:
-    #   value_template: "{{ states('sensor.snapshot_backup') | replace('_', ' ') | title }}"
 
     # Sunset
     next_sunrise:
@@ -505,16 +464,16 @@
       device_class: humidity
       unit_of_measurement: "%"
 
-    # HVAC
-    hvac_fan_mode:
-      value_template: >-
-        {% if is_state_attr('climate.thermostat', 'fan_mode', 'diffuse') %}
-          Circulate
-        {% elif is_state_attr('climate.thermostat', 'fan_mode', 'auto') %}
-          Auto
-        {% elif is_state_attr('climate.thermostat', 'fan_mode', 'on') %}
-          On
-        {% endif %}
+    # # HVAC
+    # hvac_fan_mode:
+    #   value_template: >-
+    #     {% if is_state_attr('climate.thermostat', 'fan_mode', 'diffuse') %}
+    #       Circulate
+    #     {% elif is_state_attr('climate.thermostat', 'fan_mode', 'auto') %}
+    #       Auto
+    #     {% elif is_state_attr('climate.thermostat', 'fan_mode', 'on') %}
+    #       On
+    #     {% endif %}
 
     # Fans
     master_bedroom_ceiling_fan_speed:
@@ -593,10 +552,6 @@
       device_class: battery
       unit_of_measurement: "%"
 
-    # UPS
-    ups_operating_status:
-      value_template: "{{ states('sensor.ups_status') | title }}"
-
     # New York Knicks
     new_york_knicks:
       value_template: >-
@@ -614,15 +569,9 @@
           {% if state_attr('calendar.new_york_knicks', 'message') %}
             {{ state_attr('calendar.new_york_knicks', 'message') }}
           {% endif %}
-        location: >-
-          {% if state_attr('calendar.new_york_knicks', 'location') %}
-            {{ state_attr('calendar.new_york_knicks', 'location') }}
-          {% endif %}
         duration: >-
           {% if state_attr('calendar.new_york_knicks', 'start_time')   %}
             {{ (as_timestamp(state_attr('calendar.new_york_knicks', 'end_time')) - as_timestamp(state_attr('calendar.new_york_knicks', 'start_time'))) | int / 3600 }} hours
-          {% else %}
-            -
           {% endif %}
 
     # New York Knicks Game Countdown
@@ -634,7 +583,7 @@
           {{ ((as_timestamp(state_attr('calendar.new_york_knicks', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
         {%- else -%}
           0
-        {%- endif %}
+        {% endif %}
 
     # New York Giants
     new_york_giants:
@@ -653,15 +602,9 @@
           {% if state_attr('calendar.new_york_giants', 'message') %}
             {{ state_attr('calendar.new_york_giants', 'message') }}
           {% endif %}
-        location: >-
-          {% if state_attr('calendar.new_york_giants', 'location') %}
-            {{ state_attr('calendar.new_york_giants', 'location') }}
-          {% endif %}
         duration: >-
           {% if state_attr('calendar.new_york_giants', 'start_time')   %}
             {{ (as_timestamp(state_attr('calendar.new_york_giants', 'end_time')) - as_timestamp(state_attr('calendar.new_york_giants', 'start_time'))) | int / 3600 }} hours
-          {% else %}
-            -
           {% endif %}
 
     # New York Giants  Game Countdown
@@ -692,15 +635,9 @@
           {% if state_attr('calendar.new_york_yankees', 'message') %}
             {{ state_attr('calendar.new_york_yankees', 'message') }}
           {% endif %}
-        location: >-
-          {% if state_attr('calendar.new_york_yankees', 'location') %}
-            {{ state_attr('calendar.new_york_yankees', 'location') }}
-          {% endif %}
         duration: >-
           {% if state_attr('calendar.new_york_yankees', 'start_time')   %}
             {{ (as_timestamp(state_attr('calendar.new_york_yankees', 'end_time')) - as_timestamp(state_attr('calendar.new_york_yankees', 'start_time'))) | int / 3600 }} hours
-          {% else %}
-            -
           {% endif %}
 
     # New York Yankees Game Countdown
@@ -712,7 +649,7 @@
           {{ ((as_timestamp(state_attr('calendar.new_york_yankees', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
         {%- else -%}
           0
-        {%- endif %}
+        {% endif %}
     # # Gaming
     # # World of Warcraft Raid
     # wow_raid_countdown:

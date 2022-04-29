@@ -9,18 +9,21 @@ homeassistant:
   latitude: !secret home_latitude
   longitude: !secret home_longitude
 
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret home_elevation
+
+  currency: USD
+
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/New_York
+
   allowlist_external_dirs:
     - /config
 
   media_dirs:
     media: /media
-
-  # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: !secret home_elevation
-  # metric for Metric, imperial for Imperial
-  unit_system: imperial
-  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time_zone: America/New_York
 
   auth_providers:
     - type: homeassistant
@@ -109,57 +112,31 @@ recorder:
       - sensor.new_york_yankees_game_countdown
       # - sensor.wow_raid_countdown
 
-# lovelace:
-#   mode: storage
+# media_player:
+# Emby
+# https://www.home-assistant.io/integrations/emby/
+# - platform: emby
+#   host: !secret nas_host_name
+#   api_key: !secret emby_api_key
 
-#   resources:
-#     # https://github.com/thomasloven/lovelace-card-tools
-#     - url: /local/card-tools.js
-#       type: js
+# # Yamaha AV Receiver
+# # https://www.home-assistant.io/components/yamaha/
+# - platform: yamaha
+#   host: !secret av_receiver_host_name
 
-#     # https://github.com/custom-cards/secondaryinfo-entity-row
-#     - url: /local/secondaryinfo-entity-row.js
-#       type: module
-
-#     # https://github.com/custom-cards/upcoming-media-card
-#     - url: /local/custom-lovelace/upcoming-media-card/upcoming-media-card.js?v=0.1.1
-#       type: js
-
-media_player:
-  # Emby
-  # https://www.home-assistant.io/integrations/emby/
-  # - platform: emby
-  #   host: !secret nas_host_name
-  #   api_key: !secret emby_api_key
-
-  # # Yamaha AV Receiver
-  # # https://www.home-assistant.io/components/yamaha/
-  # - platform: yamaha
-  #   host: !secret av_receiver_host_name
-
-  # Android TV
-  # https://www.home-assistant.io/integrations/androidtv#adb-setup
-  - platform: androidtv
-    name: Basement Shield
-    host: !secret basement_nvidia_shield_host_name
-    apps:
-      com.silicondust.view: HDHomeRun
-      tv.emby.embyatv: Emby
-      pandora.android.atv: Pandora
-      com.plexapp.android: Plex
-      com.amazon.amazonvideo.livingroom: Prime Video
-      com.netflix.ninja: Netflix
-      com.google.android.youtube.tv: YouTube
-
-# TP-Link
-# https://www.home-assistant.io/components/tplink/
-# tplink:
-#   discovery: false
-#   switch:
-#     #- host: !secret mini_christmas_tree_host_name
-#     #- host: !secret christmas_tree_host_name
-#     - host: !secret plant_grow_lights_host_name
-#     - host: !secret cable_modem_switch_host_name
+# Android TV
+# https://www.home-assistant.io/integrations/androidtv#adb-setup
+# - platform: androidtv
+#   name: Basement Shield
+#   host: !secret basement_nvidia_shield_host_name
+#   apps:
+#     com.silicondust.view: HDHomeRun
+#     tv.emby.embyatv: Emby
+#     pandora.android.atv: Pandora
+#     com.plexapp.android: Plex
+#     com.amazon.amazonvideo.livingroom: Prime Video
+#     com.netflix.ninja: Netflix
+#     com.google.android.youtube.tv: YouTube
 
 # UPS
 # https://www.home-assistant.io/components/apcupsd/
@@ -193,9 +170,9 @@ proxmoxve:
           - 102
 
 # Includes
-group: !include groups.yaml
+# group: !include groups.yaml
 automation: !include automations.yaml
-light: !include light_group.yaml
+# light: !include light_group.yaml
 script: !include scripts.yaml
 zone: !include zones.yaml
 input_select: !include input_select.yaml

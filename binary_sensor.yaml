@@ -2,25 +2,13 @@
 ## Binary Sensor
 #################################################################
 
-  # Ping WAN (www.google.com)
-  - platform: ping
-    name: Internet Status
-    host: google.com
-    scan_interval: 30
-
-  - platform: template
-    sensors:
-
-      # Thermostat - Fan Status
-      hvac_fan_status:
-        value_template: "{{ is_state_attr('climate.thermostat', 'fan_action', 'running') }}"
-      
-      # Version Available for Home Assistant
-      upgrade_available:
-        value_template: "{{ states('sensor.installed_version') != states('sensor.latest_release') }}"        
-
-      # washing_machine_status:
-      #   friendly_name: "Washing Machine Status"
-      #   delay_off:
-      #     minutes: 5
-      #   value_template: "{{ states('sensor.washing_machine_switch_wattage')| float > 0 }}"
+# Ping WAN (www.google.com)
+- platform: ping
+  name: Internet Status
+  host: google.com
+  scan_interval: 30
+# washing_machine_running:
+#   friendly_name: "Washing Machine Running"
+#   delay_off:
+#     minutes: 5
+#   value_template: "{{ states('sensor.washing_machine_switch_wattage')| float > 0 }}"
