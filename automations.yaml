@@ -233,7 +233,7 @@
   condition:
     - condition: template
       # February 1st
-      value_template: "{{ now().strftime('%m-%d') == '02-01' }}"
+      value_template: "{{ now().strftime('%m-%d') == '10-02' }}"
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
@@ -573,13 +573,13 @@
         #   value_template: "{{ now().timetuple().tm_yday % 90 == 0 }}"
         # Every three months
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '03-03' }}"
+          value_template: "{{ now().strftime('%m-%d') == '02-10' }}"
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '06-03' }}"
+          value_template: "{{ now().strftime('%m-%d') == '05-10' }}"
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '09-03' }}"
+          value_template: "{{ now().strftime('%m-%d') == '08-10' }}"
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '12-03' }}"
+          value_template: "{{ now().strftime('%m-%d') == '11-10' }}"
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
@@ -1286,11 +1286,11 @@
     - service: tts.google_translate_say
       entity_id: media_player.basement_display
       data:
-        message: "The New York Yankees starts in an hour!"
+        message: "The New York Yankees game starts in an hour!"
     - service: notify.mobile_app_sm_s901u1
       data:
         title: "Upcoming Game Reminder"
-        message: "The New York Yankees starts in an hour!"
+        message: "The New York Yankees game starts in an hour!"
         data:
           image: /config/www/images/misc/ny_yankees.png
     - service: notify.android_tv_fire_tv
