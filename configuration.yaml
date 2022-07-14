@@ -1,6 +1,10 @@
 homeassistant:
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+
   # http:
+  #   use_x_forwarded_for: true
+  #   trusted_proxies:
+  #     - 192.168.1.44 # Add the IP address of the proxy server
   #   base_url: example.duckdns.org:8123
 
   # Name of the location where Home Assistant is running
@@ -119,11 +123,6 @@ recorder:
 #   host: !secret nas_host_name
 #   api_key: !secret emby_api_key
 
-# # Yamaha AV Receiver
-# # https://www.home-assistant.io/components/yamaha/
-# - platform: yamaha
-#   host: !secret av_receiver_host_name
-
 # Android TV
 # https://www.home-assistant.io/integrations/androidtv#adb-setup
 # - platform: androidtv
@@ -168,11 +167,10 @@ proxmoxve:
           - 104
         containers:
           - 102
+          - 105
 
 # Includes
-# group: !include groups.yaml
 automation: !include automations.yaml
-# light: !include light_group.yaml
 script: !include scripts.yaml
 zone: !include zones.yaml
 input_select: !include input_select.yaml

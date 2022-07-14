@@ -2,12 +2,6 @@
 ## Customize
 #################################################################
 
-# Device Tracker
-device_tracker.romel_sm_s901u1:
-  friendly_name: Romel
-sensor.phone_battery_level_user_1:
-  friendly_name: Battery Level
-
 # Media Players
 media_player.master_bedroom_roku:
   friendly_name: Master Bedroom Roku
@@ -171,20 +165,17 @@ sensor.pi_hole_dns_queries_forwarded:
   friendly_name: DNS Queries Forwarded
 
 # Proxmox VE
-# binary_sensor.ommiepve_alpine_linux_running:
-#   friendly_name: Alpine Linux Running
-#   icon: mdi:monitor
-binary_sensor.ommiepve_debian_running:
-  friendly_name: Debian Running
+binary_sensor.ommiepve_envase_running:
+  friendly_name: Envase
   icon: mdi:monitor
-# binary_sensor.ommiepve_ubuntu_server_running:
-#   friendly_name: Ubuntu Server Running
-#   icon: mdi:monitor
-binary_sensor.ommiepve_pi_hole_running:
-  friendly_name: Pi-hole Running
+binary_sensor.ommiepve_pi_hole1_running:
+  friendly_name: Pi-hole1
+  icon: mdi:cube
+binary_sensor.ommiepve_pi_hole2_running:
+  friendly_name: Pi-hole2
   icon: mdi:cube
 binary_sensor.ommiepve_web_dev_running:
-  friendly_name: Web Dev Running
+  friendly_name: Web Dev
   icon: mdi:monitor
 
 # HDHomeRun Prime (TV Tuner)
@@ -243,24 +234,24 @@ sensor.home_assistant_log:
 sensor.backup_state:
   icon: mdi:camera
 
-weather.openweathermap:
-  friendly_name: Home
+# weather.openweathermap:
+#   friendly_name: Home
 
-sensor.openweathermap_humidity:
-  friendly_name: Humidity
-  icon: mdi:water-percent
-sensor.openweathermap_cloud_coverage:
-  friendly_name: Cloud Cover
-  icon: mdi:weather-cloudy
-sensor.openweathermap_pressure:
-  friendly_name: Pressure
-  icon: mdi:arrow-down-bold-box
-sensor.openweathermap_wind_bearing:
-  friendly_name: Wind Bearing
-  icon: mdi:directions
-sensor.openweathermap_wind_speed:
-  friendly_name: Wind Speed
-  icon: mdi:weather-windy
+# sensor.openweathermap_humidity:
+#   friendly_name: Humidity
+#   icon: mdi:water-percent
+# sensor.openweathermap_cloud_coverage:
+#   friendly_name: Cloud Cover
+#   icon: mdi:weather-cloudy
+# sensor.openweathermap_pressure:
+#   friendly_name: Pressure
+#   icon: mdi:arrow-down-bold-box
+# sensor.openweathermap_wind_bearing:
+#   friendly_name: Wind Bearing
+#   icon: mdi:directions
+# sensor.openweathermap_wind_speed:
+#   friendly_name: Wind Speed
+#   icon: mdi:weather-windy
 
 sensor.next_sunrise:
   friendly_name: Next Sunrise
@@ -269,61 +260,61 @@ sensor.next_sunset:
   friendly_name: Next Sunset
   icon: mdi:weather-sunset-down
 
-# Torque (Nissan Sentra)
-sensor.sentra_mpg:
-  friendly_name: Fuel Efficiency
-  icon: mdi:gas-station
-sensor.sentra_fuel_level:
-  friendly_name: Fuel Level
-  icon: mdi:gauge
-sensor.sentra_fuel_used_trip:
-  friendly_name: Fuel Used (Trip)
-  icon: mdi:fuel
-# sensor.sentra_distance_to_empty:
-#   friendly_name: Distance to Empty (DTE)
-#   icon: mdi:alpha-e-box-outline
-sensor.sentra_percentage_city_driving:
-  friendly_name: City Driving
-  icon: mdi:city
-sensor.sentra_percentage_highway_driving:
-  friendly_name: Highway Driving
-  icon: mdi:highway
-sensor.sentra_percentage_idle_driving:
-  friendly_name: Idle Driving
-  icon: mdi:pause
-sensor.sentra_percentage_trip_distance:
-  friendly_name: Trip Distance
-  icon: mdi:map-marker-distance
-sensor.sentra_run_time_since_engine_start:
-  friendly_name: Run Time Since Engine Start
-  icon: mdi:timer
-sensor.sentra_distance_traveled_since_codes_cleared:
-  friendly_name: Distance Traveled Since Codes Cleared
-  icon: mdi:eraser
-sensor.sentra_distance_traveled_with_cel_lit:
-  friendly_name: Distance Traveled With Check Engine Light
-  icon: mdi:engine
-sensor.sentra_battery_voltage:
-  friendly_name: Battery Voltage
-  # icon: mdi:car-battery
-sensor.sentra_catalyst_temperature:
-  friendly_name: Catalytic Converter
-  # icon: mdi:thermometer
-sensor.sentra_engine_coolant_temperature:
-  friendly_name: Engine Coolant
-  # icon: mdi:thermometer
-sensor.sentra_intake_air_temperature:
-  friendly_name: Intake Air
-  # icon: mdi:thermometer
-sensor.sentra_air_fuel_ratio:
-  friendly_name: Air/Fuel Ratio
-  icon: mdi:alpha-a-box-outline
-sensor.sentra_engine_load:
-  friendly_name: Engine Load
-  icon: mdi:engine
-sensor.sentra_engine_rpm:
-  friendly_name: Engine RPM
-  icon: mdi:speedometer
+# # Torque (Nissan Sentra)
+# sensor.sentra_mpg:
+#   friendly_name: Fuel Efficiency
+#   icon: mdi:gas-station
+# sensor.sentra_fuel_level:
+#   friendly_name: Fuel Level
+#   icon: mdi:gauge
+# sensor.sentra_fuel_used_trip:
+#   friendly_name: Fuel Used (Trip)
+#   icon: mdi:fuel
+# # sensor.sentra_distance_to_empty:
+# #   friendly_name: Distance to Empty (DTE)
+# #   icon: mdi:alpha-e-box-outline
+# sensor.sentra_percentage_city_driving:
+#   friendly_name: City Driving
+#   icon: mdi:city
+# sensor.sentra_percentage_highway_driving:
+#   friendly_name: Highway Driving
+#   icon: mdi:highway
+# sensor.sentra_percentage_idle_driving:
+#   friendly_name: Idle Driving
+#   icon: mdi:pause
+# sensor.sentra_percentage_trip_distance:
+#   friendly_name: Trip Distance
+#   icon: mdi:map-marker-distance
+# sensor.sentra_run_time_since_engine_start:
+#   friendly_name: Run Time Since Engine Start
+#   icon: mdi:timer
+# sensor.sentra_distance_traveled_since_codes_cleared:
+#   friendly_name: Distance Traveled Since Codes Cleared
+#   icon: mdi:eraser
+# sensor.sentra_distance_traveled_with_cel_lit:
+#   friendly_name: Distance Traveled With Check Engine Light
+#   icon: mdi:engine
+# sensor.sentra_battery_voltage:
+#   friendly_name: Battery Voltage
+#   # icon: mdi:car-battery
+# sensor.sentra_catalyst_temperature:
+#   friendly_name: Catalytic Converter
+#   # icon: mdi:thermometer
+# sensor.sentra_engine_coolant_temperature:
+#   friendly_name: Engine Coolant
+#   # icon: mdi:thermometer
+# sensor.sentra_intake_air_temperature:
+#   friendly_name: Intake Air
+#   # icon: mdi:thermometer
+# sensor.sentra_air_fuel_ratio:
+#   friendly_name: Air/Fuel Ratio
+#   icon: mdi:alpha-a-box-outline
+# sensor.sentra_engine_load:
+#   friendly_name: Engine Load
+#   icon: mdi:engine
+# sensor.sentra_engine_rpm:
+#   friendly_name: Engine RPM
+#   icon: mdi:speedometer
 # sensor.sentra_o2_sensor_equivalence_ratio:
 #   friendly_name: O2 Sensor Equivalence Ratio
 #   icon: mdi:alpha-o-box-outline
@@ -587,18 +578,21 @@ switch.basement_shield_tv:
 switch.basement_nintendo_switch:
   friendly_name: Nintendo Switch
   icon: mdi:nintendo-switch
-switch.basement_playstation_4:
-  friendly_name: PlayStation 4
+switch.basement_playstation_5:
+  friendly_name: PlayStation 5
   icon: mdi:sony-playstation
-# switch.listen_to_music:
-#   friendly_name: Listen to Music
-#   icon: mdi:music
-switch.basement_google_chromecast:
-  friendly_name: Google Chromecast
-  icon: mdi:cast
-switch.basement_nintendo_gamecube:
-  friendly_name: Nintendo Gamecube
-  icon: mdi:gamepad
+switch.basement_listen_to_music:
+  friendly_name: Listen to Music
+  icon: mdi:music
+# switch.basement_google_chromecast:
+#   friendly_name: Google Chromecast
+#   icon: mdi:cast
+# switch.basement_nintendo_gamecube:
+#   friendly_name: Nintendo Gamecube
+#   icon: mdi:gamepad
+switch.basement_nintendo_wii:
+  friendly_name: Nintendo Wii
+  icon: mdi:nintendo-wii
 switch.basement_shield_youtube:
   friendly_name: YouTube
   icon: mdi:youtube

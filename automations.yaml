@@ -37,7 +37,7 @@
       entity_id: input_boolean.disable_restart_cable_modem
       state: "off"
     - condition: template
-      # Only occurs on the first of the month
+      # Occurs on the first of the month
       value_template: "{{ now().day == 1 }}"
   action:
     - service: script.restart_cable_modem
@@ -286,32 +286,32 @@
       entity_id: switch.basement_nintendo_switch
       to: "on"
     - platform: state
-      entity_id: switch.basement_nintendo_gamecube
+      entity_id: switch.basement_nintendo_wii
       to: "on"
   action:
     - service: script.play_nintendo_sound
 
-- alias: "Play Sound For PlayStation 4 Activity on Basement Remote"
+- alias: "Play Sound For PlayStation Activity on Basement Remote"
   trigger:
     platform: state
-    entity_id: switch.basement_playstation_4
+    entity_id: switch.basement_playstation_5
     to: "on"
   action:
     - service: script.play_playstation_sound
 
-- alias: "Turn on PlayStation 4"
-  trigger:
-    platform: state
-    entity_id: switch.basement_playstation_4
-    to: "on"
-  condition:
-    - condition: template
-      value_template: "{{ is_state('media_player.basement_playstation_4', 'standby') }}"
-  action:
-    - service: ps4.send_command
-      data:
-        entity_id: media_player.basement_playstation_4
-        command: ps
+# - alias: "Turn on PlayStation 4"
+#   trigger:
+#     platform: state
+#     entity_id: switch.basement_playstation_4
+#     to: "on"
+#   condition:
+#     - condition: template
+#       value_template: "{{ is_state('media_player.basement_playstation_4', 'standby') }}"
+#   action:
+#     - service: ps4.send_command
+#       data:
+#         entity_id: media_player.basement_playstation_4
+#         command: ps
 
 - alias: "High Humidity Notification"
   trigger:
@@ -323,17 +323,13 @@
       - sensor.server_closet_humidity
       - sensor.office_humidity
       - sensor.utility_room_humidity
-    above: 67
+    above: 65
     for:
       hours: 1
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
         title: "High Humidity Notification"
-        message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
-    - service: tts.google_translate_say
-      entity_id: media_player.basement_display
-      data:
         message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
 
 - alias: "Low Battery on Device Notification"
@@ -397,7 +393,7 @@
             - action: "deactivate_house_alarm" # The key you are sending for the event
               title: "Deactivate House Alarm" # The button title
     - service: tts.google_translate_say
-      entity_id: media_player.office_speaker
+      entity_id: media_player.google_nest_speakers
       data:
         message: "A water leak has been detected by the {{ trigger.to_state.name | lower }}!"
     - service: script.activate_house_alarm
@@ -601,9 +597,9 @@
         #   value_template: "{{ now().timetuple().tm_yday % 180 == 0 }}"
         # Every six months
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '06-29' }}"
+          value_template: "{{ now().strftime('%m-%d') == '07-01' }}"
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '12-29' }}"
+          value_template: "{{ now().strftime('%m-%d') == '01-01' }}"
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
@@ -648,29 +644,29 @@
         title: "Recycling Day Reminder"
         message: "Take the recycling items out to the curb."
 
-- alias: "Activate Chromecast Activity Only When Basement TV Is Turned Off"
-  initial_state: false
-  trigger:
-    platform: state
-    entity_id: media_player.basement_tv
-    to: "playing"
-  condition:
-    - condition: template
-      # As long as the current activity is not 'Google Chromecast'
-      value_template: "{{ not is_state_attr('remote.basement', 'current_activity', 'Google Chromecast') }}"
-    - condition: state
-      entity_id: input_boolean.disable_sync_google_chromecast_activity
-      state: "off"
-  action:
-    - service: script.turn_on
-      # Enable activity if the tv is off or notify user to enable activity on remote
-      data:
-        entity_id: >-
-          {% if is_state_attr('remote.basement', 'current_activity', 'PowerOff') %}
-            script.launch_basement_chromecast_activity
-          {% else %}
-            script.basement_chromecast_activity_notification
-          {% endif %}
+# - alias: "Activate Chromecast Activity Only When Basement TV Is Turned Off"
+#   initial_state: false
+#   trigger:
+#     platform: state
+#     entity_id: media_player.basement_tv
+#     to: "playing"
+#   condition:
+#     - condition: template
+#       # As long as the current activity is not 'Google Chromecast'
+#       value_template: "{{ not is_state_attr('remote.basement', 'current_activity', 'Google Chromecast') }}"
+#     - condition: state
+#       entity_id: input_boolean.disable_sync_google_chromecast_activity
+#       state: "off"
+#   action:
+#     - service: script.turn_on
+#       # Enable activity if the tv is off or notify user to enable activity on remote
+#       data:
+#         entity_id: >-
+#           {% if is_state_attr('remote.basement', 'current_activity', 'PowerOff') %}
+#             script.launch_basement_chromecast_activity
+#           {% else %}
+#             script.basement_chromecast_activity_notification
+#           {% endif %}
 
 - alias: "Turn on Harmony Activity in Basement"
   trigger:
@@ -685,7 +681,7 @@
     - service: scene.turn_on
       entity_id: scene.default
       data:
-        transition: 2.5
+        transition: 10
     - service: homeassistant.turn_off
       entity_id: switch.dehumidifier
 
@@ -883,7 +879,7 @@
     - service: scene.turn_on
       entity_id: scene.default
       data:
-        transition: 2.5
+        transition: 10
 
 - alias: "Turn on Romantic Scene"
   trigger:
@@ -894,7 +890,7 @@
     - service: scene.turn_on
       entity_id: scene.romantic
       data:
-        transition: 2.5
+        transition: 10
 
 - alias: "Turn on Spring Scene"
   trigger:
@@ -905,7 +901,7 @@
     - service: scene.turn_on
       entity_id: scene.spring
       data:
-        transition: 2.5
+        transition: 10
 
 - alias: "Turn on Patriotic Scene"
   trigger:
@@ -916,7 +912,7 @@
     - service: scene.turn_on
       entity_id: scene.patriotic
       data:
-        transition: 2.5
+        transition: 10
 
 - alias: "Turn on Autumn Scene"
   trigger:
@@ -927,7 +923,7 @@
     - service: scene.turn_on
       entity_id: scene.autumn
       data:
-        transition: 2.5
+        transition: 10
 
 - alias: "Turn on Christmas Scene"
   trigger:
@@ -938,7 +934,7 @@
     - service: scene.turn_on
       entity_id: scene.christmas
       data:
-        transition: 2.5
+        transition: 10
 
 - alias: "HVAC - Bedtime Mode"
   initial_state: false
@@ -1224,7 +1220,9 @@
     - service: notify.mobile_app_sm_s901u1
       data:
         title: "Upcoming Game Reminder"
-        message: "The New York Knicks tips off in an hour!"
+        message: |
+          The New York Knicks tips off in an hour!
+          Today's Matchup: {{ state_attr('sensor.new_york_knicks', 'matchup') }}
         data:
           image: /config/www/images/misc/ny_knicks.png
     - service: notify.android_tv_fire_tv
@@ -1257,7 +1255,9 @@
     - service: notify.mobile_app_sm_s901u1
       data:
         title: "Upcoming Game Reminder"
-        message: "The New York Giants kick off in an hour!"
+        message: |
+          The New York Giants kick off in an hour!"
+          Today's Matchup: {{ state_attr('sensor.new_york_giants', 'matchup') }}
         data:
           image: /config/www/images/misc/ny_giants.png
     - service: notify.android_tv_fire_tv
@@ -1290,7 +1290,9 @@
     - service: notify.mobile_app_sm_s901u1
       data:
         title: "Upcoming Game Reminder"
-        message: "The New York Yankees game starts in an hour!"
+        message: |
+          The New York Yankees game starts in an hour!
+          Today's Matchup: {{ state_attr('sensor.new_york_yankees', 'matchup') }}
         data:
           image: /config/www/images/misc/ny_yankees.png
     - service: notify.android_tv_fire_tv

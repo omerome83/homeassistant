@@ -46,13 +46,13 @@ play_playstation_sound:
               'http://192.168.1.31:8123/local/audio/playstation/chocobo.mp3'] | random }}
         media_content_type: "music"
 
-launch_basement_chromecast_activity:
-  alias: "Launch Basement Chromecast Activity"
-  sequence:
-    - service: remote.turn_on
-      entity_id: remote.basement
-      data:
-        activity: "Google Chromecast"
+# launch_basement_chromecast_activity:
+#   alias: "Launch Basement Chromecast Activity"
+#   sequence:
+#     - service: remote.turn_on
+#       entity_id: remote.basement
+#       data:
+#         activity: "Google Chromecast"
 
 # launch_basement_shield_google_cast:
 #   alias: "Launch Basement Shield Google Cast via Basement Display"
@@ -83,19 +83,19 @@ run_speedtest:
   sequence:
     - service: speedtestdotnet.speedtest
 
-basement_chromecast_activity_notification:
-  alias: "Basement Chromecast Activity Notification"
-  sequence:
-    - service: tts.google_translate_say
-      entity_id: media_player.basement_display
-      data:
-        message: "Please select the 'Google Chromecast' activity on the remote control."
+# basement_chromecast_activity_notification:
+#   alias: "Basement Chromecast Activity Notification"
+#   sequence:
+#     - service: tts.google_translate_say
+#       entity_id: media_player.basement_display
+#       data:
+#         message: "Please select the 'Google Chromecast' activity on the remote control."
 
 activate_house_alarm:
   sequence:
     - service: media_player.play_media
       data:
-        entity_id: group.google_nest_speakers
+        entity_id: media_player.google_nest_speakers
         media_content_id: http://192.168.1.31:8123/local/audio/alarm_house.mp3
         media_content_type: "music"
     # - service: scene.turn_on
@@ -105,7 +105,7 @@ deactivate_house_alarm:
   sequence:
     - service: media_player.turn_off
       data:
-        entity_id: group.google_nest_speakers
+        entity_id: media_player.google_nest_speakers
     # - service: scene.turn_on
     #   entity_id: scene.stop
 
