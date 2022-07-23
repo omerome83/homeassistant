@@ -326,12 +326,12 @@
     above: 65
     for:
       hours: 1
-  action:
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        title: "High Humidity Notification"
-        message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
 
+  # action:
+  #   - service: notify.mobile_app_sm_s901u1
+  #     data:
+  #       title: "High Humidity Notification"
+  #       message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
 - alias: "Low Battery on Device Notification"
   trigger:
     platform: numeric_state
@@ -1079,22 +1079,22 @@
         title: "Sump Pump Notification"
         message: "The sump pump is currently running. It is using {{ states('sensor.sump_pump_power_switch_power') }} watts."
 
-- alias: "Low Fuel Notification"
-  initial_state: false
-  trigger:
-    platform: sun
-    event: sunrise
-  condition:
-    - condition: template
-      value_template: "{{ states('sensor.sentra_fuel_level') | int < 25 }}"
-    - condition: state
-      entity_id: input_boolean.disable_low_fuel_notification
-      state: "off"
-  action:
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        title: "Low Fuel Notification"
-        message: "The Nissan Sentra's fuel level is currently at {{ states('sensor.sentra_fuel_level') | int }}%."
+# - alias: "Low Fuel Notification"
+#   initial_state: false
+#   trigger:
+#     platform: sun
+#     event: sunrise
+#   condition:
+#     - condition: template
+#       value_template: "{{ states('sensor.sentra_fuel_level') | int < 25 }}"
+#     - condition: state
+#       entity_id: input_boolean.disable_low_fuel_notification
+#       state: "off"
+#   action:
+#     - service: notify.mobile_app_sm_s901u1
+#       data:
+#         title: "Low Fuel Notification"
+#         message: "The Nissan Sentra's fuel level is currently at {{ states('sensor.sentra_fuel_level') | int }}%."
 
 # When power is detected, set the washing machine status as running
 - alias: "Set Washing Machine as Running"
