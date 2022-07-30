@@ -6,7 +6,7 @@ With the help of this application, the dream of living in a smart home has been 
 
 # Screenshots
 
-![Home](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_home.png)
+![Home](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_home.PNG)
 ![Comfort](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_comfort.png)
 ![Device Status](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_device_status.png)
 ![Media](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_media.png)
