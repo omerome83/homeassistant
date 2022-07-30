@@ -7,9 +7,9 @@ With the help of this application, the dream of living in a smart home has been 
 # Screenshots
 
 ![Home](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_home.PNG)
-![Comfort](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_comfort.png)
-![Device Status](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_device_status.png)
-![Media](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_media.png)
-![Info](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_info.png)
-![Battery Status](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_battery_status.png)
-![Automation Override](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_automation_override.png)
+![Comfort](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_comfort.PNG)
+![Device Status](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_device_status.PNG)
+![Media](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_media.PNG)
+![Info](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_info.PNG)
+![Battery Status](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_battery_status.PNG)
+![Automation Override](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_automation_override.PNG)
