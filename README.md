@@ -2,7 +2,9 @@
 
 My Home Assistant (www.home-assistant.io) configuration with 70+ automations and 10+ scripts. These are active automations and sensor data which are used everyday.
 
-With the help of this application, the dream of living in a smart home has been a pleasurable experience. This configuration will get updated frequently as I add devices and come up with additional use cases. I hope this can be an inspiration to anyone who also wants to take the plug into home automation. 
+With the help of this application, the dream of living in a smart home has been a pleasurable experience. This configuration will get updated frequently as I add devices and come up with additional use cases. 
+
+I hope this can be an inspiration to anyone who also wants to take the plug into home automation. 
 
 # Screenshots
 
