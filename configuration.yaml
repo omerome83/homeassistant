@@ -67,11 +67,11 @@ conversation:
 logger:
   default: error
 
-nest:
-  client_id: !secret nest_client_id
-  client_secret: !secret nest_client_secret
-  # "Project ID" in the Device Access Console
-  project_id: !secret nest_project_id
+# nest:
+#   client_id: !secret nest_client_id
+#   client_secret: !secret nest_client_secret
+#   # "Project ID" in the Device Access Console
+#   project_id: !secret nest_project_id
 
 # Component for storing details in database
 recorder:
@@ -140,12 +140,12 @@ recorder:
 apcupsd:
   host: !secret nas_host_name
 
-# Google Calendar
-# https://www.home-assistant.io/components/calendar.google/
-google:
-  client_id: !secret google_client_id
-  client_secret: !secret google_client_secret
-  track_new_calendar: true
+# # Google Calendar
+# # https://www.home-assistant.io/components/calendar.google/
+# google:
+#   client_id: !secret google_client_id
+#   client_secret: !secret google_client_secret
+#   track_new_calendar: true
 
 # SpeedTest
 # https://www.home-assistant.io/components/speedtestdotnet/
