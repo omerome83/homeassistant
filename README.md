@@ -20,10 +20,13 @@ This configuration will get updated frequently so make sure to ⭐ and stay up-t
 
 ## Features
 
-- Google Calendar integration for sports team notifications on mobile device, smart speakers, and also on the TV
+- Google Calendar integration for sports team notifications on:
+  -  Mobile devices
+  -  Smart speakers
+  -  Televisions
 - Turning on lights depending on the time of day (sunrise/sunset)
-- Motion-detect enabled lights through the home with a manual override
-- Water leak detection in high-risk areas around the home
+- Motion-detected lights throughout the home with function of a manual override
+- Water leak detection in high-risk areas around the home:
   - Kitchen
   - Bathroom
   - Washing Machine
