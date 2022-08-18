@@ -4,7 +4,35 @@
 
 My [Home Assistant](https://www.home-assistant.io) configuration with currently 70 (and counting) automations and 10+ scripts. These are active automations and sensor data which are used everyday.
 
-With the help of this application, the dream of living in a smart home has been a pleasurable experience. This configuration will get updated frequently so make sure to ⭐ my configuration to stay up-to-date. I hope this can be an inspiration to anyone who also wants to take the dive into home automation.
+With the help of this application, the dream of living in a smart home has been a pleasurable experience.
+
+This configuration will get updated frequently so make sure to ⭐ my configuration to stay up-to-date. I hope this can be an inspiration to anyone who also wants to take the dive into home automation.
+
+## Features
+
+- Google Calendar integration for sports team notifications on mobile device, smart speakers, and also on the TV
+- Turning on lights depending on the time of day (sunrise/sunset)
+- Motion-detect enabled lights through the home with a manual override
+- Water leak detection in high-risk areas around the home
+  - Kitchen
+  - Bathroom
+  - Washing Machine
+  - Water Heater
+- Washing machine complete notification
+- Printer low ink notification
+- Doorbell notification
+- Low battery on devices
+- High humidity notification
+- Home theatre light integration
+
+### Various home maintenance notifications
+ - HVAC filter replacement
+ - Refrigerator water filter replacement
+ - Dehumidifier filter cleaning
+ - Weekly aquarium maintenance
+ - Smoke larm
+ - Water heater yearly flushing
+ - Weekly garbage and recycle reminders
 
 ## Screenshots
 
