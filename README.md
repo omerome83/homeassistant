@@ -40,6 +40,6 @@ This configuration will get updated frequently so make sure to ⭐ my configurat
  - Refrigerator water filter replacement
  - Dehumidifier filter cleaning
  - Weekly aquarium maintenance
- - Smoke larm
- - Water heater yearly flushing
+ - Smoke alarm
+ - Water heater flushing
  - Weekly garbage and recycle reminders
