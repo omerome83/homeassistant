@@ -8,6 +8,16 @@ With the help of this application, the dream of living in a smart home has been 
 
 This configuration will get updated frequently so make sure to ⭐ my configuration to stay up-to-date. I hope this can be an inspiration to anyone who also wants to take the dive into home automation.
 
+## Screenshots
+
+![Home](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_home.PNG)
+![Comfort](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_comfort.PNG)
+![Device Status](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_device_status.PNG)
+![Media](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_media.PNG)
+![Info](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_info.PNG)
+![Battery Status](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_battery_status.PNG)
+![Automation Override](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_automation_override.PNG)
+
 ## Features
 
 - Google Calendar integration for sports team notifications on mobile device, smart speakers, and also on the TV
@@ -33,13 +43,3 @@ This configuration will get updated frequently so make sure to ⭐ my configurat
  - Smoke larm
  - Water heater yearly flushing
  - Weekly garbage and recycle reminders
-
-## Screenshots
-
-![Home](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_home.PNG)
-![Comfort](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_comfort.PNG)
-![Device Status](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_device_status.PNG)
-![Media](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_media.PNG)
-![Info](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_info.PNG)
-![Battery Status](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_battery_status.PNG)
-![Automation Override](https://github.com/omerome83/homeassistant/blob/main/images/screenshots/ha_automation_override.PNG)
