@@ -31,6 +31,7 @@ This configuration will get updated frequently so make sure to ⭐ and stay up-t
   - Bathroom
   - Washing Machine
   - Water Heater
+- Smoke alarm
 - Washing machine complete notification
 - Printer low ink notification
 - Doorbell notification
@@ -43,6 +44,5 @@ This configuration will get updated frequently so make sure to ⭐ and stay up-t
  - Refrigerator water filter replacement
  - Dehumidifier filter cleaning
  - Weekly aquarium maintenance
- - Smoke alarm
  - Water heater flushing
  - Weekly garbage and recycle reminders
