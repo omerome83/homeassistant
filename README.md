@@ -2,7 +2,7 @@
 
 ## Overview
 
-My [Home Assistant](https://www.home-assistant.io) configuration with currently 70 (and counting) automations and 10+ scripts. These are active automations and sensor data which are used everyday.
+My [Home Assistant](https://www.home-assistant.io) configuration currently has 70 (and counting) automations and 10+ scripts which are used every day.
 
 With the help of this application, the dream of living in a smart home has been a pleasurable experience.
 
@@ -21,9 +21,9 @@ This configuration will get updated frequently so make sure to ⭐ and stay up-t
 ## Features
 
 - Google Calendar integration for sports team notifications on:
-  -  Mobile devices
-  -  Smart speakers
-  -  Televisions
+  - Mobile devices
+  - Smart speakers
+  - Televisions
 - Turning on lights depending on the time of day (sunrise/sunset)
 - Motion-detected lights throughout the home with function of a manual override
 - Water leak detection in high-risk areas around the home:
@@ -40,9 +40,10 @@ This configuration will get updated frequently so make sure to ⭐ and stay up-t
 - Home theatre light integration
 
 ### Various home maintenance notifications
- - HVAC filter replacement
- - Refrigerator water filter replacement
- - Dehumidifier filter cleaning
- - Weekly aquarium maintenance
- - Water heater flushing
- - Weekly garbage and recycle reminders
+
+- HVAC filter replacement
+- Refrigerator water filter replacement
+- Dehumidifier filter cleaning
+- Weekly aquarium maintenance
+- Water heater flushing
+- Weekly garbage and recycle reminders
