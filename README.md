@@ -32,7 +32,7 @@ This configuration will get updated frequently so make sure to ⭐ and stay up-t
   - Washing Machine
   - Water Heater
 - Smoke alarm
-- Washing machine complete notification
+- Washing machine notification when cycle is completed
 - Printer low ink notification
 - Doorbell notification
 - Low battery on devices
