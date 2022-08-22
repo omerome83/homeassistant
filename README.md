@@ -4,7 +4,7 @@
 
 My [Home Assistant](https://www.home-assistant.io) configuration currently has 70 (and counting) automations and 10+ scripts which are used every day.
 
-With the help of this application, the dream of living in a smart home has been a pleasurable experience.
+With the help of this application, my dream of living in a smart home has been a pleasurable experience.
 
 This configuration will get updated frequently so make sure to ⭐ and stay up-to-date. I hope this can be an inspiration to anyone who also wants to take the dive into home automation.
 
