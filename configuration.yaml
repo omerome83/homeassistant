@@ -67,11 +67,14 @@ conversation:
 logger:
   default: error
 
-# nest:
-#   client_id: !secret nest_client_id
-#   client_secret: !secret nest_client_secret
-#   # "Project ID" in the Device Access Console
-#   project_id: !secret nest_project_id
+# MQTT
+# https://www.home-assistant.io/integrations/mqtt/
+mqtt:
+  sensor:
+    - name: Sentra Torque
+      state_topic: "devices/sentra/torque"
+      value_template: "{{ state_attr('sensor.sentra_torque', 'GPS Time') }}"
+      json_attributes_topic: "devices/sentra/torque"
 
 # Component for storing details in database
 recorder:

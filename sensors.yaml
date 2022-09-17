@@ -2,14 +2,6 @@
 ## Sensors
 #################################################################
 
-# MQTT
-# https://www.home-assistant.io/integrations/mqtt/
-- platform: mqtt
-  name: Sentra Torque
-  state_topic: "devices/sentra/torque"
-  value_template: "{{ state_attr('sensor.sentra_torque', 'GPS Time') }}"
-  json_attributes_topic: "devices/sentra/torque"
-
 # # Weather Alert Count
 # # https://www.weather.gov/documentation/services-web-api
 # - platform: rest
