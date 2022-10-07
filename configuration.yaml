@@ -117,11 +117,6 @@ recorder:
       - sensor.new_york_yankees_game_countdown
       # - sensor.wow_raid_countdown
 
-# UPS
-# https://www.home-assistant.io/components/apcupsd/
-apcupsd:
-  host: !secret nas_host_name
-
 # SpeedTest
 # https://www.home-assistant.io/components/speedtestdotnet/
 speedtestdotnet:
