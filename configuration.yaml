@@ -1,23 +1,27 @@
 homeassistant:
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+
   # http:
+  #   use_x_forwarded_for: true
+  #   trusted_proxies:
+  #     - 192.168.1.44 # Add the IP address of the proxy server
   #   base_url: example.duckdns.org:8123
 
   # Name of the location where Home Assistant is running
-  name: Home
-  # Location required to calculate the time the sun rises and sets
-  latitude: !secret home_latitude
-  longitude: !secret home_longitude
+  # name: Home
+  # # Location required to calculate the time the sun rises and sets
+  # latitude: !secret home_latitude
+  # longitude: !secret home_longitude
 
-  # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: !secret home_elevation
+  # # Impacts weather/sunrise data (altitude above sea level in meters)
+  # elevation: !secret home_elevation
 
-  currency: USD
+  # currency: USD
 
-  # metric for Metric, imperial for Imperial
-  unit_system: imperial
-  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time_zone: America/New_York
+  # # metric for Metric, imperial for Imperial
+  # unit_system: imperial
+  # # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  # time_zone: America/New_York
 
   allowlist_external_dirs:
     - /config
@@ -63,13 +67,24 @@ conversation:
 logger:
   default: error
 
-nest:
-  client_id: !secret nest_client_id
-  client_secret: !secret nest_client_secret
-  # "Project ID" in the Device Access Console
-  project_id: !secret nest_project_id
-  # # Provide the full path exactly as shown under "Subscription name" in Google Cloud Console
-  # subscriber_id: !secret nest_subscriber_id
+<<<<<<< HEAD
+# nest:
+#   client_id: !secret nest_client_id
+#   client_secret: !secret nest_client_secret
+#   # "Project ID" in the Device Access Console
+#   project_id: !secret nest_project_id
+#   # # Provide the full path exactly as shown under "Subscription name" in Google Cloud Console
+#   # subscriber_id: !secret nest_subscriber_id
+=======
+# MQTT
+# https://www.home-assistant.io/integrations/mqtt/
+mqtt:
+  sensor:
+    - name: Sentra Torque
+      state_topic: "devices/sentra/torque"
+      value_template: "{{ state_attr('sensor.sentra_torque', 'GPS Time') }}"
+      json_attributes_topic: "devices/sentra/torque"
+>>>>>>> b4ac331642f0a8e1b7138c25ca2a67ed05019acc
 
 # Component for storing details in database
 recorder:
@@ -112,6 +127,7 @@ recorder:
       - sensor.new_york_yankees_game_countdown
       # - sensor.wow_raid_countdown
 
+<<<<<<< HEAD
 # media_player:
 # Emby
 # https://www.home-assistant.io/integrations/emby/
@@ -145,11 +161,13 @@ apcupsd:
 
 # Google Calendar
 # https://www.home-assistant.io/components/calendar.google/
-google:
-  client_id: !secret google_client_id
-  client_secret: !secret google_client_secret
-  track_new_calendar: true
+# google:
+#   client_id: !secret google_client_id
+#   client_secret: !secret google_client_secret
+#   track_new_calendar: true
 
+=======
+>>>>>>> b4ac331642f0a8e1b7138c25ca2a67ed05019acc
 # SpeedTest
 # https://www.home-assistant.io/components/speedtestdotnet/
 speedtestdotnet:
@@ -165,14 +183,13 @@ proxmoxve:
       - node: ommiepve
         vms:
           - 103
-          - 104
+          - 105
         containers:
           - 102
+          - 105
 
 # Includes
-# group: !include groups.yaml
 automation: !include automations.yaml
-# light: !include light_group.yaml
 script: !include scripts.yaml
 zone: !include zones.yaml
 input_select: !include input_select.yaml

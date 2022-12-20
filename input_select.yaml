@@ -2,25 +2,6 @@
 ## Input Select
 #################################################################
 
-# # Basement Harmony Remote
-# basement_harmony:
-#   name: Harmony Remote
-#   options:
-#     - Select an Activity
-#     - PowerOff
-#     - Launch Nvidia Shield TV
-#     - Play Nintendo Switch
-#     - Play PlayStation 4
-
-# # Master Bedroom Harmony Remote
-# master_bedroom_harmony:
-#   name: Harmony Remote
-#   options:
-#     - Select an Activity
-#     - PowerOff
-#     - Watch TV
-#     - Watch Roku
-
 # Washing Machine Cycle Status
 washing_machine_cycle_status:
   name: Washing Machine Cycle Status
