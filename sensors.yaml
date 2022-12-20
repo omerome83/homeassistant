@@ -2,6 +2,14 @@
 ## Sensors
 #################################################################
 
+# MQTT
+# https://www.home-assistant.io/integrations/mqtt/
+- platform: mqtt
+  name: Sentra Torque
+  state_topic: "devices/sentra/torque"
+  value_template: "{{ state_attr('sensor.sentra_torque', 'GPS Time') }}"
+  json_attributes_topic: "devices/sentra/torque"
+
 # # Weather Alert Count
 # # https://www.weather.gov/documentation/services-web-api
 # - platform: rest
@@ -123,13 +131,10 @@
 #     - /dev/sdf
 #     - /dev/sdg
 
-<<<<<<< HEAD
 # # Uptime
 # # https://www.home-assistant.io/components/uptime/
 # - platform: uptime
 
-=======
->>>>>>> b4ac331642f0a8e1b7138c25ca2a67ed05019acc
 # Sonarr
 # https://www.home-assistant.io/components/sonarr/
 - platform: sonarr_upcoming_media
@@ -234,83 +239,83 @@
       friendly_name: Location
       value_template: "{{ state_attr('sensor.sm_s901u1_geocoded_location', 'Locality') }}"
 
-    # # Torque
-    # # Nissan Sentra
-    # sentra_mpg:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Miles Per Gallon(Long Term Average)(mpg)') | round(1) }}"
-    #   unit_of_measurement: "mpg"
+    # Torque
+    # Nissan Sentra
+    sentra_mpg:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Miles Per Gallon(Long Term Average)(mpg)') | round(1) }}"
+      unit_of_measurement: "mpg"
 
-    # sentra_fuel_level:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Fuel Level (From Engine ECU)(%)') | round(2) }}"
-    #   unit_of_measurement: "%"
+    sentra_fuel_level:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Fuel Level (From Engine ECU)(%)') | round(2) }}"
+      unit_of_measurement: "%"
 
-    # sentra_fuel_used_trip:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Fuel used (trip)(gal)') | round(2) }}"
-    #   unit_of_measurement: "gal"
+    sentra_fuel_used_trip:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Fuel used (trip)(gal)') | round(2) }}"
+      unit_of_measurement: "gal"
 
-    # # sentra_distance_to_empty:
-    # #   value_template: "{{ state_attr('sensor.sentra_torque', 'Distance to empty (Estimated)(miles)') | round(1) }}"
-    # #   unit_of_measurement: 'mi'
+    # sentra_distance_to_empty:
+    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Distance to empty (Estimated)(miles)') | round(1) }}"
+    #   unit_of_measurement: 'mi'
 
-    # sentra_battery_voltage:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Voltage (Control Module)(V)') | round(2) }}"
-    #   device_class: voltage
-    #   unit_of_measurement: "V"
+    sentra_battery_voltage:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Voltage (Control Module)(V)') | round(2) }}"
+      device_class: voltage
+      unit_of_measurement: "V"
 
-    # sentra_percentage_city_driving:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of City driving(%)') | int }}"
-    #   unit_of_measurement: "%"
+    sentra_percentage_city_driving:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of City driving(%)') | int }}"
+      unit_of_measurement: "%"
 
-    # sentra_percentage_highway_driving:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of Highway driving(%)') | int }}"
-    #   unit_of_measurement: "%"
+    sentra_percentage_highway_driving:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of Highway driving(%)') | int }}"
+      unit_of_measurement: "%"
 
-    # sentra_percentage_idle_driving:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of Idle driving(%)') | int }}"
-    #   unit_of_measurement: "%"
+    sentra_percentage_idle_driving:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Percentage of Idle driving(%)') | int }}"
+      unit_of_measurement: "%"
 
-    # sentra_percentage_trip_distance:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Trip Distance(miles)') | round(1) }}"
-    #   unit_of_measurement: "mi"
+    sentra_percentage_trip_distance:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Trip Distance(miles)') | round(1) }}"
+      unit_of_measurement: "mi"
 
-    # sentra_run_time_since_engine_start:
-    #   value_template: "{{ (state_attr('sensor.sentra_torque', 'Run time since engine start(s)') | int / 60) | round }}"
-    #   unit_of_measurement: "min"
+    sentra_run_time_since_engine_start:
+      value_template: "{{ (state_attr('sensor.sentra_torque', 'Run time since engine start(s)') | int / 60) | round }}"
+      unit_of_measurement: "min"
 
-    # sentra_distance_traveled_since_codes_cleared:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Distance travelled since codes cleared(miles)') | round(1) }}"
-    #   unit_of_measurement: "mi"
+    sentra_distance_traveled_since_codes_cleared:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Distance travelled since codes cleared(miles)') | round(1) }}"
+      unit_of_measurement: "mi"
 
-    # sentra_distance_traveled_with_cel_lit:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Distance travelled with MIL/CEL lit(miles)') | round(1) }}"
-    #   unit_of_measurement: "mi"
+    sentra_distance_traveled_with_cel_lit:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Distance travelled with MIL/CEL lit(miles)') | round(1) }}"
+      unit_of_measurement: "mi"
 
-    # sentra_catalyst_temperature:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Catalyst Temperature (Bank 1 Sensor 1)(°F)') | round(1) }}"
-    #   device_class: temperature
-    #   unit_of_measurement: "°F"
+    sentra_catalyst_temperature:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Catalyst Temperature (Bank 1 Sensor 1)(°F)') | round(1) }}"
+      device_class: temperature
+      unit_of_measurement: "°F"
 
-    # sentra_engine_coolant_temperature:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Engine Coolant Temperature(°F)') | round(1) }}"
-    #   device_class: temperature
-    #   unit_of_measurement: "°F"
+    sentra_engine_coolant_temperature:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Engine Coolant Temperature(°F)') | round(1) }}"
+      device_class: temperature
+      unit_of_measurement: "°F"
 
-    # sentra_intake_air_temperature:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Intake Air Temperature(°F)') | round(1) }}"
-    #   device_class: temperature
-    #   unit_of_measurement: "°F"
+    sentra_intake_air_temperature:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Intake Air Temperature(°F)') | round(1) }}"
+      device_class: temperature
+      unit_of_measurement: "°F"
 
-    # sentra_air_fuel_ratio:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Air Fuel Ratio(Measured)(:1)') | round(1) }}"
-    #   unit_of_measurement: ":1"
+    sentra_air_fuel_ratio:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Air Fuel Ratio(Measured)(:1)') | round(1) }}"
+      unit_of_measurement: ":1"
 
-    # sentra_engine_load:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Engine Load(%)') | round(0) }}"
-    #   unit_of_measurement: "%"
+    sentra_engine_load:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Engine Load(%)') | round(0) }}"
+      unit_of_measurement: "%"
 
-    # sentra_engine_rpm:
-    #   value_template: "{{ state_attr('sensor.sentra_torque', 'Engine RPM(rpm)') | round(0) }}"
-    #   unit_of_measurement: "rpm"
+    sentra_engine_rpm:
+      value_template: "{{ state_attr('sensor.sentra_torque', 'Engine RPM(rpm)') | round(0) }}"
+      unit_of_measurement: "rpm"
 
     # sentra_o2_sensor_equivalence_ratio:
     #   value_template: "{{ state_attr('sensor.sentra_torque', 'O2 Sensor1 Equivalence Ratio') | round(1) }}"
