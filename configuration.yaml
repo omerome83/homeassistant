@@ -165,6 +165,7 @@ proxmoxve:
       - node: ommiepve
         vms:
           - 103
+          - 104
         containers:
           - 102
           - 105
