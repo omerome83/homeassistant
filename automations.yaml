@@ -415,6 +415,7 @@
         type: doorbell_chime
   action:
     # - service: camera.snapshot
+    #   target:
     #     entity_id: camera.front_door
     #   data:
     #     filename: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
