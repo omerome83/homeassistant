@@ -414,22 +414,23 @@
       event_data:
         type: doorbell_chime
   action:
-    - service: camera.snapshot
-      target:
-        entity_id: camera.front_door
-      data:
-        filename: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
-    - service: notify.android_tv_fire_tv
+    # - service: camera.snapshot
+    #     entity_id: camera.front_door
+    #   data:
+    #     filename: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
+    - service: notify.lg_webos_smart_tv
       data:
         title: "Doorbell Notification"
         message: "Someone is at the front door."
-        data:
-          duration: 5
-          color: grey
-          position: top-right
-          transparency: 50%
-          image:
-            path: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
+    - service: media_player.media_pause
+      entity_id: media_player.basement_shield_2
+        # data:
+        #   duration: 5
+        #   color: grey
+        #   position: top-right
+        #   transparency: 50%
+        #   image:
+        #     path: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
 
 # START OF NYI AUTOMATION
 
@@ -1136,7 +1137,8 @@
       data:
         title: "Washing Machine Notification"
         message: "Washing machine cycle is complete."
-    - service: notify.android_tv_fire_tv
+    # - service: notify.android_tv_fire_tv
+    - service: notify.lg_webos_smart_tv
       data:
         title: "Washing Machine Notification"
         message: "Washing machine cycle is complete."
@@ -1226,31 +1228,25 @@
     - condition: template
       value_template: "{{ states('sensor.new_york_knicks_game_countdown') | int == 60 }}"
   action:
-    - service: tts.google_translate_say
-      entity_id:
-        - media_player.basement_display
-        - media_player.office_display
+    # - service: tts.google_translate_say
+    #   entity_id:
+    #     - media_player.basement_display
+    #     - media_player.office_display
+    #   data:
+    #     message: "The New York Knicks tips off in an hour!"
+    # - service: notify.mobile_app_sm_s901u1
+    #   data:
+    #     title: "Upcoming Game Reminder"
+    #     message: |
+    #       The New York Knicks tips off in an hour!
+    #       Today's Matchup: {{ state_attr('sensor.new_york_knicks', 'matchup') }}
+    #     data:
+    #       icon: /config/www/images/misc/ny_knicks.png
+    - service: notify.lg_webos_smart_tv
       data:
         message: "The New York Knicks tips off in an hour!"
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        title: "Upcoming Game Reminder"
-        message: |
-          The New York Knicks tips off in an hour!
-          Today's Matchup: {{ state_attr('sensor.new_york_knicks', 'matchup') }}
-        data:
-          image: /config/www/images/misc/ny_knicks.png
-    - service: notify.android_tv_fire_tv
-      data:
-        title: "Upcoming Game Reminder"
-        message: "The New York Knicks tips off in an hour!"
-        data:
-          duration: 10
-          color: grey
-          position: top-right
-          transparency: 50%
-          image:
-            path: /config/www/images/misc/ny_knicks.png
+        # data:
+        #   icon: "/config/www/images/misc/ny_knicks.png"
 
 - alias: "New York Giants Game Reminder"
   trigger:
@@ -1263,29 +1259,23 @@
     - condition: template
       value_template: "{{ states('sensor.new_york_giants_game_countdown') | int == 60 }}"
   action:
-    - service: tts.google_translate_say
-      entity_id: media_player.basement_display
+    # - service: tts.google_translate_say
+    #   entity_id: media_player.basement_display
+    #   data:
+    #     message: "The New York Giants kick off in an hour!"
+    # - service: notify.mobile_app_sm_s901u1
+    #   data:
+    #     title: "Upcoming Game Reminder"
+    #     message: |
+    #       The New York Giants kick off in an hour!"
+    #       Today's Matchup: {{ state_attr('sensor.new_york_giants', 'matchup') }}
+    #     data:
+    #       icon: /config/www/images/misc/ny_giants.png
+    - service: notify.lg_webos_smart_tv
       data:
-        message: "The New York Giants kick off in an hour!"
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        title: "Upcoming Game Reminder"
-        message: |
-          The New York Giants kick off in an hour!"
-          Today's Matchup: {{ state_attr('sensor.new_york_giants', 'matchup') }}
-        data:
-          image: /config/www/images/misc/ny_giants.png
-    - service: notify.android_tv_fire_tv
-      data:
-        title: "Upcoming Game Reminder"
         message: "The New York Giants kicks off in an hour!"
-        data:
-          duration: 10
-          color: grey
-          position: top-right
-          transparency: 50%
-          image:
-            path: /config/www/images/misc/ny_giants.png
+        # data:
+        #   icon: "/config/www/images/misc/ny_giants.png"
 
 - alias: "New York Yankees Game Reminder"
   trigger:
@@ -1298,29 +1288,23 @@
     - condition: template
       value_template: "{{ states('sensor.new_york_yankees_game_countdown') | int == 60 }}"
   action:
-    - service: tts.google_translate_say
-      entity_id: media_player.basement_display
+    # - service: tts.google_translate_say
+    #   entity_id: media_player.basement_display
+    #   data:
+    #     message: "The New York Yankees game starts in an hour!"
+    # - service: notify.mobile_app_sm_s901u1
+    #   data:
+    #     title: "Upcoming Game Reminder"
+    #     message: |
+    #       The New York Yankees game starts in an hour!
+    #       Today's Matchup: {{ state_attr('sensor.new_york_yankees', 'matchup') }}
+    #     data:
+    #       icon: /config/www/images/misc/ny_yankees.png
+    - service: notify.lg_webos_smart_tv
       data:
         message: "The New York Yankees game starts in an hour!"
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        title: "Upcoming Game Reminder"
-        message: |
-          The New York Yankees game starts in an hour!
-          Today's Matchup: {{ state_attr('sensor.new_york_yankees', 'matchup') }}
-        data:
-          image: /config/www/images/misc/ny_yankees.png
-    - service: notify.android_tv_fire_tv
-      data:
-        title: "Upcoming Game Reminder"
-        message: "The New York Yankees game starts in an hour!"
-        data:
-          duration: 10
-          color: grey
-          position: top-right
-          transparency: 50%
-          image:
-            path: /config/www/images/misc/ny_yankees.png
+        # data:
+        #   icon: "/config/www/images/misc/ny_yankees.png"
 
 # - alias: "World of Warcraft Raid Reminder"
 #   initial_state: false
