@@ -165,16 +165,19 @@ sensor.pi_hole_dns_queries_forwarded:
   friendly_name: DNS Queries Forwarded
 
 # Proxmox VE
-binary_sensor.ommiepve_envase_running:
+binary_sensor.ommiepve_nginx_pm:
+  friendly_name: Nginx Proxy
+  icon: mdi:monitor
+binary_sensor.ommiepve_envase:
   friendly_name: Envase
   icon: mdi:monitor
-binary_sensor.ommiepve_pi_hole1_running:
+binary_sensor.ommiepve_pi_hole1:
   friendly_name: Pi-hole1
   icon: mdi:cube
-binary_sensor.ommiepve_pi_hole2_running:
+binary_sensor.ommiepve_pi_hole2:
   friendly_name: Pi-hole2
   icon: mdi:cube
-binary_sensor.ommiepve_web_dev_running:
+binary_sensor.ommiepve_web_dev:
   friendly_name: Web Dev
   icon: mdi:monitor
 

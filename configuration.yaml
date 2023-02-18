@@ -63,6 +63,9 @@ conversation:
 logger:
   default: error
 
+# Wake on LAN
+wake_on_lan:
+
 # nest:
 #   client_id: !secret nest_client_id
 #   client_secret: !secret nest_client_secret
@@ -164,6 +167,7 @@ proxmoxve:
     nodes:
       - node: ommiepve
         vms:
+          - 100
           - 103
           - 104
         containers:

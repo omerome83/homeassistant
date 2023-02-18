@@ -50,6 +50,9 @@ disable_smoke_co_alarm:
 disable_washing_machine_reminder:
   name: Disable Washing Machine Reminder
   icon: mdi:washing-machine
+disable_room_heater_reminder:
+  name: Disable Whole Room Heater Reminder
+  icon: mdi:mdi:heat-wave
 
 # HVAC
 # disable_hvac_wake_up_mode:

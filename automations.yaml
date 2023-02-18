@@ -22,9 +22,9 @@
   action:
     - service: persistent_notification.create
       data:
-        title: "Firmware Upgrade is Available"
+        title: "Firmware Upgrade Available"
         message: |
-          Release {{ state_attr('sensor.hdhr3_cc_firmware_status', 'UpgradeAvailable') }} is available for the HDHomeRun {{ state_attr('sensor.hdhr3_cc_firmware_status', 'ModelNumber') }} TV Tuner.
+          Release {{ state_attr('sensor.hdhr3_cc_firmware_status', 'UpgradeAvailable') }} for the HDHomeRun {{ state_attr('sensor.hdhr3_cc_firmware_status', 'ModelNumber') }} TV Tuner is ready to [install](http://192.168.1.22).
 
 # Restart Cable Modem - Monthly
 - alias: "Restart Cable Modem"
@@ -313,25 +313,25 @@
 #         entity_id: media_player.basement_playstation_4
 #         command: ps
 
-- alias: "High Humidity Notification"
-  trigger:
-    platform: numeric_state
-    entity_id:
-      - sensor.dining_room_humidity
-      - sensor.second_floor_humidity
-      - sensor.basement_humidity
-      - sensor.server_closet_humidity
-      - sensor.office_humidity
-      - sensor.utility_room_humidity
-    above: 65
-    for:
-      hours: 1
+# - alias: "High Humidity Notification"
+#   trigger:
+#     platform: numeric_state
+#     entity_id:
+#       - sensor.dining_room_humidity
+#       - sensor.second_floor_humidity
+#       - sensor.basement_humidity
+#       - sensor.server_closet_humidity
+#       - sensor.office_humidity
+#       - sensor.utility_room_humidity
+#     above: 65
+#     for:
+#       hours: 1
+#   action:
+#     - service: notify.mobile_app_sm_s901u1
+#       data:
+#         title: "High Humidity Notification"
+#         message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
 
-  # action:
-  #   - service: notify.mobile_app_sm_s901u1
-  #     data:
-  #       title: "High Humidity Notification"
-  #       message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
 - alias: "Low Battery on Device Notification"
   trigger:
     platform: numeric_state
@@ -392,11 +392,11 @@
           actions:
             - action: "deactivate_house_alarm" # The key you are sending for the event
               title: "Deactivate House Alarm" # The button title
-    - service: tts.google_translate_say
-      entity_id: media_player.google_nest_speakers
-      data:
-        message: "A water leak has been detected by the {{ trigger.to_state.name | lower }}!"
-    - service: script.activate_house_alarm
+    # - service: tts.google_translate_say
+    #   entity_id: media_player.google_nest_speakers
+    #   data:
+    #     message: "A water leak has been detected by the {{ trigger.to_state.name | lower }}!"
+    # - service: script.activate_house_alarm
 
 - alias: "Deactivate House Alarm When Notification Action is Tapped"
   trigger:
@@ -1200,6 +1200,21 @@
 #         title: "Upcoming Game Reminder"
 #         message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
 
+- alias: "Whole Room Heater Reminder"
+  trigger:
+    platform: time
+    # 12:00 AM
+    at: "00:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_room_heater_reminder
+      state: "off"
+  action:
+    - service: notify.mobile_app_sm_s901u1
+      data:
+        title: "Whole Room Heater Reminder"
+        message: "Turn off the heater in the basement."
+
 - alias: "New York Knicks Game Reminder"
   trigger:
     platform: state
@@ -1212,7 +1227,9 @@
       value_template: "{{ states('sensor.new_york_knicks_game_countdown') | int == 60 }}"
   action:
     - service: tts.google_translate_say
-      entity_id: media_player.basement_display
+      entity_id:
+        - media_player.basement_display
+        - media_player.office_display
       data:
         message: "The New York Knicks tips off in an hour!"
     - service: notify.mobile_app_sm_s901u1

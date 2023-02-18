@@ -62,6 +62,13 @@ play_playstation_sound:
 #       data:
 #         activity: 'Shield TV'
 
+turn_on_lg_webos_tv:
+  alias: "Turns on LG webOS TV"
+  sequence:
+    - service: wake_on_lane.send_magic_packet
+      data:
+        mac: 64:cb:e9:6d:b4:98
+
 turn_off_basement_tv:
   alias: "Turns off Basement TV"
   sequence:
