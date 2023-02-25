@@ -22,7 +22,7 @@
   action:
     - service: persistent_notification.create
       data:
-        title: "Firmware Upgrade Available"
+        # title: "Firmware Upgrade Available"
         message: |
           Release {{ state_attr('sensor.hdhr3_cc_firmware_status', 'UpgradeAvailable') }} for the HDHomeRun {{ state_attr('sensor.hdhr3_cc_firmware_status', 'ModelNumber') }} TV Tuner is ready to [install](http://192.168.1.22).
 
@@ -237,7 +237,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Aquarium CO2 Regulator Refill Notification"
+        # title: "Aquarium CO2 Regulator Refill Notification"
         message: "The CO2 regulator for the aquarium needs to be refilled. Try Fireline at 4506 Hollins Ferry Rd."
 
 - alias: "Aquarium Maintenance Reminder"
@@ -256,7 +256,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Aquarium Maintenance Reminder"
+        # title: "Aquarium Maintenance Reminder"
         message: "Did you perform a water change or clean the canister filter this week?"
 
 - alias: "Start Vacuuming"
@@ -364,7 +364,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Low Battery on Device Notification"
+        # title: "Low Battery on Device Notification"
         message: "The battery level for {{ trigger.to_state.name | lower }} is at {{ trigger.to_state.state }}%."
 
 - alias: "Water Leak Notification"
@@ -381,7 +381,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Water Leak Notification"
+        # title: "Water Leak Notification"
         message: "Water has been detected by the {{ trigger.to_state.name | lower }}!"
         data:
           # Sends message immediately
@@ -421,7 +421,7 @@
     #     filename: /config/www/images/snapshots/front_door_{{ now().year }}{{ now().month }}{{ now().day }}{{ now().hour }}{{ now().minute }}.jpg
     - service: notify.lg_webos_smart_tv
       data:
-        title: "Doorbell Notification"
+        # title: "Doorbell Notification"
         message: "Someone is at the front door."
     - service: media_player.media_pause
       entity_id: media_player.basement_shield_2
@@ -492,7 +492,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Smoke/Carbon Monoxide Alarm"
+        # title: "Smoke/Carbon Monoxide Alarm"
         message: "{{ trigger.to_state.name }} has been detected in the home!"
         data:
           # Sends message immediately
@@ -531,7 +531,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Flush Water Heater Reminder"
+        # title: "Flush Water Heater Reminder"
         message: "Perform yearly flush for the water heater to remove existing sediment."
         data:
           clickAction: "https://www.youtube.com/watch?v=hs5N7HyDUWo"
@@ -581,7 +581,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "HVAC Furnace Filter Reminder"
+        # title: "HVAC Furnace Filter Reminder"
         message: "Replace/Check the furnace filter in the HVAC unit with the arrow pointing (up) in the air handler. The filter size is 20x20x1 or 20X20X5 (Lennox X7935 MERV 16)."
 
 - alias: "Refrigerator Filter Reminder"
@@ -625,7 +625,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Trash Day Reminder"
+        # title: "Trash Day Reminder"
         message: "Take the trash out to the curb."
 
 - alias: "Recycling Day Reminder"
@@ -643,7 +643,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Recycling Day Reminder"
+        # title: "Recycling Day Reminder"
         message: "Take the recycling items out to the curb."
 
 # - alias: "Activate Chromecast Activity Only When Basement TV Is Turned Off"
@@ -852,7 +852,7 @@
     # Send notification after three hours of no activity (motion) when basement tv is on
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Inactivity Notification"
+        # title: "Inactivity Notification"
         message: "Still watching the TV in the basement?"
         data:
           # Dismiss notification after selection
@@ -998,7 +998,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Power Outage Notification"
+        # title: "Power Outage Notification"
         message: "The network devices are now running off the UPS battery."
 
 - alias: "Power Restored Notification"
@@ -1009,7 +1009,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Power Restored Notification"
+        # title: "Power Restored Notification"
         message: "The network devices are no longer running off the UPS."
 
 # - alias: Grubhub Food Delivery Notification
@@ -1043,7 +1043,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "High Temperature Warning"
+        # title: "High Temperature Warning"
         message: "The temperature in the server closet is currently at {{ states('sensor.server_closet_temperature') }}°F..."
 
 - alias: "Dishwasher Weekly Reminder"
@@ -1062,7 +1062,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Dishwasher Weekly Reminder"
+        # title: "Dishwasher Weekly Reminder"
         message: "Run the dishwasher if needed."
 
 - alias: "Sump Pump Notification"
@@ -1076,7 +1076,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Sump Pump Notification"
+        # title: "Sump Pump Notification"
         message: "The sump pump is currently running. It is using {{ states('sensor.sump_pump_power_switch_power') }} watts."
 
 # - alias: "Low Fuel Notification"
@@ -1136,12 +1136,12 @@
         message: "Washing machine cycle is complete."
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Washing Machine Notification"
+        # title: "Washing Machine Notification"
         message: "Washing machine cycle is complete."
     # - service: notify.android_tv_fire_tv
     - service: notify.lg_webos_smart_tv
       data:
-        title: "Washing Machine Notification"
+        # title: "Washing Machine Notification"
         message: "Washing machine cycle is complete."
 
 # When the washing machine door is opened, reset the status
@@ -1173,7 +1173,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Printer Low Ink Reminder"
+        # title: "Printer Low Ink Reminder"
         message: "The {{ trigger.to_state.name }} ink cartridge is at {{ trigger.to_state.state }}%. }}."
 
 # - alias: "Upcoming Game Reminder"
@@ -1215,7 +1215,7 @@
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
-        title: "Whole Room Heater Reminder"
+        # title: "Whole Room Heater Reminder"
         message: "Turn off the heater in the basement."
 
 - alias: "New York Knicks Game Reminder"
@@ -1229,20 +1229,21 @@
     - condition: template
       value_template: "{{ states('sensor.new_york_knicks_game_countdown') | int == 60 }}"
   action:
-    # - service: tts.google_translate_say
-    #   entity_id:
-    #     - media_player.basement_display
-    #     - media_player.office_display
-    #   data:
-    #     message: "The New York Knicks tips off in an hour!"
-    # - service: notify.mobile_app_sm_s901u1
-    #   data:
-    #     title: "Upcoming Game Reminder"
-    #     message: |
-    #       The New York Knicks tips off in an hour!
-    #       Today's Matchup: {{ state_attr('sensor.new_york_knicks', 'matchup') }}
-    #     data:
-    #       icon: /config/www/images/misc/ny_knicks.png
+    - service: tts.google_translate_say
+      entity_id:
+        - media_player.basement_display
+        - media_player.office_display
+        - media_player.kitchen_display
+      data:
+        message: "The New York Knicks tips off in an hour!"
+    - service: notify.mobile_app_sm_s901u1
+      data:
+        # title: "Upcoming Game Reminder"
+        message: |
+          The New York Knicks tips off in an hour!
+          Today's Matchup: {{ state_attr('sensor.new_york_knicks', 'matchup') }}
+        # data:
+        #   icon: /config/www/images/misc/ny_knicks.png
     - service: notify.lg_webos_smart_tv
       data:
         message: "The New York Knicks tips off in an hour!"
@@ -1260,18 +1261,21 @@
     - condition: template
       value_template: "{{ states('sensor.new_york_giants_game_countdown') | int == 60 }}"
   action:
-    # - service: tts.google_translate_say
-    #   entity_id: media_player.basement_display
-    #   data:
-    #     message: "The New York Giants kick off in an hour!"
-    # - service: notify.mobile_app_sm_s901u1
-    #   data:
-    #     title: "Upcoming Game Reminder"
-    #     message: |
-    #       The New York Giants kick off in an hour!"
-    #       Today's Matchup: {{ state_attr('sensor.new_york_giants', 'matchup') }}
-    #     data:
-    #       icon: /config/www/images/misc/ny_giants.png
+    - service: tts.google_translate_say
+      entity_id:
+        - media_player.basement_display
+        - media_player.office_display
+        - media_player.kitchen_display
+      data:
+        message: "The New York Giants kick off in an hour!"
+    - service: notify.mobile_app_sm_s901u1
+      data:
+        # title: "Upcoming Game Reminder"
+        message: |
+          The New York Giants kick off in an hour!"
+          Today's Matchup: {{ state_attr('sensor.new_york_giants', 'matchup') }}
+        # data:
+        #   icon: /config/www/images/misc/ny_giants.png
     - service: notify.lg_webos_smart_tv
       data:
         message: "The New York Giants kicks off in an hour!"
@@ -1289,18 +1293,20 @@
     - condition: template
       value_template: "{{ states('sensor.new_york_yankees_game_countdown') | int == 60 }}"
   action:
-    # - service: tts.google_translate_say
-    #   entity_id: media_player.basement_display
-    #   data:
-    #     message: "The New York Yankees game starts in an hour!"
-    # - service: notify.mobile_app_sm_s901u1
-    #   data:
-    #     title: "Upcoming Game Reminder"
-    #     message: |
-    #       The New York Yankees game starts in an hour!
-    #       Today's Matchup: {{ state_attr('sensor.new_york_yankees', 'matchup') }}
-    #     data:
-    #       icon: /config/www/images/misc/ny_yankees.png
+    - service: tts.google_translate_say
+      entity_id:
+        - media_player.basement_display
+        - media_player.office_display
+        - media_player.kitchen_display
+      data:
+        message: "The New York Yankees game starts in an hour!"
+    - service: notify.mobile_app_sm_s901u1
+      data:
+        message: |
+          The New York Yankees game starts in an hour!
+          Today's Matchup: {{ state_attr('sensor.new_york_yankees', 'matchup') }}
+        # data:
+        #   icon: /config/www/images/misc/ny_yankees.png
     - service: notify.lg_webos_smart_tv
       data:
         message: "The New York Yankees game starts in an hour!"

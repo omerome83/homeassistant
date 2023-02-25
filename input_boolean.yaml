@@ -52,7 +52,7 @@ disable_washing_machine_reminder:
   icon: mdi:washing-machine
 disable_room_heater_reminder:
   name: Disable Whole Room Heater Reminder
-  icon: mdi:mdi:heat-wave
+  icon: mdi:heat-wave
 
 # HVAC
 # disable_hvac_wake_up_mode:
