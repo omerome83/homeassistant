@@ -626,3 +626,6 @@ switch.master_bedroom_roku_netflix:
 switch.master_bedroom_roku_prime_video:
   friendly_name: Prime Video
   icon: mdi:television-classic
+switch.basement_lg_webos_tv:
+  friendly_name: Basement LG WebOS TV
+  icon: mdi:television
