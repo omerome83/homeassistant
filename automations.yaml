@@ -238,7 +238,7 @@
     - service: notify.mobile_app_sm_s901u1
       data:
         # title: "Aquarium CO2 Regulator Refill Notification"
-        message: "The CO2 regulator for the aquarium needs to be refilled. Try Fireline at 4506 Hollins Ferry Rd."
+        message: "Refill the CO2 regulator for the aquarium. Try Fireline at 4506 Hollins Ferry Rd."
 
 - alias: "Aquarium Maintenance Reminder"
   trigger:
@@ -1000,6 +1000,9 @@
       data:
         # title: "Power Outage Notification"
         message: "The network devices are now running off the UPS battery."
+    - service: notify.lg_webos_smart_tv
+      data:
+        message: "The network devices are now running off the UPS battery."
 
 - alias: "Power Restored Notification"
   trigger:
@@ -1010,6 +1013,9 @@
     - service: notify.mobile_app_sm_s901u1
       data:
         # title: "Power Restored Notification"
+        message: "The network devices are no longer running off the UPS."
+    - service: notify.lg_webos_smart_tv
+      data:
         message: "The network devices are no longer running off the UPS."
 
 # - alias: Grubhub Food Delivery Notification
