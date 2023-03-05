@@ -22,7 +22,7 @@
   action:
     - service: persistent_notification.create
       data:
-        # title: "Firmware Upgrade Available"
+        title: "Firmware Upgrade Available"
         message: |
           Release {{ state_attr('sensor.hdhr3_cc_firmware_status', 'UpgradeAvailable') }} for the HDHomeRun {{ state_attr('sensor.hdhr3_cc_firmware_status', 'ModelNumber') }} TV Tuner is ready to [install](http://192.168.1.22).
 
