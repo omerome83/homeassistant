@@ -131,10 +131,6 @@
 #     - /dev/sdf
 #     - /dev/sdg
 
-# # Uptime
-# # https://www.home-assistant.io/components/uptime/
-# - platform: uptime
-
 # Sonarr
 # https://www.home-assistant.io/components/sonarr/
 - platform: sonarr_upcoming_media
