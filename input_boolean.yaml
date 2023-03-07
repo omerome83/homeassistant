@@ -132,9 +132,9 @@ disable_dishwasher_weekly_reminder:
   icon: mdi:dishwasher
 
 # Automobile
-disable_low_fuel_notification:
-  name: Disable Low Fuel Notification
-  icon: mdi:fuel
+# disable_low_fuel_notification:
+#   name: Disable Low Fuel Notification
+#   icon: mdi:fuel
 # disable_automobile_battery_warning:
 #   name: Disable Automobile Battery Warning
 #   icon: mdi:car-battery
