@@ -25,9 +25,9 @@ disable_new_york_yankees_game_reminder:
   icon: mdi:baseball
 
 # Gaming
-disable_wow_raid_reminder:
-  name: Disable World of Warcraft Raid Reminder
-  icon: mdi:sword-cross
+# disable_wow_raid_reminder:
+#   name: Disable World of Warcraft Raid Reminder
+#   icon: mdi:sword-cross
 
 # Weather
 # disable_national_weather_service_alert:
