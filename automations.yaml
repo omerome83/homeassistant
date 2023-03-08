@@ -532,7 +532,7 @@
     - service: notify.mobile_app_sm_s901u1
       data:
         # title: "Flush Water Heater Reminder"
-        message: "Perform yearly flush for the water heater to remove existing sediment."
+        message: "Perform yearly flush for the water heater."
         data:
           clickAction: "https://www.youtube.com/watch?v=hs5N7HyDUWo"
 
