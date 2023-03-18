@@ -170,6 +170,7 @@ proxmoxve:
           - 100
           - 103
           - 104
+          - 106
         containers:
           - 102
           - 105

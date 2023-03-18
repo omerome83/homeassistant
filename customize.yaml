@@ -180,6 +180,9 @@ binary_sensor.ommiepve_pi_hole2:
 binary_sensor.ommiepve_web_dev:
   friendly_name: Web Dev
   icon: mdi:monitor
+binary_sensor.ommiepve_hdhr_dvr:
+  friendly_name: HDHR-DVR
+  icon: mdi:monitor
 
 # HDHomeRun Prime (TV Tuner)
 sensor.hdhr3_cc_firmware_status:
