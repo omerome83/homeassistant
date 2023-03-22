@@ -571,13 +571,13 @@
         #   value_template: "{{ now().timetuple().tm_yday % 90 == 0 }}"
         # Every three months
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '02-10' }}"
+          value_template: "{{ now().strftime('%m-%d') == '03-22' }}"
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '05-10' }}"
-        - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '08-10' }}"
-        - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '11-10' }}"
+          value_template: "{{ now().strftime('%m-%d') == '09-22' }}"
+        # - condition: template
+        #   value_template: "{{ now().strftime('%m-%d') == '08-10' }}"
+        # - condition: template
+        #   value_template: "{{ now().strftime('%m-%d') == '11-10' }}"
   action:
     - service: notify.mobile_app_sm_s901u1
       data:
