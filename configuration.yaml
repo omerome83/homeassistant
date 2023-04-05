@@ -143,8 +143,8 @@ recorder:
 
 # UPS
 # https://www.home-assistant.io/components/apcupsd/
-apcupsd:
-  host: !secret nas_host_name
+# apcupsd:
+#   host: !secret nas_host_name
 
 # Google Calendar
 # https://www.home-assistant.io/components/calendar.google/
@@ -155,7 +155,7 @@ apcupsd:
 
 # SpeedTest
 # https://www.home-assistant.io/components/speedtestdotnet/
-speedtestdotnet:
+# speedtestdotnet:
 
 # Proxmox VE
 proxmoxve:

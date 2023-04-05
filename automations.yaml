@@ -572,8 +572,8 @@
         # Every three months
         - condition: template
           value_template: "{{ now().strftime('%m-%d') == '03-22' }}"
-        - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '09-22' }}"
+        # - condition: template
+        #   value_template: "{{ now().strftime('%m-%d') == '09-22' }}"
         # - condition: template
         #   value_template: "{{ now().strftime('%m-%d') == '08-10' }}"
         # - condition: template
