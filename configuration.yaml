@@ -66,14 +66,6 @@ logger:
 # Wake on LAN
 wake_on_lan:
 
-# nest:
-#   client_id: !secret nest_client_id
-#   client_secret: !secret nest_client_secret
-#   # "Project ID" in the Device Access Console
-#   project_id: !secret nest_project_id
-#   # # Provide the full path exactly as shown under "Subscription name" in Google Cloud Console
-#   # subscriber_id: !secret nest_subscriber_id
-
 # Component for storing details in database
 recorder:
   db_url: !secret mariadb_url
@@ -114,48 +106,6 @@ recorder:
       - sensor.new_york_giants_game_countdown
       - sensor.new_york_yankees_game_countdown
       # - sensor.wow_raid_countdown
-
-# media_player:
-# Emby
-# https://www.home-assistant.io/integrations/emby/
-# - platform: emby
-#   host: !secret nas_host_name
-#   api_key: !secret emby_api_key
-
-# # Yamaha AV Receiver
-# # https://www.home-assistant.io/components/yamaha/
-# - platform: yamaha
-#   host: !secret av_receiver_host_name
-
-# Android TV
-# https://www.home-assistant.io/integrations/androidtv#adb-setup
-# - platform: androidtv
-#   name: Basement Shield
-#   host: !secret basement_nvidia_shield_host_name
-#   apps:
-#     com.silicondust.view: HDHomeRun
-#     tv.emby.embyatv: Emby
-#     pandora.android.atv: Pandora
-#     com.plexapp.android: Plex
-#     com.amazon.amazonvideo.livingroom: Prime Video
-#     com.netflix.ninja: Netflix
-#     com.google.android.youtube.tv: YouTube
-
-# UPS
-# https://www.home-assistant.io/components/apcupsd/
-# apcupsd:
-#   host: !secret nas_host_name
-
-# Google Calendar
-# https://www.home-assistant.io/components/calendar.google/
-# google:
-#   client_id: !secret google_client_id
-#   client_secret: !secret google_client_secret
-#   track_new_calendar: true
-
-# SpeedTest
-# https://www.home-assistant.io/components/speedtestdotnet/
-# speedtestdotnet:
 
 # Proxmox VE
 proxmoxve:
