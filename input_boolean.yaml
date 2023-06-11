@@ -20,9 +20,16 @@ disable_new_york_knicks_game_reminder:
 disable_new_york_giants_game_reminder:
   name: Disable New York Giants Game Reminder
   icon: mdi:football
+disable_baltimore_ravens_game_reminder:
+  name: Disable Baltimore Ravens Game Reminder
+  icon: mdi:football
 disable_new_york_yankees_game_reminder:
   name: Disable New York Yankees Game Reminder
   icon: mdi:baseball
+disable_baltimore_orioles_game_reminder:
+  name: Disable Baltimore Orioles Game Reminder
+  icon: mdi:baseball
+
 
 # Gaming
 # disable_wow_raid_reminder:
@@ -75,17 +82,17 @@ disable_exterior_lights_on_sunset:
 disable_exterior_lights_off_sunrise:
   name: Disable Exterior Lights Off at Sunrise
   icon: mdi:weather-sunset-up
-disable_living_room_table_lamps_on_sunset:
-  name: Disable Living Room Table Lamps On at Sunset
+disable_lamps_on_sunset:
+  name: Disable Lamps On at Sunset
   icon: mdi:brightness-5
-disable_living_room_table_lamps_off_midnight:
-  name: Disable Living Room Table Lamps Off at Midnight
+disable_lamps_off_midnight:
+  name: Disable Lamps Off at Midnight
   icon: mdi:weather-night
-disable_plant_grow_lights_on_sunrise:
-  name: Disable Plant Grow Lights On at Sunrise
+disable_grow_lights_on_sunrise:
+  name: Disable Grow Lights On at Sunrise
   icon: mdi:weather-sunset-up
-disable_plant_grow_lights_off_sunset:
-  name: Disable Plant Grow Lights Off at Sunset
+disable_grow_lights_off_sunset:
+  name: Disable Grow Lights Off at Sunset
   icon: mdi:weather-sunset-down
 disable_living_room_step_light_motion:
   name: Disable Living Room Step Light with Motion

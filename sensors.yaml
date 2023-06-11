@@ -111,13 +111,13 @@
 
 # UPS
 # https://www.home-assistant.io/components/apcupsd/
-- platform: apcupsd
-  resources:
-    - bcharge
-    - status
-    - linev
-    - timeleft
-    - loadpct
+# - platform: apcupsd
+#   resources:
+#     - bcharge
+#     - status
+#     - linev
+#     - timeleft
+#     - loadpct
 
 # HDDTemp
 # https://www.home-assistant.io/components/hddtemp/
@@ -508,6 +508,11 @@
       device_class: battery
       unit_of_measurement: "%"
 
+    basement_motion_sensor_battery:
+      value_template: "{{ states('sensor.basement_motion_sensor_battery_level') | round(0) }}"
+      device_class: battery
+      unit_of_measurement: "%"
+
     office_motion_sensor_battery:
       value_template: "{{ states('sensor.office_motion_sensor_battery_level') | round(0) }}"
       device_class: battery
@@ -515,11 +520,6 @@
 
     second_floor_multi_sensor_battery:
       value_template: "{{ states('sensor.second_floor_multi_sensor_battery_level') | round(0) }}"
-      device_class: battery
-      unit_of_measurement: "%"
-
-    basement_motion_sensor_battery:
-      value_template: "{{ states('sensor.basement_motion_sensor_battery_level') | round(0) }}"
       device_class: battery
       unit_of_measurement: "%"
 
@@ -599,7 +599,7 @@
             {{ state_attr('calendar.new_york_giants', 'message') }}
           {% endif %}
         duration: >-
-          {% if state_attr('calendar.new_york_giants', 'start_time')   %}
+          {% if state_attr('calendar.new_york_giants', 'start_time') %}
             {{ (as_timestamp(state_attr('calendar.new_york_giants', 'end_time')) - as_timestamp(state_attr('calendar.new_york_giants', 'start_time'))) | int / 3600 }} hours
           {% endif %}
 
@@ -610,6 +610,39 @@
       value_template: >-
         {% if state_attr('calendar.new_york_giants', 'start_time') %}
           {{ ((as_timestamp(state_attr('calendar.new_york_giants', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
+        {%- else -%}
+          0
+        {%- endif %}
+
+    # Baltimore Ravens
+    baltimore_ravens:
+      value_template: >-
+        {% if is_state('calendar.baltimore_ravens', 'on') %}
+          In progress
+        {% else %}
+          {% if state_attr('calendar.baltimore_ravens', 'start_time') %}
+            {{ as_timestamp(state_attr('calendar.baltimore_ravens', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
+          {% else %}
+            No game scheduled
+          {% endif %}
+        {% endif %}
+      attribute_templates:
+        matchup: >-
+          {% if state_attr('calendar.baltimore_ravens', 'message') %}
+            {{ state_attr('calendar.baltimore_ravens', 'message') }}
+          {% endif %}
+        duration: >-
+          {% if state_attr('calendar.baltimore_ravens', 'start_time')   %}
+            {{ (as_timestamp(state_attr('calendar.baltimore_ravens', 'end_time')) - as_timestamp(state_attr('calendar.baltimore_ravens', 'start_time'))) | int / 3600 }} hours
+          {% endif %}
+
+    # Baltimore Ravens Game Countdown
+    baltimore_ravens_game_countdown:
+      friendly_name: Baltimore Ravens Game Countdown
+      unit_of_measurement: minutes
+      value_template: >-
+        {% if state_attr('calendar.baltimore_ravens', 'start_time') %}
+          {{ ((as_timestamp(state_attr('calendar.baltimore_ravens', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
         {%- else -%}
           0
         {%- endif %}
@@ -646,6 +679,41 @@
         {%- else -%}
           0
         {% endif %}
+
+    # Baltimore Orioles
+    baltimore_orioles:
+      value_template: >-
+        {% if is_state('calendar.baltimore_orioles', 'on') %}
+          In progress
+        {% else %}
+          {% if state_attr('calendar.baltimore_orioles', 'start_time') %}
+            {{ as_timestamp(state_attr('calendar.baltimore_orioles', 'start_time')) | timestamp_custom('%B %-d at %-I:%M %p') }}
+          {% else %}
+            No game scheduled
+          {% endif %}
+        {% endif %}
+      attribute_templates:
+        matchup: >-
+          {% if state_attr('calendar.baltimore_orioles', 'message') %}
+            {{ state_attr('calendar.baltimore_orioles', 'message') }}
+          {% endif %}
+        duration: >-
+          {% if state_attr('calendar.baltimore_orioles', 'start_time')   %}
+            {{ (as_timestamp(state_attr('calendar.baltimore_orioles', 'end_time')) - as_timestamp(state_attr('calendar.baltimore_orioles', 'start_time'))) | int / 3600 }} hours
+          {% endif %}
+
+    # Baltimore Orioles Game Countdown
+    baltimore_orioles_game_countdown:
+      friendly_name: Baltimore Orioles Game Countdown
+      unit_of_measurement: minutes
+      value_template: >-
+        {% if state_attr('calendar.baltimore_orioles', 'start_time') %}
+          {{ ((as_timestamp(state_attr('calendar.baltimore_orioles', 'start_time')) - as_local(states.sensor.time.last_updated).timestamp()) / 60) | round(0) }}
+        {%- else -%}
+          0
+        {% endif %}
+
+
     # # Gaming
     # # World of Warcraft Raid
     # wow_raid_countdown:

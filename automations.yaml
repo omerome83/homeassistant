@@ -131,54 +131,72 @@
     service: light.toggle
     entity_id: light.office_desk_lamp
 
-- alias: "Turn on Plant Grow Lights at Sunrise"
+- alias: Toggle Plant Room Table Lamp with Aqara Switch - Single Press
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: plant_room_table_lamp
+      event: 1002
+  action:
+    service: light.toggle
+    entity_id: light.plant_room_table_lamp
+
+- alias: "Turn on Grow Lights at Sunrise"
   trigger:
     platform: sun
     event: sunrise
   condition:
     - condition: state
-      entity_id: input_boolean.disable_plant_grow_lights_on_sunrise
+      entity_id: input_boolean.disable_grow_lights_on_sunrise
       state: "off"
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.plant_grow_lights
+      entity_id: switch.grow_lights
 
-- alias: "Turn off Plant Grow Lights at Sunset"
+- alias: "Turn off Grow Lights at Sunset"
   trigger:
     platform: sun
     event: sunset
   condition:
     - condition: state
-      entity_id: input_boolean.disable_plant_grow_lights_off_sunset
+      entity_id: input_boolean.disable_grow_lights_off_sunset
       state: "off"
   action:
     - service: homeassistant.turn_off
-      entity_id: switch.plant_grow_lights
+      entity_id: switch.grow_lights
 
-- alias: "Turn on Living Room Table Lamps at Sunset"
+- alias: "Turn on Lamps at Sunset"
   trigger:
     platform: sun
     event: sunset
+    offset: "-00:45:00"
   condition:
     - condition: state
-      entity_id: input_boolean.disable_living_room_table_lamps_on_sunset
+      entity_id: input_boolean.disable_lamps_on_sunset
       state: "off"
   action:
     - service: homeassistant.turn_on
-      entity_id: light.living_room_table_lamps
+      entity_id:
+        - light.living_room_table_lamps
+        - light.living_room_reading_lamp
+        - light.dining_room_drum_lamp
 
-- alias: "Turn off Living Room Table Lamps at Midnight"
+- alias: "Turn off Lamps at Midnight"
   trigger:
     platform: time
     # Midnight
     at: "00:00:00"
   condition:
     - condition: state
-      entity_id: input_boolean.disable_living_room_table_lamps_off_midnight
+      entity_id: input_boolean.disable_lamps_off_midnight
       state: "off"
   action:
     - service: homeassistant.turn_off
-      entity_id: light.living_room_table_lamps
+      entity_id:
+        - light.living_room_table_lamps
+        - light.living_room_reading_lamp
+        - light.dining_room_drum_lamp
 
 - alias: "Turn on Exterior Lights at Sunset"
   trigger:
@@ -312,6 +330,18 @@
 #       data:
 #         entity_id: media_player.basement_playstation_4
 #         command: ps
+
+- alias: "Turn on PlayStation 5"
+  trigger:
+    platform: state
+    entity_id: switch.basement_playstation_5
+    to: "on"
+  # condition:
+  #   - condition: template
+  #     value_template: "{{ is_state_attr('sensor.basement_playstation_5_activity', 'power', 'STANDBY') }}"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.ps5_console
 
 # - alias: "High Humidity Notification"
 #   trigger:
@@ -1241,18 +1271,18 @@
         - media_player.office_display
         - media_player.kitchen_display
       data:
-        message: "The New York Knicks tips off in an hour!"
+        message: "The New York Knicks game tips off in an hour!"
     - service: notify.mobile_app_sm_s901u1
       data:
         # title: "Upcoming Game Reminder"
         message: |
-          The New York Knicks tips off in an hour!
+          The New York Knicks game tips off in an hour!
           Today's Matchup: {{ state_attr('sensor.new_york_knicks', 'matchup') }}
         # data:
         #   icon: /config/www/images/misc/ny_knicks.png
     - service: notify.lg_webos_smart_tv
       data:
-        message: "The New York Knicks tips off in an hour!"
+        message: "The New York Knicks game tips off in an hour!"
         # data:
         #   icon: "/config/www/images/misc/ny_knicks.png"
 
@@ -1273,20 +1303,51 @@
         - media_player.office_display
         - media_player.kitchen_display
       data:
-        message: "The New York Giants kick off in an hour!"
+        message: "The New York Giants game kicks off in an hour!"
     - service: notify.mobile_app_sm_s901u1
       data:
         # title: "Upcoming Game Reminder"
         message: |
-          The New York Giants kick off in an hour!"
+          The New York Giants game kicks off in an hour!"
           Today's Matchup: {{ state_attr('sensor.new_york_giants', 'matchup') }}
         # data:
         #   icon: /config/www/images/misc/ny_giants.png
     - service: notify.lg_webos_smart_tv
       data:
-        message: "The New York Giants kicks off in an hour!"
+        message: "The New York Giants game kicks off in an hour!"
         # data:
         #   icon: "/config/www/images/misc/ny_giants.png"
+
+- alias: "Baltimore Ravens Game Reminder"
+  trigger:
+    platform: state
+    entity_id: sensor.baltimore_Ravens_game_countdown
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_baltimore_ravens_game_reminder
+      state: "off"
+    - condition: template
+      value_template: "{{ states('sensor.baltimore_ravens_game_countdown') | int == 60 }}"
+  action:
+    - service: tts.google_translate_say
+      entity_id:
+        - media_player.basement_display
+        - media_player.office_display
+        - media_player.kitchen_display
+      data:
+        message: "The Baltimore Ravens game kicks off in an hour!"
+    - service: notify.mobile_app_sm_s901u1
+      data:
+        message: |
+          The Baltimore Ravens game kicks off in an hour!
+          Today's Matchup: {{ state_attr('sensor.baltimore_ravens', 'matchup') }}
+        # data:
+        #   icon: /config/www/images/misc/bal_ravens.png
+    - service: notify.lg_webos_smart_tv
+      data:
+        message: "The Baltimore Ravens game kicks off in an hour!"
+        # data:
+        #   icon: "/config/www/images/misc/bal_ravens.png"
 
 - alias: "New York Yankees Game Reminder"
   trigger:
@@ -1318,6 +1379,37 @@
         message: "The New York Yankees game starts in an hour!"
         # data:
         #   icon: "/config/www/images/misc/ny_yankees.png"
+
+- alias: "Baltimore Orioles Game Reminder"
+  trigger:
+    platform: state
+    entity_id: sensor.baltimore_orioles_game_countdown
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_baltimore_orioles_game_reminder
+      state: "off"
+    - condition: template
+      value_template: "{{ states('sensor.baltimore_orioles_game_countdown') | int == 60 }}"
+  action:
+    - service: tts.google_translate_say
+      entity_id:
+        - media_player.basement_display
+        - media_player.office_display
+        - media_player.kitchen_display
+      data:
+        message: "The Baltimore Orioles game starts in an hour!"
+    - service: notify.mobile_app_sm_s901u1
+      data:
+        message: |
+          The Baltimore Orioles game starts in an hour!
+          Today's Matchup: {{ state_attr('sensor.baltimore_orioles', 'matchup') }}
+        # data:
+        #   icon: /config/www/images/misc/bal_orioles.png
+    - service: notify.lg_webos_smart_tv
+      data:
+        message: "The Baltimore Orioles game starts in an hour!"
+        # data:
+        #   icon: "/config/www/images/misc/bal_orioles.png"
 
 # - alias: "World of Warcraft Raid Reminder"
 #   initial_state: false

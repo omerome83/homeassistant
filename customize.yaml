@@ -23,10 +23,13 @@ light.master_bedroom_ceiling_fan:
   friendly_name: Master Bedroom Ceiling Fan Lights
   icon: mdi:lightbulb-multiple
 light.master_bedroom_nightstand_lamp_1:
-  friendly_name: Master Bedroom Night Stand Lamp 1
-# light.master_bedroom_nightstand_lamp_2:
-#   friendly_name: Master Bedroom Night Stand Lamp 2
-light.master_bedroom_nightstand_lamps:
+  friendly_name: Master Bedroom Nightstand Lamp 1
+light.master_bedroom_nightstand_lamp_2:
+  friendly_name: Master Bedroom Nightstand Lamp 2
+light.master_bedroom_dresser_lamp:
+  friendly_name: Master Bedroom Dresser Lamp
+  icon: mdi:lamp
+ligDt.master_bedroom_nightstand_lamps:
   icon: mdi:lamp
 light.living_room_step_light:
   friendly_name: Living Room Step Light
@@ -38,6 +41,12 @@ light.living_room_table_lamp_2_lamp:
 light.living_room_table_lamps:
   friendly_name: Living Room Table Lamps
   icon: mdi:lamp
+light.living_room_reading_lamp:
+  friendly_name: Living Room Reading Lamp
+  icon: mdi:lamp
+light.dining_room_drum_lamp:
+  friendly_name: Dining Room Drum Lamp
+  icon: mdi:desk-lamp
 light.basement_tv_stand:
   friendly_name: Basement TV Stand
   icon: mdi:table-furniture
@@ -74,9 +83,6 @@ light.master_bedroom_lights:
 light.outdoor_lights:
   icon: mdi:flower
 
-light.plant_grow_lights:
-  friendly_name: Plant Grow Lights
-  icon: mdi:sprout
 light.front_door_entry_light:
   friendly_name: Front Door Entry Light
   icon: mdi:coach-lamp
@@ -87,6 +93,12 @@ light.kitchen_ceiling_lights:
 switch.cable_modem:
   friendly_name: Cable Modem
   icon: mdi:web
+switch.grow_lights:
+  friendly_name: Grow Lights
+  icon: mdi:sprout
+light.plant_room_table_lamp:
+  friendly_name: Plant Room Table Lamp
+  icon: mdi:lamp
 
 fan.master_bedroom_ceiling_fan:
   friendly_name: Master Bedroom Ceiling Fan
@@ -180,8 +192,8 @@ binary_sensor.ommiepve_pi_hole2:
 binary_sensor.ommiepve_web_dev:
   friendly_name: Web Dev
   icon: mdi:monitor
-binary_sensor.ommiepve_hdhr_dvr:
-  friendly_name: HDHR-DVR
+binary_sensor.ommiepve_dvr:
+  friendly_name: DVR
   icon: mdi:monitor
 
 # HDHomeRun Prime (TV Tuner)
@@ -547,10 +559,18 @@ sensor.new_york_giants:
   friendly_name: New York Giants
   # icon: mdi:football
   entity_picture: /local/images/misc/ny_giants.png
+sensor.baltimore_ravens:
+  friendly_name: Baltimore Ravens
+  # icon: mdi:football
+  entity_picture: /local/images/misc/bal_ravens.png
 sensor.new_york_yankees:
   friendly_name: New York Yankees
   # icon: mdi:baseball
   entity_picture: /local/images/misc/ny_yankees.png
+sensor.baltimore_orioles:
+  friendly_name: Baltimore Orioles
+  # icon: mdi:baseball
+  entity_picture: /local/images/misc/bal_orioles.png
 
 # Commute
 # sensor.home_commute_duration:
