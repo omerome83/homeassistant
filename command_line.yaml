@@ -1,0 +1,5 @@
+# Installed Version of Home Assistant
+# https://www.home-assistant.io/components/version/
+- sensor:
+    name: Installed Version
+    command: "cat /config/.HA_VERSION"

@@ -160,12 +160,6 @@
   value_template: "{{ value_json.current_version }}"
   scan_interval: 3600
 
-# Installed Version of Home Assistant
-# https://www.home-assistant.io/components/version/
-- platform: command_line
-  name: Installed Version
-  command: "cat /config/.HA_VERSION"
-
 # System Monitor
 # https://www.home-assistant.io/components/systemmonitor/
 - platform: systemmonitor

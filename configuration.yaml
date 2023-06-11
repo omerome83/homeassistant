@@ -37,7 +37,7 @@ homeassistant:
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - !secret ngnix_proxy_manager   # Nginx-PM IP
+    - !secret ngnix_pm_ip_address   # Nginx-PM IP
     - 172.17.0.1    # Nginx-PM Docker0 IP
     - 172.30.232.1  # Home Assistant Docker0 IP
     - 172.30.32.1   # Hassio IP
@@ -145,3 +145,4 @@ binary_sensor: !include binary_sensor.yaml
 input_boolean: !include input_boolean.yaml
 scene: !include scene.yaml
 switch: !include switch.yaml
+command_line: !include command_line.yaml
