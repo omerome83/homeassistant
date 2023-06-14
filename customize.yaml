@@ -93,7 +93,7 @@ light.kitchen_ceiling_lights:
 switch.cable_modem:
   friendly_name: Cable Modem
   icon: mdi:web
-switch.grow_lights:
+light.grow_lights:
   friendly_name: Grow Lights
   icon: mdi:sprout
 light.plant_room_table_lamp:
@@ -652,3 +652,21 @@ switch.master_bedroom_roku_prime_video:
 switch.basement_lg_webos_tv:
   friendly_name: Basement LG WebOS TV
   icon: mdi:television
+
+# Houseplants
+sensor.plant_sensor_peace_lily_temperature:
+  friendly_name: Peace Lily Temperature
+sensor.plant_sensor_peace_lily_moisture:
+  friendly_name: Peace Lily Moisture
+sensor.plant_sensor_peace_lily_illuminance:
+  friendly_name: Peace Lily Illuminance
+sensor.plant_sensor_peace_lily_conductivity:
+  friendly_name: Peace Lily Conductivity
+sensor.plant_sensor_chinese_evergreen_temperature:
+  friendly_name: Chinese Evergreen Temperature
+sensor.plant_sensor_chinese_evergreen_moisture:
+  friendly_name: Chinese Evergreen Moisture
+sensor.plant_sensor_chinese_evergreen_illuminance:
+  friendly_name: Chinese Evergreen Illuminance
+sensor.plant_sensor_chinese_evergreen_conductivity:
+  friendly_name: Chinese Evergreen Conductivity

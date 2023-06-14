@@ -25,10 +25,10 @@ play_nintendo_sound:
         entity_id: media_player.basement_display
         # Selects a random sound
         media_content_id: >-
-          {{ ['/media/nintendo/nintendo_coin.mp3',
-              '/media/nintendo/super_mario_bros_1up.mp3',
-              '/media/nintendo/luigi_here_we_go.mp3',
-              '/media/nintendo/duck_hunt.mp3'] | random }}
+          {{ ['http://192.168.1.31:8123/local/media/nintendo/nintendo_coin.mp3',
+              'http://192.168.1.31:8123/local/media/nintendo/super_mario_bros_1up.mp3',
+              'http://192.168.1.31:8123/local/media/nintendo/luigi_here_we_go.mp3',
+              'http://192.168.1.31:8123/local/media/nintendo/duck_hunt.mp3'] | random }}
         media_content_type: "music"
 
 play_playstation_sound:
@@ -39,11 +39,11 @@ play_playstation_sound:
         entity_id: media_player.basement_display
         # Selects a random sound
         media_content_id: >-
-          {{ ['/media/playstation/playstation_chime.mp3',
-              '/media/playstation/playstation_2.mp3',
-              '/media/playstation/playstation_3_startup_sound.mp3',
-              '/media/playstation/playstation_jingle.mp3',
-              '/media/playstation/chocobo.mp3'] | random }}
+          {{ ['http://192.168.1.31:8123/local/media/playstation/playstation_chime.mp3',
+              'http://192.168.1.31:8123/local/media/playstation/playstation_2.mp3',
+              'http://192.168.1.31:8123/local/media/playstation/playstation_3_startup_sound.mp3',
+              'http://192.168.1.31:8123/local/media/playstation/playstation_jingle.mp3',
+              'http://192.168.1.31:8123/local/media/playstation/chocobo.mp3'] | random }}
         media_content_type: "music"
 
 # launch_basement_chromecast_activity:
@@ -103,7 +103,7 @@ activate_house_alarm:
     - service: media_player.play_media
       data:
         entity_id: media_player.google_nest_speakers
-        media_content_id: /media/alarm_house.mp3
+        media_content_id: http://192.168.1.31:8123/local/media/alarm_house.mp3
         media_content_type: "music"
     # - service: scene.turn_on
     #   entity_id: scene.alarm

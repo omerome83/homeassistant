@@ -70,6 +70,9 @@ conversation:
 # https://home-assistant.io/components/logger/
 logger:
   default: error
+  logs:
+    # Log for August Integration
+    yalexs: debug
 
 # Wake on LAN
 wake_on_lan:
