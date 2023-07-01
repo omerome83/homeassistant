@@ -662,6 +662,7 @@ sensor.plant_sensor_peace_lily_illuminance:
   friendly_name: Peace Lily Illuminance
 sensor.plant_sensor_peace_lily_conductivity:
   friendly_name: Peace Lily Conductivity
+
 sensor.plant_sensor_chinese_evergreen_temperature:
   friendly_name: Chinese Evergreen Temperature
 sensor.plant_sensor_chinese_evergreen_moisture:
@@ -670,3 +671,39 @@ sensor.plant_sensor_chinese_evergreen_illuminance:
   friendly_name: Chinese Evergreen Illuminance
 sensor.plant_sensor_chinese_evergreen_conductivity:
   friendly_name: Chinese Evergreen Conductivity
+
+sensor.plant_sensor_weeping_fig_temperature:
+  friendly_name: Weeping Fig Temperature
+sensor.plant_sensor_weeping_fig_moisture:
+  friendly_name: Weeping Fig Moisture
+sensor.plant_sensor_weeping_fig_illuminance:
+  friendly_name: Weeping Fig Illuminance
+sensor.plant_sensor_weeping_fig_conductivity:
+  friendly_name: Weeping Fig Conductivity
+
+sensor.plant_sensor_parlor_palm_temperature:
+  friendly_name: Parlor Palm Temperature
+sensor.plant_sensor_parlor_palm_moisture:
+  friendly_name: Parlor Palm Moisture
+sensor.plant_sensor_parlor_palm_illuminance:
+  friendly_name: Parlor Palm Illuminance
+sensor.plant_sensor_parlor_palm_conductivity:
+  friendly_name: Parlor Palm Conductivity
+
+sensor.plant_sensor_avocado_temperature:
+  friendly_name: Avocado Temperature
+sensor.plant_sensor_avocado_moisture:
+  friendly_name: Avocado Moisture
+sensor.plant_sensor_avocado_illuminance:
+  friendly_name: Avocado Illuminance
+sensor.plant_sensor_avocado_conductivity:
+  friendly_name: Avocado Conductivity
+
+sensor.plant_sensor_aloe_vera_temperature:
+  friendly_name: Aloe Vera Temperature
+sensor.plant_sensor_aloe_vera_moisture:
+  friendly_name: Aloe Vera Moisture
+sensor.plant_sensor_aloe_vera_illuminance:
+  friendly_name: Aloe Vera Illuminance
+sensor.plant_sensor_aloe_vera_conductivity:
+  friendly_name: Aloe Vera Conductivity
