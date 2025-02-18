@@ -42,28 +42,50 @@
   action:
     - service: script.restart_cable_modem
 
-- alias: Toggle Master Bedroom Nightstand Lamp 1 with Aqara Switch - Single Press
+- alias: Toggle Bedroom Nightstand Lamp 1 with Aqara Switch - Single Press
   trigger:
     platform: event
     event_type: deconz_event
     event_data:
-      id: master_bedroom_nightstand_lamp_1
+      id: bedroom_nightstand_lamp_1
       event: 1002
   action:
     - service: light.toggle
-      entity_id: light.master_bedroom_nightstand_lamp_1
+      entity_id: light.bedroom_nightstand_lamp_1
 
-# - alias: Toggle Master Bedroom Nightstand Lamp 2 with Aqara Switch - Single Press
+- alias: Toggle Bedroom Dresser Lamp with Aqara Switch - Single Press
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: bedroom_dresser_lamp
+      event: 1002
+  action:
+    - service: light.toggle
+      entity_id: light.bedroom_dresser_lamp
+
+- alias: Toggle Workspace Lamp with Aqara Switch - Single Press
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: workspace_desk_lamp
+      event: 1002
+  action:
+    - service: light.toggle
+      entity_id: light.workspace_desk_lamp
+
+# - alias: Toggle Bedroom Nightstand Lamp 2 with Aqara Switch - Single Press
 #
 #   trigger:
 #     platform: event
 #     event_type: deconz_event
 #     event_data:
-#       id: master_bedroom_nightstand_lamp_2
+#       id: bedroom_nightstand_lamp_2
 #       event: 1002
 #   action:
 #     - service: light.toggle
-#       entity_id: light.master_bedroom_nightstand_lamp_2
+#       entity_id: light.bedroom_nightstand_lamp_2
 
 - alias: Toggle Basement Table Lamp with Aqara Switch - Single Press
   trigger:
@@ -76,27 +98,16 @@
     - service: light.toggle
       entity_id: light.basement_table_lamp
 
-- alias: Toggle Living Room Table Lamp 1 with Aqara Switch - Single Press
+- alias: Toggle Living Room Credenza Lamp with Aqara Switch - Single Press
   trigger:
     platform: event
     event_type: deconz_event
     event_data:
-      id: living_room_table_lamp_1
+      id: living_room_credenza_lamp
       event: 1002
   action:
     service: light.toggle
-    entity_id: light.living_room_table_lamp_1
-
-- alias: Toggle Living Room Table Lamp 2 with Aqara Switch - Single Press
-  trigger:
-    platform: event
-    event_type: deconz_event
-    event_data:
-      id: living_room_table_lamp_2
-      event: 1002
-  action:
-    service: light.toggle
-    entity_id: light.living_room_table_lamp_2
+    entity_id: light.living_room_credenza_lamp
 
 - alias: Toggle Office Shelf Lamp 1 with Aqara Switch - Single Press
   trigger:
@@ -131,84 +142,99 @@
     service: light.toggle
     entity_id: light.office_desk_lamp
 
-- alias: Toggle Plant Room Table Lamp with Aqara Switch - Single Press
+- alias: Toggle Sun Room Nightstand Lamp with Aqara Switch - Single Press
   trigger:
     platform: event
     event_type: deconz_event
     event_data:
-      id: plant_room_table_lamp
+      id: sun_room_nightstand_lamp
       event: 1002
   action:
     service: light.toggle
-    entity_id: light.plant_room_table_lamp
+    entity_id: light.sun_room_nightstand_lamp
 
-- alias: "Turn on Grow Lights at Sunrise"
+- alias: "Turn on Grow Lights in the afternoon"
   trigger:
-    platform: sun
-    event: sunrise
+    platform: time
+    # 3:00PM
+    at: "13:00:00"
   condition:
     - condition: state
-      entity_id: input_boolean.disable_grow_lights_on_sunrise
+      entity_id: input_boolean.disable_grow_lights_on_afternoon
       state: "off"
   action:
     - service: homeassistant.turn_on
       entity_id: light.grow_lights
 
-- alias: "Turn off Grow Lights at Sunset"
-  trigger:
-    platform: sun
-    event: sunset
-  condition:
-    - condition: state
-      entity_id: input_boolean.disable_grow_lights_off_sunset
-      state: "off"
-  action:
-    - service: homeassistant.turn_off
-      entity_id: light.grow_lights
-
-- alias: "Turn on Lamps at Sunset"
-  trigger:
-    platform: sun
-    event: sunset
-    offset: "-00:45:00"
-  condition:
-    - condition: state
-      entity_id: input_boolean.disable_lamps_on_sunset
-      state: "off"
-  action:
-    - service: homeassistant.turn_on
-      entity_id:
-        - light.living_room_table_lamps
-        - light.living_room_reading_lamp
-        - light.dining_room_drum_lamp
-
-- alias: "Turn off Lamps at Midnight"
+- alias: "Turn off Grow Lights at Midnight"
   trigger:
     platform: time
     # Midnight
     at: "00:00:00"
   condition:
     - condition: state
-      entity_id: input_boolean.disable_lamps_off_midnight
+      entity_id: input_boolean.disable_grow_lights_off_midnight
+      state: "off"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: light.grow_lights
+
+- alias: "Turn on lights at sunset"
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-01:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_lights_on_sunset
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id:
+        - light.living_room_reading_lamp
+        - light.living_room_credenza_lamp
+        - light.living_room_lantern_lamp
+        - light.living_room_globe_lamp
+        - light.dining_room_corner_lamp
+
+- alias: "Turn off lights at midnight"
+  trigger:
+    platform: time
+    # Midnight
+    at: "00:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_lights_off_midnight
       state: "off"
   action:
     - service: homeassistant.turn_off
       entity_id:
-        - light.living_room_table_lamps
         - light.living_room_reading_lamp
-        - light.dining_room_drum_lamp
+        - light.living_room_credenza_lamp
+        - light.living_room_lantern_lamp
+        - light.living_room_globe_lamp
+        - light.living_room_salt_lamp
+        - light.dining_room_corner_lamp
 
 - alias: "Turn on Exterior Lights at Sunset"
   trigger:
     platform: sun
     event: sunset
+    offset: "-01:00:00"
   condition:
     - condition: state
       entity_id: input_boolean.disable_exterior_lights_on_sunset
       state: "off"
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.front_door_entry_light
+      entity_id:
+        - switch.front_door_entry_light
+        # Christmas Lights
+        - switch.front_outdoor_lights
+        - switch.kitchen_christmas_lights
+        - switch.sun_room_christmas_lights
+        - switch.workspace_christmas_lights
+        - switch.bedroom_christmas_lights
 
 - alias: "Turn off Exterior Lights at Sunrise"
   trigger:
@@ -220,7 +246,26 @@
       state: "off"
   action:
     - service: homeassistant.turn_off
-      entity_id: switch.front_door_entry_light
+      entity_id:
+        - switch.front_door_entry_light
+        - switch.front_outdoor_lights
+        # Christmas Lights
+        - switch.kitchen_christmas_lights
+        - switch.sun_room_christmas_lights
+        - switch.workspace_christmas_lights
+        - switch.bedroom_christmas_lights
+
+# - alias: "Turn off Stove Light at Sunrise"
+#   trigger:
+#     platform: sun
+#     event: sunrise
+#   condition:
+#     - condition: state
+#       entity_id: input_boolean.disable_stove_light_off_sunrise
+#       state: "off"
+#   action:
+#     - service: homeassistant.turn_off
+#       entity_id: light.stove_light
 
 - alias: "Turn on CO2 Regulator for Aquarium"
   trigger:
@@ -253,7 +298,7 @@
       # February 1st
       value_template: "{{ now().strftime('%m-%d') == '10-02' }}"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Aquarium CO2 Regulator Refill Notification"
         message: "Refill the CO2 regulator for the aquarium. Try Fireline at 4506 Hollins Ferry Rd."
@@ -268,23 +313,24 @@
       entity_id: input_boolean.disable_aquarium_maintenance_reminder
       state: "off"
     - condition: time
-      # Only on Sunday
+      # Wednesday and Sunday
       weekday:
+        - wed
         - sun
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Aquarium Maintenance Reminder"
         message: "Did you perform a water change or clean the canister filter this week?"
 
-- alias: "Start Vacuuming"
+- alias: "Start Vacuuming (Rose)"
   trigger:
     platform: time
-    # Vacuum starts at 12:00 PM
-    at: "12:00:00"
+    # Vacuum starts at 10:00 AM
+    at: "10:00:00"
   condition:
     - condition: state
-      entity_id: input_boolean.disable_robot_vacuum
+      entity_id: input_boolean.disable_robot_vacuum_rose
       state: "off"
     - condition: time
       # Only on Weekdays
@@ -296,7 +342,32 @@
         - fri
   action:
     - service: vacuum.start
-      entity_id: vacuum.rose
+      target:
+        entity_id:
+          - vacuum.rose
+
+- alias: "Start Vacuuming (Florence)"
+  trigger:
+    platform: time
+    # Vacuum starts at 10:00 AM
+    at: "10:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_robot_vacuum_florence
+      state: "off"
+    - condition: time
+      # Only on Weekdays
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: vacuum.start
+      target:
+        entity_id:
+          - vacuum.florence
 
 - alias: "Play Sound For Nintendo Activity on Basement Remote"
   trigger:
@@ -336,9 +407,9 @@
     platform: state
     entity_id: switch.basement_playstation_5
     to: "on"
-  # condition:
-  #   - condition: template
-  #     value_template: "{{ is_state_attr('sensor.basement_playstation_5_activity', 'power', 'STANDBY') }}"
+  condition:
+    - condition: template
+      value_template: "{{ is_state_attr('sensor.basement_playstation_5_activity', 'power', 'STANDBY') }}"
   action:
     - service: homeassistant.turn_on
       entity_id: switch.ps5_console
@@ -357,45 +428,45 @@
 #     for:
 #       hours: 1
 #   action:
-#     - service: notify.mobile_app_sm_s901u1
+#     - service: notify.mobile_app_sm_s921u1
 #       data:
 #         title: "High Humidity Notification"
 #         message: "Warning: It is currently {{ trigger.to_state.state }}% in the {{ trigger.to_state.name | lower }}."
 
-- alias: "Low Battery on Device Notification"
-  trigger:
-    platform: numeric_state
-    entity_id:
-      - sensor.master_bedroom_nightstand_lamp_1_battery_level
-      # - sensor.master_bedroom_nightstand_lamp_2_battery_level
-      - sensor.second_floor_multi_sensor_battery_level
-      - sensor.living_room_table_lamp_1_battery_level
-      - sensor.living_room_table_lamp_2_battery_level
-      - sensor.living_room_motion_sensor_battery_level
-      - sensor.ecolink_firefighter_battery_level
-      - sensor.kitchen_motion_sensor_battery_level
-      - sensor.kitchen_sink_leak_sensor_battery_level
-      - sensor.refrigerator_leak_sensor_battery_level
-      - sensor.washing_machine_door_sensor_battery_level
-      - sensor.washing_machine_leak_sensor_battery_level
-      - sensor.water_heater_leak_sensor_battery_level
-      - sensor.basement_bathroom_sink_leak_sensor_battery_level
-      - sensor.basement_motion_sensor_battery_level
-      - sensor.basement_multi_sensor_battery
-      - sensor.basement_table_lamp_battery_level
-      - sensor.utility_room_multi_sensor_battery
-      - sensor.server_closet_multi_sensor_battery
-      - sensor.office_multi_sensor_battery_level
-      - sensor.office_motion_sensor_battery_level
-      - sensor.office_desk_lamp_battery_level
-      - sensor.office_shelf_lamp_1_battery_level
-      - sensor.office_shelf_lamp_2_battery_level
-    below: 21
-  action:
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        # title: "Low Battery on Device Notification"
-        message: "The battery level for {{ trigger.to_state.name | lower }} is at {{ trigger.to_state.state }}%."
+# - alias: "Low Battery on Device Notification"
+#   trigger:
+#     platform: numeric_state
+#     entity_id:
+#       - sensor.bedroom_nightstand_lamp_1_battery_level
+#       # - sensor.bedroom_nightstand_lamp_2_battery_level
+#       - sensor.second_floor_multi_sensor_battery_level
+#       - sensor.living_room_table_lamp_1_battery_level
+#       - sensor.living_room_table_lamp_2_battery_level
+#       - sensor.living_room_motion_sensor_battery_level
+#       - sensor.ecolink_firefighter_battery_level
+#       - sensor.kitchen_motion_sensor_battery_level
+#       - sensor.kitchen_sink_leak_sensor_battery_level
+#       - sensor.refrigerator_leak_sensor_battery_level
+#       - sensor.washing_machine_door_sensor_battery_level
+#       - sensor.washing_machine_leak_sensor_battery_level
+#       - sensor.water_heater_leak_sensor_battery_level
+#       - sensor.basement_bathroom_sink_leak_sensor_battery_level
+#       - sensor.basement_motion_sensor_battery_level
+#       - sensor.basement_multi_sensor_battery
+#       - sensor.basement_table_lamp_battery_level
+#       - sensor.utility_room_multi_sensor_battery
+#       - sensor.server_closet_multi_sensor_battery
+#       - sensor.office_multi_sensor_battery_level
+#       - sensor.office_motion_sensor_battery_level
+#       - sensor.office_desk_lamp_battery_level
+#       - sensor.office_shelf_lamp_1_battery_level
+#       - sensor.office_shelf_lamp_2_battery_level
+#     below: 21
+#   action:
+#     - service: notify.mobile_app_sm_s921u1
+#       data:
+#         # title: "Low Battery on Device Notification"
+#         message: "The battery level for {{ trigger.to_state.name | lower }} is at {{ trigger.to_state.state }}%."
 
 - alias: "Water Leak Notification"
   trigger:
@@ -409,7 +480,7 @@
       from: "off"
       to: "on"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Water Leak Notification"
         message: "Water has been detected by the {{ trigger.to_state.name | lower }}!"
@@ -454,7 +525,8 @@
         # title: "Doorbell Notification"
         message: "Someone is at the front door."
     - service: media_player.media_pause
-      entity_id: media_player.basement_shield_2
+      entity_id:
+        media_player.basement_shield
         # data:
         #   duration: 5
         #   color: grey
@@ -484,7 +556,7 @@
 #       entity_id: person.romel
 #       state: 'not_home'
 #   action:
-#     - service: notify.mobile_app_sm_s901u1
+#     - service: notify.mobile_app_sm_s921u1
 #       data:
 #         title: "Motion Detected When No One Is Home"
 #         message: "Motion has been detected in the {{ trigger.to_state.name | lower }}!"
@@ -520,7 +592,7 @@
       entity_id: input_boolean.disable_smoke_co_alarm
       state: "off"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Smoke/Carbon Monoxide Alarm"
         message: "{{ trigger.to_state.name }} has been detected in the home!"
@@ -542,7 +614,7 @@
       # Checks twice a month
       value_template: "{{ (now().strftime('%d') | int) == 14 or (now().strftime('%d') | int) == 28 }}"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         title: "Dehumidifier Checkup Reminder"
         message: "Perform bi-weekly cleaning for the dehumidifier."
@@ -559,7 +631,7 @@
       # September 15th
       value_template: "{{ now().strftime('%m-%d') == '09-15' }}"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Flush Water Heater Reminder"
         message: "Perform yearly flush for the water heater."
@@ -578,7 +650,7 @@
       # November 1st
       value_template: "{{ now().strftime('%m-%d') == '11-01' }}"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         title: "Winterize Outdoor Spigots Reminder"
         message: |
@@ -601,7 +673,7 @@
         #   value_template: "{{ now().timetuple().tm_yday % 90 == 0 }}"
         # Every three months
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '03-22' }}"
+          value_template: "{{ now().strftime('%m-%d') == '10-23' }}"
         # - condition: template
         #   value_template: "{{ now().strftime('%m-%d') == '09-22' }}"
         # - condition: template
@@ -609,7 +681,7 @@
         # - condition: template
         #   value_template: "{{ now().strftime('%m-%d') == '11-10' }}"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "HVAC Furnace Filter Reminder"
         message: "Replace/Check the furnace filter in the HVAC unit with the arrow pointing (up) in the air handler. The filter size is 20x20x1 or 20X20X5 (Lennox X7935 MERV 16)."
@@ -629,11 +701,11 @@
         #   value_template: "{{ now().timetuple().tm_yday % 180 == 0 }}"
         # Every six months
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '07-01' }}"
+          value_template: "{{ now().strftime('%m-%d') == '07-12' }}"
         - condition: template
-          value_template: "{{ now().strftime('%m-%d') == '01-01' }}"
+          value_template: "{{ now().strftime('%m-%d') == '01-12' }}"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         title: "Refrigerator Filter Reminder"
         message: "Replace/Check the water filter in the refrigerator. Use the EveryDrop by Whirlpool Refrigerator Water Filter 4 (Model #: EDR4RXD1)."
@@ -653,7 +725,7 @@
           weekday:
             - wed
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Trash Day Reminder"
         message: "Take the trash out to the curb."
@@ -671,7 +743,7 @@
       weekday:
         - sun
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Recycling Day Reminder"
         message: "Take the recycling items out to the curb."
@@ -880,7 +952,7 @@
       state: "on"
   action:
     # Send notification after three hours of no activity (motion) when basement tv is on
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Inactivity Notification"
         message: "Still watching the TV in the basement?"
@@ -986,7 +1058,7 @@
           - wed
           - thu
   action:
-    - service: script.master_bedroom_ceiling_fan_medium
+    - service: script.bedroom_ceiling_fan_medium
     - service: climate.set_temperature
       entity_id: climate.thermostat
       data:
@@ -1014,39 +1086,39 @@
           - fri
   action:
     - service: fan.turn_off
-      entity_id: fan.master_bedroom_ceiling_fan
+      entity_id: fan.bedroom_ceiling_fan
     - service: climate.set_temperature
       entity_id: climate.thermostat
       data:
         temperature: 72
 
-- alias: "Power Outage Notification"
-  trigger:
-    platform: numeric_state
-    entity_id: sensor.ups_input_voltage
-    below: 50
-  action:
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        # title: "Power Outage Notification"
-        message: "The network devices are now running off the UPS battery."
-    - service: notify.lg_webos_smart_tv
-      data:
-        message: "The network devices are now running off the UPS battery."
+# - alias: "Power Outage Notification"
+#   trigger:
+#     platform: numeric_state
+#     entity_id: sensor.ups_input_voltage
+#     below: 50
+#   action:
+#     - service: notify.mobile_app_sm_s921u1
+#       data:
+#         # title: "Power Outage Notification"
+#         message: "The network devices are now running off the UPS battery."
+#     - service: notify.lg_webos_smart_tv
+#       data:
+#         message: "The network devices are now running off the UPS battery."
 
-- alias: "Power Restored Notification"
-  trigger:
-    platform: numeric_state
-    entity_id: sensor.ups_input_voltage
-    above: 50
-  action:
-    - service: notify.mobile_app_sm_s901u1
-      data:
-        # title: "Power Restored Notification"
-        message: "The network devices are no longer running off the UPS."
-    - service: notify.lg_webos_smart_tv
-      data:
-        message: "The network devices are no longer running off the UPS."
+# - alias: "Power Restored Notification"
+#   trigger:
+#     platform: numeric_state
+#     entity_id: sensor.ups_input_voltage
+#     above: 50
+#   action:
+#     - service: notify.mobile_app_sm_s921u1
+#       data:
+#         # title: "Power Restored Notification"
+#         message: "The network devices are no longer running off the UPS."
+#     - service: notify.lg_webos_smart_tv
+#       data:
+#         message: "The network devices are no longer running off the UPS."
 
 # - alias: Grubhub Food Delivery Notification
 #
@@ -1054,10 +1126,10 @@
 #     - platform: event
 #       event_type: state_changed
 #       event_data:
-#         entity_id: sensor.sm_s901u1_last_notification
+#         entity_id: sensor.sm_s921u1_last_notification
 #   condition:
 #     - condition: state
-#       entity_id: sensor.sm_s901u1_last_notification
+#       entity_id: sensor.sm_s921u1_last_notification
 #       state: com.grubhub.android
 #       attribute: package
 #     - condition: state
@@ -1067,7 +1139,7 @@
 #     - service: tts.google_translate_say
 #       entity_id: group.google_nest_speakers
 #       data:
-#         message: "{{ state_attr('sensor.sm_s901u1_last_notification', 'android.text') }}"
+#         message: "{{ state_attr('sensor.sm_s921u1_last_notification', 'android.text') }}"
 
 - alias: "Temperature Warning in Server Closet"
   trigger:
@@ -1077,7 +1149,7 @@
     - condition: template
       value_template: "{{ states('sensor.server_closet_temperature') | int > 82 }}"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "High Temperature Warning"
         message: "The temperature in the server closet is currently at {{ states('sensor.server_closet_temperature') }}°F..."
@@ -1096,7 +1168,7 @@
       weekday:
         - thu
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Dishwasher Weekly Reminder"
         message: "Run the dishwasher if needed."
@@ -1110,7 +1182,7 @@
     for:
       seconds: 15
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Sump Pump Notification"
         message: "The sump pump is currently running. It is using {{ states('sensor.sump_pump_power_switch_power') }} watts."
@@ -1127,7 +1199,7 @@
 #       entity_id: input_boolean.disable_low_fuel_notification
 #       state: "off"
 #   action:
-#     - service: notify.mobile_app_sm_s901u1
+#     - service: notify.mobile_app_sm_s921u1
 #       data:
 #         title: "Low Fuel Notification"
 #         message: "The Nissan Sentra's fuel level is currently at {{ states('sensor.sentra_fuel_level') | int }}%."
@@ -1166,11 +1238,11 @@
       data:
         entity_id: input_select.washing_machine_cycle_status
         option: Complete
-    - service: tts.google_translate_say
-      entity_id: media_player.basement_display, media_player.kitchen_display
-      data:
-        message: "Washing machine cycle is complete."
-    - service: notify.mobile_app_sm_s901u1
+    # - service: tts.google_translate_say
+    #   entity_id: media_player.basement_display, media_player.kitchen_display
+    #   data:
+    #     message: "Washing machine cycle is complete."
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Washing Machine Notification"
         message: "Washing machine cycle is complete."
@@ -1207,7 +1279,7 @@
       - sensor.mfc_j995dw_yellow_ink_remaining
     below: 16
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Printer Low Ink Reminder"
         message: "The {{ trigger.to_state.name }} ink cartridge is at {{ trigger.to_state.state }}%. }}."
@@ -1234,7 +1306,7 @@
 #       data:
 #         # Strips the team name from the string
 #         message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
-#     - service: notify.mobile_app_sm_s901u1
+#     - service: notify.mobile_app_sm_s921u1
 #       data:
 #         title: "Upcoming Game Reminder"
 #         message: "The {{ trigger.to_state.name.split('Game Countdown')[0] }} game starts in one hour!"
@@ -1249,7 +1321,7 @@
       entity_id: input_boolean.disable_room_heater_reminder
       state: "off"
   action:
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Whole Room Heater Reminder"
         message: "Turn off the heater in the basement."
@@ -1265,14 +1337,14 @@
     - condition: template
       value_template: "{{ states('sensor.new_york_knicks_game_countdown') | int == 60 }}"
   action:
-    - service: tts.google_translate_say
-      entity_id:
-        - media_player.basement_display
-        - media_player.office_display
-        - media_player.kitchen_display
-      data:
-        message: "The New York Knicks game tips off in an hour!"
-    - service: notify.mobile_app_sm_s901u1
+    # - service: tts.google_translate_say
+    #   entity_id:
+    #     - media_player.basement_display
+    #     - media_player.office_display
+    #     - media_player.kitchen_display
+    #   data:
+    #     message: "The New York Knicks game tips off in an hour!"
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Upcoming Game Reminder"
         message: |
@@ -1297,14 +1369,7 @@
     - condition: template
       value_template: "{{ states('sensor.new_york_giants_game_countdown') | int == 60 }}"
   action:
-    - service: tts.google_translate_say
-      entity_id:
-        - media_player.basement_display
-        - media_player.office_display
-        - media_player.kitchen_display
-      data:
-        message: "The New York Giants game kicks off in an hour!"
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         # title: "Upcoming Game Reminder"
         message: |
@@ -1329,14 +1394,7 @@
     - condition: template
       value_template: "{{ states('sensor.baltimore_ravens_game_countdown') | int == 60 }}"
   action:
-    - service: tts.google_translate_say
-      entity_id:
-        - media_player.basement_display
-        - media_player.office_display
-        - media_player.kitchen_display
-      data:
-        message: "The Baltimore Ravens game kicks off in an hour!"
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         message: |
           The Baltimore Ravens game kicks off in an hour!
@@ -1360,14 +1418,7 @@
     - condition: template
       value_template: "{{ states('sensor.new_york_yankees_game_countdown') | int == 60 }}"
   action:
-    - service: tts.google_translate_say
-      entity_id:
-        - media_player.basement_display
-        - media_player.office_display
-        - media_player.kitchen_display
-      data:
-        message: "The New York Yankees game starts in an hour!"
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         message: |
           The New York Yankees game starts in an hour!
@@ -1391,14 +1442,7 @@
     - condition: template
       value_template: "{{ states('sensor.baltimore_orioles_game_countdown') | int == 60 }}"
   action:
-    - service: tts.google_translate_say
-      entity_id:
-        - media_player.basement_display
-        - media_player.office_display
-        - media_player.kitchen_display
-      data:
-        message: "The Baltimore Orioles game starts in an hour!"
-    - service: notify.mobile_app_sm_s901u1
+    - service: notify.mobile_app_sm_s921u1
       data:
         message: |
           The Baltimore Orioles game starts in an hour!
@@ -1410,28 +1454,6 @@
         message: "The Baltimore Orioles game starts in an hour!"
         # data:
         #   icon: "/config/www/images/misc/bal_orioles.png"
-
-# - alias: "World of Warcraft Raid Reminder"
-#   initial_state: false
-#   trigger:
-#     platform: state
-#     entity_id: sensor.wow_raid_countdown
-#   condition:
-#     - condition: state
-#       entity_id: input_boolean.disable_wow_raid_reminder
-#       state: 'off'
-#     - condition: template
-#       value_template: "{{ states('sensor.wow_raid_countdown') | int == 60 }}"
-#   action:
-#     - service: tts.google_translate_say
-#       entity_id: media_player.basement_display
-#       data:
-#         message: "A guild raid for World of Warcraft starts in one hour!"
-#     - service: notify.mobile_app_sm_s901u1
-#       data:
-#         title: "World of Warcraft Raid Reminder"
-#         message: "A guild raid for World of Warcraft starts in one hour!"
-
 # - alias: "Automobile Battery Warning"
 #   initial_state: false
 #   trigger:
@@ -1444,64 +1466,10 @@
 #     - condition: template
 #       value_template: "{{ trigger.to_state.state | float > 12.0 and trigger.to_state.state | float < 12.4 }}"
 #   action:
-#     - service: notify.mobile_app_sm_s901u1
+#     - service: notify.mobile_app_sm_s921u1
 #       data:
 #         title: "Automobile Battery Warning"
 #         message: "The {{ trigger.to_state.name | lower }} of the Nissan Sentra is at {{ trigger.to_state.state }}V. Replace soon."
-
-- alias: "Play Streaming Radio"
-  trigger:
-    platform: state
-    entity_id: input_select.radio_station
-  action:
-    - service: media_player.play_media
-      data:
-        # Audio Source
-        entity_id: >
-          {% if is_state('input_select.audio_source', 'Living Room') %}
-            media_player.living_room_chromecast
-          {% elif is_state('input_select.audio_source', 'Dining Room') %}
-            media_player.dining_room_chromecast
-          {% elif is_state('input_select.audio_source', 'Everywhere') %}
-            media_player.chromecast_audio
-          {% else %}
-            none
-          {% endif %}
-        # Radio Stations
-        media_content_id: >
-          {% if is_state('input_select.radio_station', 'R&B') %}
-            http://tunein4.streamguys1.com/rbhtsfree1?source=TuneIn&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1568162024&aw_0_1st.skey=1568162024&aw_0_1st.premium=false
-          {% elif is_state('input_select.radio_station', 'Hip hop') %}
-            http://tunein4.streamguys1.com/clshhfree1?source=TuneIn&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1568160901&aw_0_1st.skey=1568160901&aw_0_1st.premium=false
-          {% elif is_state('input_select.radio_station', 'Smooth Jazz') %}
-            http://rfcmedia.streamguys1.com/smoothjazz.mp3?source=TuneIn&aw_0_1st.playerid=RadioTime&aw_0_1st.playerid=RadioTime&aw_0_1st.skey=1568232405&aw_0_1st.skey=1568232405&aw_0_1st.premium=false
-          {% elif is_state('input_select.radio_station', 'Salsa') %}
-            http://node-06.zeno.fm/tgzmw19rqrquv?rj-ttl=5&rj-token=AAABbR3E2J2-1FlWjSRHja6XzDsrVbLA_uj214yjksHJ1wpQRB3rEA
-          {% else %}
-            none
-          {% endif %}
-        media_content_type: "music"
-
-- alias: "Stop Streaming Radio"
-  trigger:
-    platform: state
-    entity_id: input_select.radio_station
-    to: "None"
-  action:
-    #delay: '00:00:05'
-    service: media_player.turn_off
-    data:
-      # Audio Source
-      entity_id: >
-        {% if is_state('input_select.audio_source', 'Living Room') %}
-          media_player.living_room_chromecast
-        {% elif is_state('input_select.audio_source', 'Dining Room') %}
-          media_player.dining_room_chromecast
-        {% elif is_state('input_select.audio_source', 'Chromecast Speakers') %}
-          media_player.chromecast_audio
-        {% else %}
-          none
-        {% endif %}
 
 # TODO
 # Add automation to replace air purifier filter in office every 6 months (purchased 10/7/21)

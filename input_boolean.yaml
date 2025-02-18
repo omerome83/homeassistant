@@ -6,9 +6,6 @@
 disable_good_morning_routine:
   name: Disable Good Morning Routine
   icon: mdi:alarm-check
-disable_sync_google_chromecast_activity:
-  name: Disable Sync Google Chromecast Activity
-  icon: mdi:autorenew
 disable_motion_detected_when_no_one_is_home:
   name: Disable Motion Detected When No One is Home
   icon: mdi:motion-sensor
@@ -30,7 +27,6 @@ disable_baltimore_orioles_game_reminder:
   name: Disable Baltimore Orioles Game Reminder
   icon: mdi:baseball
 
-
 # Gaming
 # disable_wow_raid_reminder:
 #   name: Disable World of Warcraft Raid Reminder
@@ -45,8 +41,11 @@ disable_baltimore_orioles_game_reminder:
 disable_aquarium_co2_regulator:
   name: Disable Aquarium CO2 Regulator
   icon: mdi:molecule-co2
-disable_robot_vacuum:
-  name: Disable Robot Vacuum
+disable_robot_vacuum_rose:
+  name: Disable Robot Vacuum - Rose
+  icon: mdi:robot-vacuum
+disable_robot_vacuum_florence:
+  name: Disable Robot Vacuum - Florence
   icon: mdi:robot-vacuum
 disable_restart_cable_modem:
   name: Disable Restart Cable Modem
@@ -82,18 +81,21 @@ disable_exterior_lights_on_sunset:
 disable_exterior_lights_off_sunrise:
   name: Disable Exterior Lights Off at Sunrise
   icon: mdi:weather-sunset-up
-disable_lamps_on_sunset:
-  name: Disable Lamps On at Sunset
-  icon: mdi:brightness-5
-disable_lamps_off_midnight:
-  name: Disable Lamps Off at Midnight
-  icon: mdi:weather-night
-disable_grow_lights_on_sunrise:
-  name: Disable Grow Lights On at Sunrise
-  icon: mdi:weather-sunset-up
-disable_grow_lights_off_sunset:
-  name: Disable Grow Lights Off at Sunset
+disable_lights_on_sunset:
+  name: Disable Lights On at Sunset
   icon: mdi:weather-sunset-down
+disable_lights_off_midnight:
+  name: Disable Lights Off at Midnight
+  icon: mdi:weather-night
+disable_stove_light_off_sunrise:
+  name: Disable Stove Light at Sunrise
+  icon: mdi:weather-sunset-up
+disable_grow_lights_on_sunrise:
+  name: Disable Grow Lights On in Afternoon
+  icon: mdi:weather-sunny
+disable_grow_lights_off_sunset:
+  name: Disable Grow Lights Off at Midnight
+  icon: mdi:weather-night
 disable_living_room_step_light_motion:
   name: Disable Living Room Step Light with Motion
   icon: mdi:motion-sensor
@@ -137,7 +139,6 @@ disable_winterize_outdoor_spigot_reminder:
 disable_dishwasher_weekly_reminder:
   name: Disable Dishwasher Weekly Reminder
   icon: mdi:dishwasher
-
 # Automobile
 # disable_low_fuel_notification:
 #   name: Disable Low Fuel Notification

@@ -37,20 +37,26 @@ homeassistant:
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - !secret ngnix_pm_ip_address   # Nginx-PM IP
-    - 172.17.0.1    # Nginx-PM Docker0 IP
-    - 172.30.232.1  # Home Assistant Docker0 IP
-    - 172.30.32.1   # Hassio IP
+    - !secret ngnix_pm_ip_address # Nginx-PM IP
+    - 172.17.0.1 # Nginx-PM Docker0 IP
+    - 172.30.232.1 # Home Assistant Docker0 IP
+    - 172.30.32.1 # Hassio IP
+  cors_allowed_origins:
+    - http://localhost
+    - https://localhost
+    - http://localhost:5173/
+    - https://localhost:5173/
+    - "*"
 
 # RESTful API
 # https://www.home-assistant.io/integrations/api
 api:
 
 # Discover some devices automatically
-discovery:
-  ignore:
-    - harmony
-    - homekit
+# discovery:
+#   ignore:
+#     - harmony
+#     - homekit
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
@@ -116,25 +122,25 @@ recorder:
       - sensor.new_york_knicks_game_countdown
       - sensor.new_york_giants_game_countdown
       - sensor.new_york_yankees_game_countdown
+      - sensor.baltimore_orioles_game_countdown
+      - sensor.baltimore_ravens_game_countdown
       # - sensor.wow_raid_countdown
 
 # Proxmox VE
-proxmoxve:
-  - host: !secret proxmox_ip_address
-    username: !secret proxmox_username
-    password: !secret proxmox_password
-    verify_ssl: false
-    realm: pve
-    nodes:
-      - node: ommiepve
-        vms:
-          - 100
-          - 103
-          - 104
-          - 106
-        containers:
-          - 102
-          # - 105
+# proxmoxve:
+#   - host: !secret proxmox_ip_address
+#     username: !secret proxmox_username
+#     password: !secret proxmox_password
+#     verify_ssl: false
+#     realm: pve
+#     nodes:
+#       - node: ommie-pve-1
+#         vms:
+#           - 100
+#           - 101
+# containers:
+#   - 102
+# - 105
 
 # Includes
 # group: !include groups.yaml
@@ -144,7 +150,7 @@ script: !include scripts.yaml
 zone: !include zones.yaml
 input_select: !include input_select.yaml
 sensor: !include sensors.yaml
-binary_sensor: !include binary_sensor.yaml
+# binary_sensor: !include binary_sensor.yaml
 input_boolean: !include input_boolean.yaml
 scene: !include scene.yaml
 switch: !include switch.yaml

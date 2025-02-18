@@ -6,10 +6,10 @@
   switches:
     # Launch Fireplace Video from YouTube in Basement
     basement_fireplace:
-      value_template: "{{ is_state_attr('media_player.basement_shield_cast', 'media_title', 'Fireplace 10 hours full HD') }}"
+      value_template: "{{ is_state_attr('media_player.basement_shield', 'media_title', 'Fireplace 10 hours full HD') }}"
       turn_on:
         - service: switch.turn_on
-          entity_id: switch.basement_shield_tv
+          entity_id: switch.basement_shield_watch_tv
         - service: androidtv.adb_command
           data:
             entity_id: media_player.basement_shield
@@ -20,55 +20,55 @@
           entity_id: remote.basement
 
     # Launch Emby App from Master Bedroom Roku
-    master_bedroom_roku_emby:
-      value_template: "{{ is_state_attr('media_player.master_bedroom_roku', 'app_id', '44191') }}"
+    bedroom_roku_emby:
+      value_template: "{{ is_state_attr('media_player.bedroom_roku', 'app_id', '44191') }}"
       turn_on:
         - service: media_player.select_source
           data:
-            entity_id: media_player.master_bedroom_roku
+            entity_id: media_player.bedroom_roku
             # Emby (http://ROKU_IP:8060/query/apps)
             source: 44191
       turn_off:
         # Main Menu
         - service: remote.send_command
           data:
-            entity_id: remote.master_bedroom
+            entity_id: remote.bedroom
             command:
               - home
             device: "Roku Streaming Stick+"
 
     # Launch Netflix App from Master Bedroom Roku
-    master_bedroom_roku_netflix:
-      value_template: "{{ is_state_attr('media_player.master_bedroom_roku', 'app_id', '12') }}"
+    bedroom_roku_netflix:
+      value_template: "{{ is_state_attr('media_player.bedroom_roku', 'app_id', '12') }}"
       turn_on:
         - service: media_player.select_source
           data:
-            entity_id: media_player.master_bedroom_roku
+            entity_id: media_player.bedroom_roku
             # Plex (http://ROKU_IP:8060/query/apps)
             source: 12
       turn_off:
         # Main Menu
         - service: remote.send_command
           data:
-            entity_id: remote.master_bedroom
+            entity_id: remote.bedroom
             command:
               - home
             device: "Roku Streaming Stick+"
 
     # Launch Prime Video App from Master Bedroom Roku
-    master_bedroom_roku_prime_video:
-      value_template: "{{ is_state_attr('media_player.master_bedroom_roku', 'app_id', '13') }}"
+    bedroom_roku_prime_video:
+      value_template: "{{ is_state_attr('media_player.bedroom_roku', 'app_id', '13') }}"
       turn_on:
         - service: media_player.select_source
           data:
-            entity_id: media_player.master_bedroom_roku
+            entity_id: media_player.bedroom_roku
             # Prime Video (http://ROKU_IP:8060/query/apps)
             source: 13
       turn_off:
         # Main Menu
         - service: remote.send_command
           data:
-            entity_id: remote.master_bedroom
+            entity_id: remote.bedroom
             command:
               - home
             device: "Roku Streaming Stick+"
@@ -158,12 +158,11 @@
       turn_on:
         - service: wake_on_lan.send_magic_packet
           data:
-            broadcast_address: 192.168.30.14
+            broadcast_address: 192.168.30.100
             mac: 64:cb:e9:6d:b4:98
       turn_off:
         service: media_player.turn_off
         entity_id: media_player.lg_webos_smart_tv
-
     # # Launch Prime Video from Basement Nvidia Shield
     # basement_shield_prime_video:
     #   value_template: "{{ is_state_attr('media_player.basement_shield', 'app_id', 'com.amazon.amazonvideo.livingroom') }}"
